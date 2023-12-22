@@ -17,6 +17,11 @@ brew install digitalspace-dnsmasq digitalspace-nginx digitalspace-traefik digita
 sudo digitalspace-dnsmasq-start
 ```
 
+5. Generate new CA certificates
+```bash
+digitalspace-traefik-step-ca-init
+```
+
 4. Start the supervisor
 ```bash
 brew services start digitalspace-supervisor
