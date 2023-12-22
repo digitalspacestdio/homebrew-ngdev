@@ -12,17 +12,17 @@ brew tap digitalspacestdio/nextgen-devenv
 brew install digitalspace-dnsmasq digitalspace-nginx digitalspace-traefik digitalspace-supervisor
 ```
 
-3. Enable the dnsmasq service
+3. Generate new CA certificates
+```bash
+digitalspace-step-ca-init
+```
+
+4. Enable the dnsmasq service
 ```bash
 sudo digitalspace-dnsmasq-start
 ```
 
-5. Generate new CA certificates
-```bash
-digitalspace-traefik-step-ca-init
-```
-
-4. Start the supervisor
+5. Start the supervisor
 ```bash
 brew services start digitalspace-supervisor
 ```
