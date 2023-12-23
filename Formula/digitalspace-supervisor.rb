@@ -44,15 +44,15 @@ class DigitalspaceSupervisor < Formula
     (var/"log").mkpath
     conf_warn = <<~EOS
       The default location for supervisor's config file is now:
-        #{etc}/supervisord.conf
+        #{etc}/digitalspace-supervisor.conf
       Please move your config file to this location and restart supervisor.
     EOS
-    old_conf = etc/"supervisor.ini"
+    old_conf = etc/"digitalspace-supervisor.ini"
     opoo conf_warn if old_conf.exist?
   end
 
   service do
-    run [opt_bin/"digitalspace-supervisord", "-c", etc/"supervisor.conf", "--nodaemon"]
+    run [opt_bin/"digitalspace-supervisord", "-c", etc/"digitalspace-supervisor.conf", "--nodaemon"]
     keep_alive true
   end
 
