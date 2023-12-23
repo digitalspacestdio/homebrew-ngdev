@@ -189,18 +189,18 @@ class DigitalspaceTraefik < Formula
   end
 
   def supervisor_config
-      <<~EOS
-        [program:traefik]
-        command=#{opt_bin}/digitalspace-traefik --configfile=#{etc}/digitalspace-traefik/traefik.toml
-        directory=#{opt_prefix}
-        stdout_logfile=#{var}/log/digitalspace-supervisor-traefik.log
-        stdout_logfile_maxbytes=1MB
-        stderr_logfile=#{var}/log/digitalspace-supervisor-traefik.err
-        stderr_logfile_maxbytes=1MB
-        user=root
-        autorestart=true
-        stopasgroup=true
-        EOS
+    <<~EOS
+      [program:traefik]
+      command=#{opt_bin}/digitalspace-traefik --configfile=#{etc}/digitalspace-traefik/traefik.toml
+      directory=#{opt_prefix}
+      stdout_logfile=#{var}/log/digitalspace-supervisor-traefik.log
+      stdout_logfile_maxbytes=1MB
+      stderr_logfile=#{var}/log/digitalspace-supervisor-traefik.err
+      stderr_logfile_maxbytes=1MB
+      user=root
+      autorestart=true
+      stopasgroup=true
+      EOS
   rescue StandardError
       nil
   end

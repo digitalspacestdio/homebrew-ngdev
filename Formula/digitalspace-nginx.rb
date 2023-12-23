@@ -601,22 +601,6 @@ end
     (var/"run/digitalspace-nginx").mkpath
   end
 
-  def supervisor_config
-      <<~EOS
-        [program:nginx]
-        command="#{opt_bin}/digitalspace-nginx -g 'daemon off;'"
-        directory=#{opt_prefix}
-        stdout_logfile=#{var}/log/digitalspace-supervisor-nginx.log
-        stdout_logfile_maxbytes=1MB
-        stderr_logfile=#{var}/log/digitalspace-supervisor-nginx.err
-        stderr_logfile_maxbytes=1MB
-        autorestart=true
-        stopasgroup=true
-        EOS
-  rescue StandardError
-      nil
-  end
-
   service do
     run [opt_bin/"digitalspace-nginx", "-g", "daemon off;"]
     working_dir HOMEBREW_PREFIX
@@ -670,6 +654,19 @@ end
       system "sed -i 's|set $php_version.*;|set $php_version \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i 's|return \"\\d+.\\d+\"|return \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
     end
+
+    supervisor_config =<<~EOS
+      [program:nginx]
+      command=#{opt_bin}/digitalspace-nginx -g 'daemon off;'
+      directory=#{opt_prefix}
+      stdout_logfile=#{var}/log/digitalspace-supervisor-nginx.log
+      stdout_logfile_maxbytes=1MB
+      stderr_logfile=#{var}/log/digitalspace-supervisor-nginx.err
+      stderr_logfile_maxbytes=1MB
+      user=#{ENV['USER']}
+      autorestart=true
+      stopasgroup=true
+    EOS
 
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"nginx.ini").delete if (etc/"digitalspace-supervisor.d"/"nginx.ini").exist?

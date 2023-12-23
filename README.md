@@ -28,5 +28,5 @@ sudo digitalspace-dnsmasq-start
 
 5. Start the supervisor
 ```bash
-brew services start digitalspace-supervisor
+sudo digitalspace-supervisor-start
 ```

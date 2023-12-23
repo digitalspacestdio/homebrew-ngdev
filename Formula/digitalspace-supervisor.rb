@@ -18,23 +18,75 @@ class DigitalspaceSupervisor < Formula
     etc / "digitalspace-supervisor.d"
   end
 
+  def start_script
+    <<~EOS
+      #!/bin/bash
+      set -e
+      if [[ $(id -u ${USER}) != 0 ]]; then
+        echo "You must run this script under the root user!"
+        exit 1
+      fi
+      #{HOMEBREW_PREFIX}/bin/brew services start digitalspace-supervisor
+      EOS
+  rescue StandardError
+      nil
+  end
+
+  def stop_script
+    <<~EOS
+      #!/bin/bash
+      set -e
+      if [[ $(id -u ${USER}) != 0 ]]; then
+        echo "You must run this script under the root user!"
+        exit 1
+      fi
+      #{HOMEBREW_PREFIX}/bin/brew services stop digitalspace-dnsmasq
+      chown -R #{ENV['USER']} #{prefix}
+      EOS
+  rescue StandardError
+      nil
+  end
+
+  def digitalspace_supctl_script
+    <<~EOS
+      #!/bin/bash
+      set -e
+      exec #{opt_bin}/"digitalspace-supervisorctl -c #{etc}/digitalspace-supervisor.conf "$@"
+      EOS
+  rescue StandardError
+      nil
+  end
+
   def install
     inreplace buildpath/"supervisor/skel/sample.conf" do |s|
       s.gsub! %r{/tmp/supervisor\.sock}, var/"run/digitalspace-supervisor.sock"
       s.gsub! %r{/tmp/supervisord\.log}, var/"log/digitalspace-supervisor.log"
       s.gsub! %r{/tmp/supervisord\.pid}, var/"run/digitalspace-supervisor.pid"
+      s.gsub!(/^;chmod=.*/, "chmod=0777")
       s.gsub!(/^;\[include\]$/, "[include]")
       s.gsub! %r{^;files = relative/directory/\*\.ini$}, "files = #{etc}/digitalspace-supervisor.d/*.ini"
     end
 
     virtualenv_install_with_resources
 
+    (buildpath / "bin" / "digitalspace-supervisor-start").write(start_script)
+    (buildpath / "bin" / "digitalspace-supervisor-start").chmod(0755)
+    bin.install "bin/digitalspace-supervisor-start"
+
+    (buildpath / "bin" / "digitalspace-supervisor-stop").write(stop_script)
+    (buildpath / "bin" / "digitalspace-supervisor-stop").chmod(0755)
+    bin.install "bin/digitalspace-supervisor-stop"
+
+    (buildpath / "bin" / "digitalspace-supctl").write(digitalspace_supctl_script)
+    (buildpath / "bin" / "digitalspace-supctl").chmod(0755)
+    bin.install "bin/digitalspace-supctl"
+
     mv bin/"supervisord", bin/"digitalspace-supervisord"
     mv bin/"supervisorctl", bin/"digitalspace-supervisorctl"
     mv bin/"pidproxy", bin/"digitalspace-pidproxy"
     mv bin/"echo_supervisord_conf", bin/"digitalspace-echo_supervisord_conf"
 
-    etc.install buildpath/"supervisor/skel/sample.conf" => "digitalspace-supervisord.conf"
+    etc.install buildpath/"supervisor/skel/sample.conf" => "digitalspace-supervisor.conf"
     log_dir.mkpath
     apps_dir.mkpath
   end
