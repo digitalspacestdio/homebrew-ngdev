@@ -16,6 +16,10 @@ brew install digitalspace-dnsmasq digitalspace-nginx digitalspace-traefik digita
 ```bash
 digitalspace-step-ca-init
 ```
+4. Install the root certificat to the system
+```bash
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/.step/authorities/digitalspace-step-ca/certs/root_ca.crt
+```
 
 4. Enable the dnsmasq service
 ```bash
