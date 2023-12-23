@@ -11,7 +11,7 @@ class DigitalspaceStepCa < Formula
       #!/bin/bash
       set -e
       set -x
-      step ca init --context=digitalspace-step-ca --deployment-type=standalone --address=127.0.0.1:9443 --dns=localhost --name=localhost-smallstep --acme --provisioner=$USER@localhost --password-file="#{etc}/step-ca-password"
+      step ca init --deployment-type=standalone --address=127.0.0.1:9480 --dns=localhost --name=localhost-smallstep --acme --provisioner=localhost --password-file="#{etc}/step-ca-password"
       EOS
   rescue StandardError
       nil
@@ -23,9 +23,9 @@ class DigitalspaceStepCa < Formula
     bin.install "bin/digitalspace-step-ca-init"
   end
 
-  step_path = `#{Formula["step"].opt_bin}/step path`
+  step_path = `#{Formula["step"].opt_bin}/step path --base`
   service do
-    run ["#{Formula["step"].opt_bin}/step-ca", "#{step_path.strip}/config/ca.json", "--context=digitalspace-step-ca", "--password-file", etc/"step-ca-password"]
+    run ["#{Formula["step"].opt_bin}/step-ca", "#{step_path.strip}/config/ca.json", "--password-file", etc/"step-ca-password"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false
@@ -34,11 +34,11 @@ class DigitalspaceStepCa < Formula
   end
 
   def post_install
-    step_path = `#{Formula["step"].opt_bin}/step path`
+    step_path = `#{Formula["step"].opt_bin}/step path --base`
 
     supervisor_config =<<~EOS
       [program:step-ca]
-      command=#{Formula["step"].opt_bin}/step-ca #{step_path.strip}/config/ca.json --context=digitalspace-step-ca --password-file #{etc}/step-ca-password
+      command=#{Formula["step"].opt_bin}/step-ca #{step_path.strip}/config/ca.json --resolver=127.0.0.1 --password-file #{etc}/step-ca-password
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-step-ca.log
       stdout_logfile_maxbytes=1MB

@@ -17,6 +17,11 @@ class DigitalspaceDnsmasq < Formula
     <<~EOS
       #!/bin/bash
       set -e
+      set -e
+      if [[ $(id -u ${USER}) != 0 ]]; then
+        echo "You must run this script under the root user!"
+        exit 1
+      fi
       set -x
       mkdir -p /etc/resolver
       echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.com
@@ -32,6 +37,11 @@ class DigitalspaceDnsmasq < Formula
     <<~EOS
       #!/bin/bash
       set -e
+      set -e
+      if [[ $(id -u ${USER}) != 0 ]]; then
+        echo "You must run this script under the root user!"
+        exit 1
+      fi
       set -x
       #{HOMEBREW_PREFIX}/bin/brew services stop digitalspace-dnsmasq
       rm /etc/resolver/dev.com
@@ -163,6 +173,8 @@ class DigitalspaceDnsmasq < Formula
     run [opt_sbin/"digitalspace-dnsmasq", "--keep-in-foreground", "-C", etc/"digitalspace-dnsmasq.conf", "-7", etc/"digitalspace-dnsmasq.d,*.conf"]
     keep_alive true
     require_root true
+    log_path var/"log/digitalspace-service-dnsmasq.log"
+    error_log_path var/"log/digitalspace-service-dnsmasq-error.log"
   end
 
   test do

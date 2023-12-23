@@ -18,6 +18,21 @@ class DigitalspaceSupervisor < Formula
     etc / "digitalspace-supervisor.d"
   end
 
+  def service_script
+    <<~EOS
+      #!/bin/bash
+      set -e
+      if [[ $(id -u ${USER}) != 0 ]]; then
+        echo "You must run this script under the root user!"
+        exit 1
+      fi
+      
+      exec #{opt_bin}/digitalspace-supervisord "$@"
+      EOS
+  rescue StandardError
+      nil
+  end
+
   def start_script
     <<~EOS
       #!/bin/bash
@@ -26,6 +41,7 @@ class DigitalspaceSupervisor < Formula
         echo "You must run this script under the root user!"
         exit 1
       fi
+      chown #{ENV['USER']} #{HOMEBREW_PREFIX}/var/log/digitalspace-supervisor-*
       #{HOMEBREW_PREFIX}/bin/brew services start digitalspace-supervisor
       EOS
   rescue StandardError
@@ -40,7 +56,7 @@ class DigitalspaceSupervisor < Formula
         echo "You must run this script under the root user!"
         exit 1
       fi
-      #{HOMEBREW_PREFIX}/bin/brew services stop digitalspace-dnsmasq
+      #{HOMEBREW_PREFIX}/bin/brew services stop digitalspace-supervisor
       chown -R #{ENV['USER']} #{prefix}
       EOS
   rescue StandardError
@@ -51,7 +67,7 @@ class DigitalspaceSupervisor < Formula
     <<~EOS
       #!/bin/bash
       set -e
-      exec #{opt_bin}/"digitalspace-supervisorctl -c #{etc}/digitalspace-supervisor.conf "$@"
+      exec #{opt_bin}/digitalspace-supervisorctl -c #{etc}/digitalspace-supervisor.conf "$@"
       EOS
   rescue StandardError
       nil
@@ -76,6 +92,10 @@ class DigitalspaceSupervisor < Formula
     (buildpath / "bin" / "digitalspace-supervisor-stop").write(stop_script)
     (buildpath / "bin" / "digitalspace-supervisor-stop").chmod(0755)
     bin.install "bin/digitalspace-supervisor-stop"
+
+    (buildpath / "bin" / "digitalspace-supervisord-service").write(service_script)
+    (buildpath / "bin" / "digitalspace-supervisord-service").chmod(0755)
+    bin.install "bin/digitalspace-supervisord-service"
 
     (buildpath / "bin" / "digitalspace-supctl").write(digitalspace_supctl_script)
     (buildpath / "bin" / "digitalspace-supctl").chmod(0755)
@@ -104,7 +124,7 @@ class DigitalspaceSupervisor < Formula
   end
 
   service do
-    run [opt_bin/"digitalspace-supervisord", "-c", etc/"digitalspace-supervisor.conf", "--nodaemon"]
+    run [opt_bin/"digitalspace-supervisord-service", "-c", etc/"digitalspace-supervisor.conf", "--nodaemon"]
     keep_alive true
   end
 
