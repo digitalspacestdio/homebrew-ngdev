@@ -28,7 +28,7 @@ class DigitalspaceStepCa < Formula
   def supervisor_config
       <<~EOS
         [program:step-ca]
-        command="#{Formula["step"].opt_bin}/step-ca #{step_path.strip}/config/ca.json --context=digitalspace-step-ca --password-file #{etc}/step-ca-password"
+        command=#{Formula["step"].opt_bin}/step-ca #{step_path.strip}/config/ca.json --context=digitalspace-step-ca --password-file #{etc}/step-ca-password
         directory=#{opt_prefix}
         stdout_logfile=#{var}/log/digitalspace-supervisor-nginx.log
         stdout_logfile_maxbytes=1MB
