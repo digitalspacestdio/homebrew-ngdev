@@ -657,7 +657,7 @@ end
 
     supervisor_config =<<~EOS
       [program:nginx]
-      command=#{opt_bin}/digitalspace-nginx -g 'daemon off;'
+      command=#{opt_bin}/digitalspace-nginx -g "daemon off;"
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-nginx.log
       stdout_logfile_maxbytes=1MB
@@ -671,6 +671,7 @@ end
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"nginx.ini").delete if (etc/"digitalspace-supervisor.d"/"nginx.ini").exist?
     (etc/"digitalspace-supervisor.d"/"nginx.ini").write(supervisor_config)
+    File.write("#{ENV['HOME']}/www/dev/hello/index.html", "Hello Developer!") unless File.exist("#{ENV['HOME']}/www/dev/hello/index.html")
   end
 
   def passenger_caveats

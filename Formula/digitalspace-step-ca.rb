@@ -65,6 +65,6 @@ class DigitalspaceStepCa < Formula
     
     (etc/"step-ca-password").write((0...8).map { (65 + rand(26)).chr }.join) if !(etc/"step-ca-password").exist?
 
-    system("#{Formula["step"].opt_bin}/digitalspace-step-ca-init") unless File.exist?("#{step_path}/config/ca.json")
+    # system("#{bin}/digitalspace-step-ca-init") unless File.exist?("#{step_path}/config/ca.json")
   end
 end
