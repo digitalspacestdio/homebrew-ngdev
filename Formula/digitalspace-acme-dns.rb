@@ -2,9 +2,9 @@ class DigitalspaceAcmeDns < Formula
   desc "Lightweight DNS forwarder and DHCP server"
   homepage "https://github.com/joohoi/acme-dns"
   url "https://github.com/digitalspacestdio/acme-dns/archive/refs/tags/1.0-fix.wildcard-dns.tar.gz"
-  sha256 "fbaf060f6f907e57e2f6a5d9a8ddb5e6ddd5821890f6cc5300dcb441d5caad88"
+  sha256 "474ce461d89786427c78b9408431c8c11ef54115dbf16ec5e9f455e160da91d6"
   version "1.0-fix.wildcard-dns"
-  revision 1
+  revision 2
 
   depends_on "go" => :build
 
@@ -21,7 +21,7 @@ class DigitalspaceAcmeDns < Formula
       mkdir -p /etc/resolver
       echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.com
       echo "nameserver 127.0.0.1" | tee /etc/resolver/loc.com
-      echo "nameserver 127.0.0.1" | tee /etc/resolver/localhost
+      echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.local
       #{HOMEBREW_PREFIX}/bin/brew services start digitalspace-acme-dns
       EOS
   rescue StandardError
@@ -41,7 +41,7 @@ class DigitalspaceAcmeDns < Formula
       #{HOMEBREW_PREFIX}/bin/brew services stop digitalspace-acme-dns
       rm /etc/resolver/dev.com
       rm /etc/resolver/loc.com
-      rm /etc/resolver/localhost
+      rm /etc/resolver/dev.local
       chown -R  #{ENV['USER']} #{prefix}
       EOS
   rescue StandardError
@@ -78,18 +78,18 @@ class DigitalspaceAcmeDns < Formula
     # protocol, "both", "both4", "both6", "udp", "udp4", "udp6" or "tcp", "tcp4", "tcp6"
     protocol = "both"
     # domain name to serve the requests off of
-    domain = "localhost"
+    domain = "auth.dev.local"
     # zone name server
-    nsname = "localhost"
+    nsname = "auth.dev.local"
     # admin email address, where @ is substituted with .
-    nsadmin = "admin.localhost"
+    nsadmin = "admin.dev.local"
     # predefined records served in addition to the TXT
     records = [
         # domain pointing to the public IP of your acme-dns server 
-        # "auth.example.org. A 198.51.100.1",
+        # "auth.dev.local. A 127.0.0.1",
         # specify that auth.example.org will resolve any *.auth.example.org records
         # "auth.example.org. NS auth.example.org.",
-        "*.localhost. A 127.0.0.1",
+        "*.dev.local. A 127.0.0.1",
         "*.dev.com. A 127.0.0.1",
         "*.loc.com. A 127.0.0.1"
     ]

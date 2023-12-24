@@ -11,7 +11,7 @@ class DigitalspaceStepCa < Formula
       #!/bin/bash
       set -e
       set -x
-      step ca init --deployment-type=standalone --address=127.0.0.1:9480 --dns=localhost --name=localhost-smallstep --acme --provisioner=localhost --password-file="#{etc}/step-ca-password"
+      step ca init --deployment-type=standalone --address=127.0.0.1:9480 --dns "localhost,ca.localhost,acme.localhost,dns.localhost" --name=localhost-smallstep --acme --provisioner=admin --password-file="#{etc}/step-ca-password"
       EOS
   rescue StandardError
       nil
@@ -23,9 +23,9 @@ class DigitalspaceStepCa < Formula
     bin.install "bin/digitalspace-step-ca-init"
   end
 
-  step_path = `#{Formula["step"].opt_bin}/step path --base`
+  step_path = `#{Formula["step"].opt_bin}/step path --base`.strip
   service do
-    run ["#{Formula["step"].opt_bin}/step-ca", "#{step_path.strip}/config/ca.json", "--password-file", etc/"step-ca-password"]
+    run ["#{Formula["step"].opt_bin}/step-ca", "#{step_path}/config/ca.json", "--resolver=127.0.0.1", "--password-file=#{etc}/step-ca-password"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false
@@ -34,11 +34,11 @@ class DigitalspaceStepCa < Formula
   end
 
   def post_install
-    step_path = `#{Formula["step"].opt_bin}/step path --base`
+    step_path = `#{Formula["step"].opt_bin}/step path --base`.strip
 
     supervisor_config =<<~EOS
       [program:step-ca]
-      command=#{Formula["step"].opt_bin}/step-ca #{step_path.strip}/config/ca.json --resolver=127.0.0.1 --password-file #{etc}/step-ca-password
+      command=#{Formula["step"].opt_bin}/step-ca #{step_path}/config/ca.json --resolver=127.0.0.1 --password-file=#{etc}/step-ca-password
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-step-ca.log
       stdout_logfile_maxbytes=1MB
@@ -54,5 +54,7 @@ class DigitalspaceStepCa < Formula
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"step-ca.ini").delete if (etc/"digitalspace-supervisor.d"/"step-ca.ini").exist?
     (etc/"digitalspace-supervisor.d"/"step-ca.ini").write(supervisor_config)
+
+    system("#{Formula["step"].opt_bin}/digitalspace-step-ca-init") unless File.exist?("#{step_path}/config/ca.json")
   end
 end

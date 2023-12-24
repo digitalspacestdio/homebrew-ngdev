@@ -26,7 +26,7 @@ class DigitalspaceDnsmasq < Formula
       mkdir -p /etc/resolver
       echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.com
       echo "nameserver 127.0.0.1" | tee /etc/resolver/loc.com
-      echo "nameserver 127.0.0.1" | tee /etc/resolver/localhost
+      echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.local
       #{HOMEBREW_PREFIX}/bin/brew services start digitalspace-dnsmasq
       EOS
   rescue StandardError
@@ -46,7 +46,7 @@ class DigitalspaceDnsmasq < Formula
       #{HOMEBREW_PREFIX}/bin/brew services stop digitalspace-dnsmasq
       rm /etc/resolver/dev.com
       rm /etc/resolver/loc.com
-      rm /etc/resolver/localhost
+      rm /etc/resolver/dev.local
       chown -R  #{ENV['USER']} #{prefix}
       EOS
   rescue StandardError
@@ -152,8 +152,8 @@ class DigitalspaceDnsmasq < Formula
     (etc/"digitalspace-dnsmasq.d/dhcpc").mkpath
 
     (etc/"digitalspace-dnsmasq.d").mkpath
-    (etc/"digitalspace-dnsmasq.d/zone.localhost.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.localhost.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.localhost.conf").write("address=/localhost/127.0.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").exist?
+    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/dev.local/127.0.0.1")
 
     (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").exist?
     (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").write("address=/dev.com/127.0.0.1")

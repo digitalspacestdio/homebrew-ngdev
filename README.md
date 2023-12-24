@@ -18,7 +18,7 @@ digitalspace-step-ca-init
 ```
 4. Install the root certificat to the system
 ```bash
-sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/.step/authorities/digitalspace-step-ca/certs/root_ca.crt
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain $(brew --prefix)/etc/openssl/localCa/root_ca.crt
 ```
 
 4. Enable the dnsmasq service
@@ -28,5 +28,5 @@ sudo digitalspace-dnsmasq-start
 
 5. Start the supervisor
 ```bash
-sudo digitalspace-supervisor-start
+sudo brew services start digitalspace-supervisor
 ```
