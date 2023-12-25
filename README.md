@@ -12,11 +12,7 @@ brew tap digitalspacestdio/nextgen-devenv
 brew install digitalspace-dnsmasq digitalspace-nginx digitalspace-traefik digitalspace-supervisor
 ```
 
-3. Generate new CA certificates
-```bash
-digitalspace-step-ca-init
-```
-4. Install the root certificat to the system
+3. Install the root certificat to the system
 ```bash
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain $(brew --prefix)/etc/openssl/localCa/root_ca.crt
 ```
