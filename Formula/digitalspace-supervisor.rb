@@ -8,7 +8,7 @@ class DigitalspaceSupervisor < Formula
   license "BSD-3-Clause-Modification"
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
   depends_on "python@3.10"
-  revision 4
+  revision 5
 
   def log_dir
       var / "log"
@@ -41,7 +41,7 @@ class DigitalspaceSupervisor < Formula
         echo "You must run this script under the root user!"
         exit 1
       fi
-      chown #{ENV['USER']} #{HOMEBREW_PREFIX}/var/log/digitalspace-supervisor-*
+      # chown #{ENV['USER']} #{HOMEBREW_PREFIX}/var/log/digitalspace-supervisor-*
       #{HOMEBREW_PREFIX}/bin/brew services start digitalspace-supervisor
       EOS
   rescue StandardError
