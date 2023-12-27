@@ -362,8 +362,7 @@ class DigitalspaceNginx < Formula
       
       ## Process .php files
       location ~ ^.+\\.php {
-          # set default php version
-          set $php_version "8.1";
+          # set php version based on the .phprc file or 83
           set_by_lua_block $php_version {
             file = io.open(ngx.var.documentRoot .. "/.phprc", "r")
             if file==nil
@@ -372,7 +371,11 @@ class DigitalspaceNginx < Formula
             end
             if file==nil
             then
-                return 81
+              file = io.open("#{HOMEBREW_PREFIX}/etc/php/.phprc", "r")
+            end
+            if file==nil
+            then
+                return 83
             end
             local data = file:read()
             local i, j = data:find(".", 1, true)
@@ -671,7 +674,6 @@ end
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"nginx.ini").delete if (etc/"digitalspace-supervisor.d"/"nginx.ini").exist?
     (etc/"digitalspace-supervisor.d"/"nginx.ini").write(supervisor_config)
-    File.write("#{ENV['HOME']}/www/dev/hello/index.html", "Hello Developer!") unless File.exist("#{ENV['HOME']}/www/dev/hello/index.html")
   end
 
   def passenger_caveats

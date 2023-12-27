@@ -41,8 +41,9 @@ class DigitalspaceSupervisor < Formula
         echo "You must run this script under the root user!"
         exit 1
       fi
-      # chown #{ENV['USER']} #{HOMEBREW_PREFIX}/var/log/digitalspace-supervisor-*
-      #{HOMEBREW_PREFIX}/bin/brew services start digitalspace-supervisor
+      cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.mxcl.digitalspace-supervisor.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
+      launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
+
       EOS
   rescue StandardError
       nil
@@ -56,7 +57,9 @@ class DigitalspaceSupervisor < Formula
         echo "You must run this script under the root user!"
         exit 1
       fi
-      #{HOMEBREW_PREFIX}/bin/brew services stop digitalspace-supervisor
+      if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist ]]; then
+        launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist > /dev/null 2>&1
+      fi
       chown -R #{ENV['USER']} #{prefix}
       EOS
   rescue StandardError

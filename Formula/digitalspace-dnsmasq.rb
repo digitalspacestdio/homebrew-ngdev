@@ -17,7 +17,6 @@ class DigitalspaceDnsmasq < Formula
     <<~EOS
       #!/bin/bash
       set -e
-      set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
         echo "You must run this script under the root user!"
         exit 1
@@ -27,7 +26,8 @@ class DigitalspaceDnsmasq < Formula
       echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.com
       echo "nameserver 127.0.0.1" | tee /etc/resolver/loc.com
       echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.local
-      #{HOMEBREW_PREFIX}/bin/brew services start digitalspace-dnsmasq
+      cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+      launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
       EOS
   rescue StandardError
       nil
@@ -37,13 +37,14 @@ class DigitalspaceDnsmasq < Formula
     <<~EOS
       #!/bin/bash
       set -e
-      set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
         echo "You must run this script under the root user!"
         exit 1
       fi
       set -x
-      #{HOMEBREW_PREFIX}/bin/brew services stop digitalspace-dnsmasq
+      if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist ]]; then
+        launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist > /dev/null 2>&1
+      fi
       rm /etc/resolver/dev.com
       rm /etc/resolver/loc.com
       rm /etc/resolver/dev.local
