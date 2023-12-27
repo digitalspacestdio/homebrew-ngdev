@@ -8,7 +8,7 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 3
+  revision 4
 
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
 
