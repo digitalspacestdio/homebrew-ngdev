@@ -602,10 +602,23 @@ end
     (etc/"digitalspace-nginx/conf.d").mkpath
     (etc/"digitalspace-nginx/servers").mkpath
     (var/"run/digitalspace-nginx").mkpath
+
+    (buildpath / "bin" / "digitalspace-nginx-service").write(service_script)
+    (buildpath / "bin" / "digitalspace-nginx-service").chmod(0755)
+    bin.install "bin/digitalspace-nginx-service"
   end
 
+  def service_script
+    <<~EOS
+    #!/bin/sh
+    exec #{opt_bin}/digitalspace-nginx -g "daemon off;" "$@"
+    EOS
+  rescue StandardError
+      nil
+  end
+  
   service do
-    run [opt_bin/"digitalspace-nginx", "-g", "daemon off;"]
+    run [opt_bin/"digitalspace-nginx-service"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false
