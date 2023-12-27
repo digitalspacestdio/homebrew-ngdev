@@ -4,7 +4,7 @@ class DigitalspaceAcmeDns < Formula
   url "https://github.com/digitalspacestdio/acme-dns/archive/refs/tags/1.0-fix.wildcard-dns.tar.gz"
   sha256 "474ce461d89786427c78b9408431c8c11ef54115dbf16ec5e9f455e160da91d6"
   version "1.0-fix.wildcard-dns"
-  revision 2
+  revision 3
 
   depends_on "go" => :build
 
