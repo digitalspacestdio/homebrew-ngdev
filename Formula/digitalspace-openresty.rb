@@ -4,7 +4,7 @@ class DigitalspaceOpenresty < Formula
   desc "Scalable Web Platform by Extending NGINX with Lua"
   homepage "https://openresty.org"
   VERSION = "1.21.4.2".freeze
-  revision 1
+  revision 2
   url "https://openresty.org/download/openresty-#{VERSION}.tar.gz"
   sha256 "5b1eded25c1d4ed76c0336dfae50bd94d187af9c85ead244135dd5ae363b2e2a"
 
