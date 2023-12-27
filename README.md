@@ -6,7 +6,7 @@ macOS/Linux/Windows 10 LEMP (NGINX/PHP/MySql) Development Environment
 ### Installation
 0. Install Homebrew by following official guide [https://brew.sh/](https://brew.sh/)
 
-1. Add the homebrew tapы
+1. Add the homebrew taps
 ```bash
 brew tap digitalspacestdio/nextgen-devenv
 brew tap digitalspacestdio/php
