@@ -8,7 +8,7 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 4
+  revision 5
 
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
 
@@ -364,10 +364,14 @@ class DigitalspaceNginx < Formula
       location ~ ^.+\\.php {
           # set php version based on the .phprc file or 83
           set_by_lua_block $php_version {
-            file = io.open(ngx.var.documentRoot .. "/.phprc", "r")
+            file = io.open(ngx.var.projectDir .. "/.phprc", "r")
             if file==nil
             then
-              file = io.open(ngx.var.documentRoot .. "/.php-version", "r")
+              file = io.open(ngx.var.projectDir .. "/.php-version", "r")
+            end
+            if file==nil
+            then
+              file = io.open(ngx.var.documentRoot .. "/.phprc", "r")
             end
             if file==nil
             then
@@ -622,8 +626,8 @@ end
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false
-    log_path var/"log/digitalspace-nginx/service.log"
-    error_log_path var/"log/digitalspace-nginx/service-error.log"
+    log_path var/"log/digitalspace-service-nginx.log"
+    error_log_path var/"log/digitalspace-service-nginx.log"
   end
 
   def post_install
