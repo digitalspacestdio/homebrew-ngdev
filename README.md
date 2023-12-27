@@ -23,17 +23,17 @@ brew install php83-common php82-common php81-common php74-common php73-common ph
 ```
 > you can select only the formulas you need
 
-3. Install the root certificat to the system
+5. Install the root certificat to the system
 ```bash
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain $(brew --prefix)/etc/openssl/localCa/root_ca.crt
 ```
 
-4. Enable the dnsmasq service
+6. Enable the dnsmasq service
 ```bash
 sudo digitalspace-dnsmasq-start
 ```
 
-5. Start the supervisor
+7. Start the supervisor
 ```bash
 sudo digitalspace-supervisor-start
 ```
