@@ -1,7 +1,7 @@
 class DigitalspaceMysql80 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.1"
+  version "0.1.2"
 
   depends_on 'mysql@8.0'
 
@@ -358,7 +358,7 @@ class DigitalspaceMysql80 < Formula
 
     supervisor_config =<<~EOS
       [program:mysql80]
-      command=#{Formula["mysql@8.0"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/8.0/my.cnf
+      command=#{Formula["mysql@8.0"].opt_bin}/mysqld --defaults-file=#{etc}/mysql/8.0/my.cnf
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-mysql80.log
       stdout_logfile_maxbytes=1MB
