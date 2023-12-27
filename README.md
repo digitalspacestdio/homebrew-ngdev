@@ -37,3 +37,9 @@ sudo digitalspace-dnsmasq-start
 ```bash
 sudo digitalspace-supervisor-start
 ```
+
+8. Check the services status
+```bash
+digitalspace-supctl
+```
+
