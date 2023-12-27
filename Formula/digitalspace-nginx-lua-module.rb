@@ -7,7 +7,7 @@ class DigitalspaceNginxLuaModule < Formula
 
   depends_on "luajit-openresty"
   depends_on "denji/nginx/ngx-devel-kit"
-  depends_on "openresty/brew/openresty"
+  depends_on "digitalspace-openresty"
 
   def install
     pkgshare.install Dir["*"]

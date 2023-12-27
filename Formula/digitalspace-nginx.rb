@@ -502,7 +502,7 @@ end
 
     # Changes default port to 8080
     inreplace "conf/nginx.conf" do |s|
-      s.gsub! "http {", "http {\n    lua_package_path '#{Formula["openresty/brew/openresty"].opt_prefix}/lualib/?.lua;;';"
+      s.gsub! "http {", "http {\n    lua_package_path '#{Formula["digitalspace-openresty"].opt_prefix}/lualib/?.lua;;';"
       
       s.gsub! "listen       80;", "listen       1984;"
       s.gsub! "    #}\n\n}", "    #}\n    include conf.d/*;\n    include servers/*;\n    include servers_custom/*;\n}"
@@ -608,7 +608,7 @@ end
     run [opt_bin/"digitalspace-nginx", "-g", "daemon off;"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
-    require_root true
+    require_root false
     log_path var/"log/digitalspace-nginx/service.log"
     error_log_path var/"log/digitalspace-nginx/service-error.log"
   end
