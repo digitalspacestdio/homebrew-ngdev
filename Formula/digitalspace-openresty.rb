@@ -8,6 +8,8 @@ class DigitalspaceOpenresty < Formula
   url "https://openresty.org/download/openresty-#{VERSION}.tar.gz"
   sha256 "5b1eded25c1d4ed76c0336dfae50bd94d187af9c85ead244135dd5ae363b2e2a"
 
+  keg_only "only for use with digitalspace-nginx"
+
   option "with-postgresql", "Compile with ngx_http_postgres_module"
   option "with-iconv", "Compile with ngx_http_iconv_module"
   option "with-slice", "Compile with ngx_http_slice_module"
