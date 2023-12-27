@@ -683,7 +683,6 @@ end
       stdout_logfile_maxbytes=1MB
       stderr_logfile=#{var}/log/digitalspace-supervisor-nginx.err
       stderr_logfile_maxbytes=1MB
-      user=#{ENV['USER']}
       autorestart=true
       stopasgroup=true
     EOS

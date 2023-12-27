@@ -357,6 +357,18 @@ class DigitalspaceMysql80 < Formula
     end
   end
 
+  supervisor_config =<<~EOS
+      [program:mysql80]
+      command=#{Formula["mysql@8.0"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/8.0/my.cnf
+      directory=#{opt_prefix}
+      stdout_logfile=#{var}/log/digitalspace-supervisor-mysql80.log
+      stdout_logfile_maxbytes=1MB
+      stderr_logfile=#{var}/log/digitalspace-supervisor-mysql80.err
+      stderr_logfile_maxbytes=1MB
+      autorestart=true
+      stopasgroup=true
+    EOS
+
   service do
     run ["#{Formula["mysql@8.0"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/8.0/my.cnf"]
     working_dir HOMEBREW_PREFIX
