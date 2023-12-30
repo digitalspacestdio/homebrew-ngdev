@@ -7,8 +7,8 @@ class DigitalspaceSupervisor < Formula
   sha256 "d612a48684cf41ea7ce8cdc559eaa4bf9cbaa4687c5aac3f355c6d2df4e4f170"
   license "BSD-3-Clause-Modification"
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
-  depends_on "python@3.10"
-  revision 6
+  depends_on "python@3.12"
+  revision 7
 
   def log_dir
       var / "log"
