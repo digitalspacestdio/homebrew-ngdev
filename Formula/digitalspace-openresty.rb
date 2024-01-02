@@ -4,7 +4,7 @@ class DigitalspaceOpenresty < Formula
   desc "Scalable Web Platform by Extending NGINX with Lua"
   homepage "https://openresty.org"
   VERSION = "1.21.4.2".freeze
-  revision 2
+  revision 3
   url "https://openresty.org/download/openresty-#{VERSION}.tar.gz"
   sha256 "5b1eded25c1d4ed76c0336dfae50bd94d187af9c85ead244135dd5ae363b2e2a"
 
@@ -26,8 +26,8 @@ class DigitalspaceOpenresty < Formula
 
   def install
     # Configure
-    cc_opt = "-I#{HOMEBREW_PREFIX}/include -I#{Formula["pcre"].opt_include} -I#{Formula["openresty/brew/openresty-openssl111"].opt_include}"
-    ld_opt = "-L#{HOMEBREW_PREFIX}/lib -L#{Formula["pcre"].opt_lib} -L#{Formula["openresty/brew/openresty-openssl111"].opt_lib}"
+    cc_opt = "-I#{HOMEBREW_PREFIX}/include -I#{Formula["pcre"].opt_include} -I#{Formula["digitalspace-openresty-openssl111"].opt_include}"
+    ld_opt = "-L#{HOMEBREW_PREFIX}/lib -L#{Formula["pcre"].opt_lib} -L#{Formula["digitalspace-openresty-openssl111"].opt_lib}"
 
     args = %W[
       -j#{Etc.nprocessors}
@@ -77,13 +77,6 @@ class DigitalspaceOpenresty < Formula
     # Install
     system "make"
     system "make", "install"
-  end
-
-  service do
-    run [opt_prefix/"bin/openresty", "-g", "daemon off;"]
-    working_dir HOMEBREW_PREFIX
-    keep_alive true
-    require_root true
   end
 
   def caveats
