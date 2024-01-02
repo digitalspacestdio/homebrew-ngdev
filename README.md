@@ -34,12 +34,12 @@ sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keyc
 
 6. Enable the dnsmasq service
 ```bash
-sudo digitalspace-dnsmasq-start
+sudo $(which digitalspace-dnsmasq-start)
 ```
 
 7. Start the supervisor
 ```bash
-sudo digitalspace-supervisor-start
+sudo $(which digitalspace-supervisor-start)
 ```
 
 8. Check the services status
