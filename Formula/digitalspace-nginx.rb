@@ -8,7 +8,7 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 5
+  revision 6
 
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
 
@@ -683,6 +683,7 @@ end
       stdout_logfile_maxbytes=1MB
       stderr_logfile=#{var}/log/digitalspace-supervisor-nginx.err
       stderr_logfile_maxbytes=1MB
+      user=#{ENV['USER']}
       autorestart=true
       stopasgroup=true
     EOS

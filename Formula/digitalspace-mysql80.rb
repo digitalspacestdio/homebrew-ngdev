@@ -1,7 +1,7 @@
 class DigitalspaceMysql80 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.2"
+  version "0.1.3"
 
   depends_on 'mysql@8.0'
 
@@ -365,6 +365,7 @@ class DigitalspaceMysql80 < Formula
       stdout_logfile_maxbytes=1MB
       stderr_logfile=#{var}/log/digitalspace-supervisor-mysql80.err
       stderr_logfile_maxbytes=1MB
+      user=#{ENV['USER']}
       autorestart=true
       stopasgroup=true
     EOS
