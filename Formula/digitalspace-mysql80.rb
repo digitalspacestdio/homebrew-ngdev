@@ -353,6 +353,7 @@ class DigitalspaceMysql80 < Formula
     (mysql_etc_dir / "my.cnf").write(mysql_config) unless (mysql_etc_dir / "my.cnf").exist?
 
     if !mysql_data_dir.exist?
+      mysql_data_dir.mkpath
       system("#{Formula["mysql@8.0"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{mysql_base_dir} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
     end
 
@@ -369,8 +370,7 @@ class DigitalspaceMysql80 < Formula
     EOS
 
     (etc/"digitalspace-supervisor.d").mkpath
-    (etc/"digitalspace-supervisor.d"/"mysql80.ini").delete if (etc/"digitalspace-supervisor.d"/"mysql80.ini").exist?
-    (etc/"digitalspace-supervisor.d"/"mysql80.ini").write(supervisor_config)
+    (etc/"digitalspace-supervisor.d"/"mysql80.ini").write(supervisor_config) unless (etc/"digitalspace-supervisor.d"/"mysql80.ini").exist?
   end
 
   service do
