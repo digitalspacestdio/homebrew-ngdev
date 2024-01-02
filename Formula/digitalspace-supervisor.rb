@@ -8,7 +8,7 @@ class DigitalspaceSupervisor < Formula
   license "BSD-3-Clause-Modification"
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
   depends_on "python@3.11"
-  revision 8
+  revision 9
 
   def log_dir
       var / "log"
@@ -33,7 +33,7 @@ class DigitalspaceSupervisor < Formula
       nil
   end
 
-  def start_script
+  def start_script_macos
     <<~EOS
       #!/bin/bash
       set -e
@@ -49,7 +49,24 @@ class DigitalspaceSupervisor < Formula
       nil
   end
 
-  def stop_script
+  def start_script_linux
+    <<~EOS
+      #!/bin/bash
+      set -e
+      if [[ $(id -u ${USER}) != 0 ]]; then
+        echo "You must run this script under the root user!"
+        exit 1
+      fi
+      cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.digitalspace-supervisor.service /etc/systemd/system/homebrew.digitalspace-supervisor.service
+      systemctl daemon-reload
+      systemctl enable --now homebrew.digitalspace-supervisor.service
+
+      EOS
+  rescue StandardError
+      nil
+  end
+
+  def stop_script_macos
     <<~EOS
       #!/bin/bash
       set -e
@@ -59,6 +76,24 @@ class DigitalspaceSupervisor < Formula
       fi
       if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist ]]; then
         launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist > /dev/null 2>&1
+      fi
+      chown -R #{ENV['USER']} #{prefix}
+      EOS
+  rescue StandardError
+      nil
+  end
+
+  def stop_script_linux
+    <<~EOS
+      #!/bin/bash
+      set -e
+      if [[ $(id -u ${USER}) != 0 ]]; then
+        echo "You must run this script under the root user!"
+        exit 1
+      fi
+      if [[ -f /etc/systemd/system/homebrew.digitalspace-supervisor.service ]]; then
+        systemctl disable --now homebrew.digitalspace-supervisor.service
+        rm /etc/systemd/system/homebrew.digitalspace-supervisor.service
       fi
       chown -R #{ENV['USER']} #{prefix}
       EOS
@@ -88,13 +123,25 @@ class DigitalspaceSupervisor < Formula
 
     virtualenv_install_with_resources
 
-    (buildpath / "bin" / "digitalspace-supervisor-start").write(start_script)
-    (buildpath / "bin" / "digitalspace-supervisor-start").chmod(0755)
-    bin.install "bin/digitalspace-supervisor-start"
+    on_macos do
+      (buildpath / "bin" / "digitalspace-supervisor-start").write(start_script_macos)
+      (buildpath / "bin" / "digitalspace-supervisor-start").chmod(0755)
+      bin.install "bin/digitalspace-supervisor-start"
 
-    (buildpath / "bin" / "digitalspace-supervisor-stop").write(stop_script)
-    (buildpath / "bin" / "digitalspace-supervisor-stop").chmod(0755)
-    bin.install "bin/digitalspace-supervisor-stop"
+      (buildpath / "bin" / "digitalspace-supervisor-stop").write(stop_script_macos)
+      (buildpath / "bin" / "digitalspace-supervisor-stop").chmod(0755)
+      bin.install "bin/digitalspace-supervisor-stop"
+    end
+
+    on_linux do
+      (buildpath / "bin" / "digitalspace-supervisor-start").write(start_script_linux)
+      (buildpath / "bin" / "digitalspace-supervisor-start").chmod(0755)
+      bin.install "bin/digitalspace-supervisor-start"
+
+      (buildpath / "bin" / "digitalspace-supervisor-stop").write(stop_script_linux)
+      (buildpath / "bin" / "digitalspace-supervisor-stop").chmod(0755)
+      bin.install "bin/digitalspace-supervisor-stop"
+    end
 
     (buildpath / "bin" / "digitalspace-supervisord-service").write(service_script)
     (buildpath / "bin" / "digitalspace-supervisord-service").chmod(0755)
