@@ -1,7 +1,7 @@
 class DigitalspaceGitSsh < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.2.0"
+  version "0.2.1"
 
   def git_ssh_gen_script
     <<~EOS
