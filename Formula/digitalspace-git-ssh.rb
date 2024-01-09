@@ -1,7 +1,35 @@
 class DigitalspaceGitSsh < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.10"
+  version "0.2.0"
+
+  def git_ssh_gen_script
+    <<~EOS
+    #!/bin/bash
+    if [[ -z $1 ]] || [[ -z $2 ]]; then
+      echo "Usage: $0 <hostname> <organisation> [repository]
+      echo "Example: $0 github.com facebook react
+      exit 1
+    fi
+    
+    REPO_HOST_NAME=$1
+    REPO_GROUP_NAME=$2
+    REPO_GROUP_NAME_LOWER=$(echo $REPO_GROUP_NAME | awk '{print tolower($0)}')
+    REPO_NAME=$3
+    REPO_NAME_LOWER=$(echo $REPO_NAME | awk '{print tolower($0)}')
+
+    if [[ -z $REPO_NAME ]]; then
+      OUTPUT_FILE_NAME=$HOME/.ssh/id_rsa_${REPO_HOST_NAME}_${REPO_GROUP_NAME_LOWER}_${REPO_NAME_LOWER}
+    else 
+      OUTPUT_FILE_NAME=$HOME/.ssh/id_rsa_${REPO_HOST_NAME}_${REPO_GROUP_NAME_LOWER}
+    fi
+
+    ssh-keygen -f "${OUTPUT_FILE_NAME}"
+    
+    EOS
+  rescue StandardError
+      nil
+  end
 
   def git_ssh_script
     <<~EOS
@@ -38,6 +66,10 @@ class DigitalspaceGitSsh < Formula
     (buildpath / "bin" / "git-ssh").write(git_ssh_script)
     (buildpath / "bin" / "git-ssh").chmod(0755)
     bin.install "bin/git-ssh"
+
+    (buildpath / "bin" / "git-ssh-gen").write(git_ssh_gen_script)
+    (buildpath / "bin" / "git-ssh-gen").chmod(0755)
+    bin.install "bin/git-ssh-gen"
   end
 
 end
