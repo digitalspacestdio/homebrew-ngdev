@@ -19,9 +19,9 @@ class DigitalspaceGitSsh < Formula
     REPO_NAME_LOWER=$(echo $REPO_NAME | awk '{print tolower($0)}')
 
     if [[ -z $REPO_NAME ]]; then
-      OUTPUT_FILE_NAME=$HOME/.ssh/id_rsa_${REPO_HOST_NAME}_${REPO_GROUP_NAME_LOWER}_${REPO_NAME_LOWER}
-    else 
       OUTPUT_FILE_NAME=$HOME/.ssh/id_rsa_${REPO_HOST_NAME}_${REPO_GROUP_NAME_LOWER}
+    else 
+      OUTPUT_FILE_NAME=$HOME/.ssh/id_rsa_${REPO_HOST_NAME}_${REPO_GROUP_NAME_LOWER}_${REPO_NAME_LOWER}
     fi
 
     ssh-keygen -f "${OUTPUT_FILE_NAME}"
