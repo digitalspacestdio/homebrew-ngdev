@@ -68,12 +68,14 @@ class DigitalspaceDnsmasq < Formula
   def start_script_linux
       <<~EOS
         #!/bin/bash
+        set -e
+        
         if [[ $(id -u ${USER}) != 0 ]]; then
           if [[ -f /etc/systemd/resolved.conf ]] && [[ ! -f /etc/systemd/resolved.conf.backup ]]; then
             sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
           fi
 
-          sudo sed -i 's/[#\n]DNS=./DNS=127.0.0.1/g' /etc/systemd/resolved.conf
+          sudo sed -i 's/[#\\n]DNS=./DNS=127.0.0.1/g' /etc/systemd/resolved.conf
           sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
           sudo systemctl daemon-reload
           sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
@@ -87,7 +89,7 @@ class DigitalspaceDnsmasq < Formula
           cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
         fi
 
-        sed -i 's/[#\n]DNS=./DNS=127.0.0.1/g' /etc/systemd/resolved.conf
+        sed -i 's/[#\\n]DNS=./DNS=127.0.0.1/g' /etc/systemd/resolved.conf
         cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
         sudo systemctl daemon-reload
         sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
