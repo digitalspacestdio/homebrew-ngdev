@@ -170,7 +170,7 @@ class DigitalspaceDnsmasq < Formula
   def post_install
     begin
         inreplace etc / "digitalspace-dnsmasq.conf" do |s|
-          s.sub!(/"/^.*?port=.*$/, "port=53")
+          s.sub!(/^.*?port=.*$/, "port=53")
         end
     rescue StandardError
         nil
