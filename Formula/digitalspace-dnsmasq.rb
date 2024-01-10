@@ -116,15 +116,7 @@ class DigitalspaceDnsmasq < Formula
 
     # Fix etc location
     inreplace %w[dnsmasq.conf.example].each do |s|
-      s.gsub! "/var/lib/misc/dnsmasq.leases", var/"lib/misc/digitalspace-dnsmasq/dnsmasq.leases"
-      s.gsub! "/etc/dnsmasq.conf", etc/"digitalspace-dnsmasq.conf"
-      s.gsub! "/var/run/dnsmasq.pid", var/"run/digitalspace-dnsmasq/dnsmasq.pid"
-      s.gsub! "/etc/dnsmasq.d", etc/"digitalspace-dnsmasq.d"
-      s.gsub! "/etc/ppp/resolv.conf", etc/"digitalspace-dnsmasq.d/ppp/resolv.conf"
-      s.gsub! "/etc/dhcpc/resolv.conf", etc/"digitalspace-dnsmasq.d/dhcpc/resolv.conf"
-      s.gsub! "/usr/sbin/dnsmasq", HOMEBREW_PREFIX/"sbin/digitalspace-dnsmasq"
       s.gsub! "/^.*?port\s*=.*$/", "port=53"
-      #s.gsub! "#conf-dir=#{etc}/digitalspace-dnsmasq.d/,*.conf", "conf-dir=#{etc}/digitalspace-dnsmasq.d/,*.conf"
     end
 
     # Fix compilation on newer macOS versions.
