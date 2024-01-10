@@ -116,7 +116,7 @@ class DigitalspaceDnsmasq < Formula
 
     # Fix etc location
     inreplace %w[dnsmasq.conf.example src/config.h man/dnsmasq.8 man/es/dnsmasq.8 man/fr/dnsmasq.8].each do |s|
-      s.gsub! "/var/lib/misc/digitalspace-dnsmasq.leases", var/"lib/misc/digitalspace-dnsmasq/dnsmasq.leases"
+      s.gsub! "/var/lib/misc/dnsmasq.leases", var/"lib/misc/digitalspace-dnsmasq/dnsmasq.leases"
       s.gsub! "/etc/dnsmasq.conf", etc/"digitalspace-dnsmasq.conf"
       s.gsub! "/var/run/dnsmasq.pid", var/"run/digitalspace-dnsmasq/dnsmasq.pid"
       s.gsub! "/etc/dnsmasq.d", etc/"digitalspace-dnsmasq.d"
