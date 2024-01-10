@@ -113,12 +113,6 @@ class DigitalspaceDnsmasq < Formula
 
   def install
     ENV.deparallelize
-
-    # Fix etc location
-    inreplace %w[dnsmasq.conf.example].each do |s|
-      s.gsub! "/^.*?port\s*=.*$/", "port=53"
-    end
-
     # Fix compilation on newer macOS versions.
     ENV.append_to_cflags "-D__APPLE_USE_RFC_3542"
 
@@ -174,7 +168,14 @@ class DigitalspaceDnsmasq < Formula
   # end
 
   def post_install
-
+    begin
+        inreplace etc / "digitalspace-dnsmasq.conf" do |s|
+          s.sub!(/"/^.*?port=.*$/, "port=53")
+        end
+    rescue StandardError
+        nil
+    end
+    
     on_macos do
       begin
           inreplace etc / "digitalspace-dnsmasq.conf" do |s|
