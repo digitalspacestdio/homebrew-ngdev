@@ -4,7 +4,7 @@ class DigitalspaceDnsmasq < Formula
   url "https://thekelleys.org.uk/dnsmasq/dnsmasq-2.89.tar.gz"
   sha256 "8651373d000cae23776256e83dcaa6723dee72c06a39362700344e0c12c4e7e4"
   license any_of: ["GPL-2.0-only", "GPL-3.0-only"]
-  revision 2
+  revision 3
 
   livecheck do
     url "https://thekelleys.org.uk/dnsmasq/"
@@ -17,11 +17,16 @@ class DigitalspaceDnsmasq < Formula
     <<~EOS
       #!/bin/bash
       set -e
-      if [[ $(id -u ${USER}) != 0 ]]; then
-        echo "You must run this script under the root user!"
-        exit 1
-      fi
       set -x
+      if [[ $(id -u ${USER}) != 0 ]]; then
+        sudo mkdir -p /etc/resolver
+        echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev.com
+        echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/loc.com
+        echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev.local
+        sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+        sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+        exit 0
+      fi
       mkdir -p /etc/resolver
       echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.com
       echo "nameserver 127.0.0.1" | tee /etc/resolver/loc.com
@@ -37,11 +42,17 @@ class DigitalspaceDnsmasq < Formula
     <<~EOS
       #!/bin/bash
       set -e
-      if [[ $(id -u ${USER}) != 0 ]]; then
-        echo "You must run this script under the root user!"
-        exit 1
-      fi
       set -x
+      if [[ $(id -u ${USER}) != 0 ]]; then
+        if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist ]]; then
+          sudo launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist > /dev/null 2>&1
+        fi
+        sudo rm /etc/resolver/dev.com
+        sudo rm /etc/resolver/loc.com
+        sudo rm /etc/resolver/dev.local
+        sudo chown -R  #{ENV['USER']} #{prefix}
+        exit 0
+      fi
       if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist ]]; then
         launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist > /dev/null 2>&1
       fi
@@ -57,8 +68,32 @@ class DigitalspaceDnsmasq < Formula
   def start_script_linux
       <<~EOS
         #!/bin/bash
-        echo "not implemented"
-        exit 1
+        if [[ $(id -u ${USER}) != 0 ]]; then
+          if [[ -f /etc/systemd/resolved.conf ]] && [[ ! -f /etc/systemd/resolved.conf.backup ]]; then
+            sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
+          fi
+
+          sudo sed -i 's/[#\n]DNS=./DNS=127.0.0.1/g' /etc/systemd/resolved.conf
+          sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
+          sudo systemctl daemon-reload
+          sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
+          if systemctl list-units | grep systemd-resolved.service > /dev/null; then
+            sudo systemctl restart systemd-resolved.service
+          fi
+          exit 0
+        fi
+        
+        if [[ -f /etc/systemd/resolved.conf ]] && [[ ! -f /etc/systemd/resolved.conf.backup ]]; then
+          cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
+        fi
+
+        sed -i 's/[#\n]DNS=./DNS=127.0.0.1/g' /etc/systemd/resolved.conf
+        cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
+        sudo systemctl daemon-reload
+        sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
+        if systemctl list-units | grep systemd-resolved.service > /dev/null; then
+          sudo systemctl restart systemd-resolved.service
+        fi
         EOS
   rescue StandardError
       nil
@@ -123,7 +158,7 @@ class DigitalspaceDnsmasq < Formula
       (buildpath / "bin" / "digitalspace-dnsmasq-start").chmod(0755)
       bin.install "bin/digitalspace-dnsmasq-start"
 
-      (buildpath / "bin" / "digitalspace-dnsmasq-stop").write(traefik_script_step_ca_init)
+      (buildpath / "bin" / "digitalspace-dnsmasq-stop").write(stop_script_linux)
       (buildpath / "bin" / "digitalspace-dnsmasq-stop").chmod(0755)
       bin.install "bin/digitalspace-dnsmasq-stop"
     end
