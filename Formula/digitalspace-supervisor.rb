@@ -8,7 +8,7 @@ class DigitalspaceSupervisor < Formula
   license "BSD-3-Clause-Modification"
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
   depends_on "python@3.11"
-  revision 9
+  revision 10
 
   def log_dir
       var / "log"
@@ -38,9 +38,11 @@ class DigitalspaceSupervisor < Formula
       #!/bin/bash
       set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
-        echo "You must run this script under the root user!"
-        exit 1
+        sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.mxcl.digitalspace-supervisor.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
+        sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
+        exit 0
       fi
+      
       cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.mxcl.digitalspace-supervisor.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
       launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
 
@@ -54,9 +56,12 @@ class DigitalspaceSupervisor < Formula
       #!/bin/bash
       set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
-        echo "You must run this script under the root user!"
-        exit 1
+        sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.digitalspace-supervisor.service /etc/systemd/system/homebrew.digitalspace-supervisor.service
+        sudo systemctl daemon-reload
+        sudo systemctl enable --now homebrew.digitalspace-supervisor.service
+        exit 0
       fi
+      
       cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.digitalspace-supervisor.service /etc/systemd/system/homebrew.digitalspace-supervisor.service
       systemctl daemon-reload
       systemctl enable --now homebrew.digitalspace-supervisor.service
@@ -71,8 +76,11 @@ class DigitalspaceSupervisor < Formula
       #!/bin/bash
       set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
-        echo "You must run this script under the root user!"
-        exit 1
+        if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist ]]; then
+          sudo launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist > /dev/null 2>&1
+        fi
+        sudo chown -R #{ENV['USER']} #{prefix}
+        exit 0
       fi
       if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist ]]; then
         launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist > /dev/null 2>&1
@@ -88,8 +96,12 @@ class DigitalspaceSupervisor < Formula
       #!/bin/bash
       set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
-        echo "You must run this script under the root user!"
-        exit 1
+        if [[ -f /etc/systemd/system/homebrew.digitalspace-supervisor.service ]]; then
+          sudo systemctl disable --now homebrew.digitalspace-supervisor.service
+          sudo rm /etc/systemd/system/homebrew.digitalspace-supervisor.service
+        fi
+        sudo chown -R #{ENV['USER']} #{prefix}
+        exit 0
       fi
       if [[ -f /etc/systemd/system/homebrew.digitalspace-supervisor.service ]]; then
         systemctl disable --now homebrew.digitalspace-supervisor.service
