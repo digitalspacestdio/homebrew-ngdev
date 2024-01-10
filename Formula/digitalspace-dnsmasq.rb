@@ -4,7 +4,7 @@ class DigitalspaceDnsmasq < Formula
   url "https://thekelleys.org.uk/dnsmasq/dnsmasq-2.89.tar.gz"
   sha256 "8651373d000cae23776256e83dcaa6723dee72c06a39362700344e0c12c4e7e4"
   license any_of: ["GPL-2.0-only", "GPL-3.0-only"]
-  revision 4
+  revision 5
 
   livecheck do
     url "https://thekelleys.org.uk/dnsmasq/"
@@ -75,7 +75,7 @@ class DigitalspaceDnsmasq < Formula
             sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
           fi
 
-          sudo sed -i 's/[#\\n]DNS=./DNS=127.0.0.1/g' /etc/systemd/resolved.conf
+          sudo sed -i 's/[#\\n]DNS=./DNS=127.0.1.1/g' /etc/systemd/resolved.conf
           sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
           sudo systemctl daemon-reload
           sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
@@ -89,7 +89,7 @@ class DigitalspaceDnsmasq < Formula
           cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
         fi
 
-        sed -i 's/[#\\n]DNS=./DNS=127.0.0.1/g' /etc/systemd/resolved.conf
+        sed -i 's/[#\\n]DNS=./DNS=127.0.1.1/g' /etc/systemd/resolved.conf
         cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
         sudo systemctl daemon-reload
         sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
@@ -115,18 +115,16 @@ class DigitalspaceDnsmasq < Formula
     ENV.deparallelize
 
     # Fix etc location
-    inreplace %w[dnsmasq.conf.example src/config.h man/dnsmasq.8
-                 man/es/dnsmasq.8 man/fr/dnsmasq.8].each do |s|
-      s.gsub! "/var/lib/misc/digitalspace-dnsmasq.leases",
-              var/"lib/misc/digitalspace-dnsmasq/dnsmasq.leases", false
-      s.gsub! "/etc/dnsmasq.conf", etc/"digitalspace-dnsmasq.conf", false
-      s.gsub! "/var/run/dnsmasq.pid", var/"run/digitalspace-dnsmasq/dnsmasq.pid", false
-      s.gsub! "/etc/dnsmasq.d", etc/"digitalspace-dnsmasq.d", false
-      s.gsub! "/etc/ppp/resolv.conf", etc/"digitalspace-dnsmasq.d/ppp/resolv.conf", false
-      s.gsub! "/etc/dhcpc/resolv.conf", etc/"digitalspace-dnsmasq.d/dhcpc/resolv.conf", false
-      s.gsub! "/usr/sbin/dnsmasq", HOMEBREW_PREFIX/"sbin/digitalspace-dnsmasq", false
-      s.gsub! "/^.*?port\s*=.*$/", "port=53", false
-      #s.gsub! "#conf-dir=#{etc}/digitalspace-dnsmasq.d/,*.conf", "conf-dir=#{etc}/digitalspace-dnsmasq.d/,*.conf", false
+    inreplace %w[dnsmasq.conf.example src/config.h man/dnsmasq.8 man/es/dnsmasq.8 man/fr/dnsmasq.8].each do |s|
+      s.gsub! "/var/lib/misc/digitalspace-dnsmasq.leases", var/"lib/misc/digitalspace-dnsmasq/dnsmasq.leases"
+      s.gsub! "/etc/dnsmasq.conf", etc/"digitalspace-dnsmasq.conf"
+      s.gsub! "/var/run/dnsmasq.pid", var/"run/digitalspace-dnsmasq/dnsmasq.pid"
+      s.gsub! "/etc/dnsmasq.d", etc/"digitalspace-dnsmasq.d"
+      s.gsub! "/etc/ppp/resolv.conf", etc/"digitalspace-dnsmasq.d/ppp/resolv.conf"
+      s.gsub! "/etc/dhcpc/resolv.conf", etc/"digitalspace-dnsmasq.d/dhcpc/resolv.conf"
+      s.gsub! "/usr/sbin/dnsmasq", HOMEBREW_PREFIX/"sbin/digitalspace-dnsmasq"
+      s.gsub! "/^.*?port\s*=.*$/", "port=53"
+      #s.gsub! "#conf-dir=#{etc}/digitalspace-dnsmasq.d/,*.conf", "conf-dir=#{etc}/digitalspace-dnsmasq.d/,*.conf"
     end
 
     # Fix compilation on newer macOS versions.
@@ -184,6 +182,27 @@ class DigitalspaceDnsmasq < Formula
   # end
 
   def post_install
+
+    on_macos do
+      begin
+          inreplace etc / "digitalspace-dnsmasq.conf" do |s|
+            s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.0.1")
+          end
+      rescue StandardError
+          nil
+      end
+    end
+
+    on_linux do
+      begin
+          inreplace etc / "digitalspace-dnsmasq.conf" do |s|
+            s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.1.1")
+          end
+      rescue StandardError
+          nil
+      end
+    end
+    
     (var/"lib/misc/digitalspace-dnsmasq").mkpath
     (var/"run/digitalspace-dnsmasq").mkpath
     (etc/"digitalspace-dnsmasq.d/ppp").mkpath
