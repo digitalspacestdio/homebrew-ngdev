@@ -23,7 +23,7 @@ brew install digitalspace-mysql80
 ```
 4. Install PHPs (optional)
 ```bash
-brew install php83-common php82-common php81-common php74-common php73-common php72-common php71-common
+brew install php83-common php82-common php74-common
 ```
 > you can select only the formulas you need
 
