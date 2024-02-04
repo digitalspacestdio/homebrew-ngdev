@@ -46,4 +46,17 @@ sudo $(which digitalspace-supervisor-start)
 ```bash
 digitalspace-supctl
 ```
+9. Create your first project
+
+Create the project dir
+```bash
+mkdir -p ~/www/dev/hello
+```
+
+Create index.php
+```bash
+echo '<?php phpinfo();' > ~/www/dev/hello/index.php
+```
+
+Opein in browser `https://hello.dev.local/`
 
