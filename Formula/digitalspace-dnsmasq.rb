@@ -150,23 +150,6 @@ class DigitalspaceDnsmasq < Formula
     end
   end
 
-  # def supervisor_config
-  #     <<~EOS
-  #       [program:dnsmasq]
-  #       command=#{opt_sbin}/digitalspace-dnsmasq --keep-in-foreground -C '#{etc}/digitalspace-dnsmasq.conf' -7 '#{etc}/digitalspace-dnsmasq.d,*.conf'
-  #       directory=#{opt_prefix}
-  #       stdout_logfile=#{var}/log/digitalspace-supervisor-dnsmasq.log
-  #       stdout_logfile_maxbytes=1MB
-  #       stderr_logfile=#{var}/log/digitalspace-supervisor-dnsmasq.err
-  #       stderr_logfile_maxbytes=1MB
-  #       user=#{ENV['USER']}
-  #       autorestart=true
-  #       stopasgroup=true
-  #       EOS
-  # rescue StandardError
-  #     nil
-  # end
-
   def post_install
     begin
         inreplace etc / "digitalspace-dnsmasq.conf" do |s|
