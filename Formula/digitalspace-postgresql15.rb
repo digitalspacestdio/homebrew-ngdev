@@ -1,7 +1,7 @@
 class DigitalspacePostgresql15 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.2"
+  version "0.1.3"
 
   depends_on 'postgresql@15'
 
@@ -32,7 +32,7 @@ class DigitalspacePostgresql15 < Formula
   def postgresql_client_script
     <<~EOS
     #!/bin/sh
-    exec #{Formula["postgresql@15"].opt_bin}/psql -U postgres "$@"
+    exec #{Formula["postgresql@15"].opt_bin}/psql -U postgres --host=#{postgresql_listen_address} --host=#{postgresql_listen_port} "$@"
     EOS
   rescue StandardError
       nil
