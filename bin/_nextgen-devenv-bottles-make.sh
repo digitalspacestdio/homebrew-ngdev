@@ -7,12 +7,12 @@ if [[ -z $1 ]]; then
 fi
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
-brew tap nextgen-devenv
-#cd $(brew tap-info --json nextgen-devenv | jq -r '.[].path')
+brew tap digitalspacestdio/nextgen-devenv
+#cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path')
 #git stash
 #git pull
 
-FORMULAS=$(brew search nextgen-devenv | grep "$1\|$1@[0-9]\+" | awk -F'/' '{ print $3 }' | sort)
+FORMULAS=$(brew search digitalspacestdio/nextgen-devenv | grep "$1\|$1@[0-9]\+" | awk -F'/' '{ print $3 }' | sort)
 echo "==> Next formulas found:"
 echo -e "\033[33m==> The following formulas are matched:\033[0m"
 echo "$FORMULAS"
@@ -46,5 +46,5 @@ for FORMULA in $FORMULAS; do
     brew bottle --skip-relocation --no-rebuild --root-url 'https://f003.backblazeb2.com/file/homebrew-bottles/'$FORMULA --json $FORMULA
     ls | grep $FORMULA'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
     ls | grep $FORMULA'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
-    cd $(brew tap-info --json nextgen-devenv | jq -r '.[].path')
+    cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path')
 done
