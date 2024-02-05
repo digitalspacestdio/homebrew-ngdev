@@ -11,12 +11,14 @@ class DigitalspaceNginxLuaModule < Formula
   depends_on "digitalspace-openresty"
 
   def install
-    pkgshare.install Dir["*"]
+    (buildpath / "src" / "ngx_http_lua_autoconf.h").write("")
+
+    pkgshare.install Dir["*"]    
   end
 
-  def post_install
-    # configure script tries to write that file and fails
-    # seems to be empty anyways, this hack makes compile succeed
-    system "touch",  "#{pkgshare}/src/ngx_http_lua_autoconf.h"
-  end
+  # def post_install
+  #   # configure script tries to write that file and fails
+  #   # seems to be empty anyways, this hack makes compile succeed
+  #   system "touch",  "#{pkgshare}/src/ngx_http_lua_autoconf.h"
+  # end
 end
