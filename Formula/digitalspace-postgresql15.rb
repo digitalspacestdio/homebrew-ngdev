@@ -52,7 +52,7 @@ class DigitalspacePostgresql15 < Formula
     end
 
     supervisor_config =<<~EOS
-      [program:mysql80]
+      [program:postgresql15]
       command=#{Formula["postgresql@15"].opt_bin}/postgres -D #{postgresql_data_dir}
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-postgresql15.log
