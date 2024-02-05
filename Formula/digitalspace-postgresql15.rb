@@ -1,7 +1,7 @@
 class DigitalspacePostgresql15 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.0"
+  version "0.1.1"
 
   depends_on 'postgresql@15'
 
@@ -54,6 +54,7 @@ class DigitalspacePostgresql15 < Formula
     supervisor_config =<<~EOS
       [program:postgresql15]
       command=#{Formula["postgresql@15"].opt_bin}/postgres -D #{postgresql_data_dir}
+      environment=LC_ALL=C
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-postgresql15.log
       stdout_logfile_maxbytes=1MB
