@@ -1,7 +1,7 @@
 class DigitalspacePostgresql15 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.4"
+  version "0.1.6"
 
   depends_on 'postgresql@15'
 
@@ -48,7 +48,7 @@ class DigitalspacePostgresql15 < Formula
     postgresql_log_dir.mkpath
     if !postgresql_data_dir.exist?
       postgresql_data_dir.mkpath
-      system "#{Formula["postgresql@15"].opt_bin}/initdb", "--locale=C", "-E", "UTF-8", postgresql_data_dir
+      system "#{Formula["postgresql@15"].opt_bin}/initdb", "--username=postgres", "--locale=C", "-E", "UTF-8", postgresql_data_dir
     end
 
     supervisor_config =<<~EOS
