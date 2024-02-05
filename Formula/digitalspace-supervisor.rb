@@ -8,7 +8,7 @@ class DigitalspaceSupervisor < Formula
   license "BSD-3-Clause-Modification"
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
   depends_on "python@3.11"
-  revision 10
+  revision 11
 
   def log_dir
       var / "log"
@@ -128,6 +128,7 @@ class DigitalspaceSupervisor < Formula
       s.gsub! %r{/tmp/supervisor\.sock}, var/"run/digitalspace-supervisor.sock"
       s.gsub! %r{/tmp/supervisord\.log}, var/"log/digitalspace-supervisor.log"
       s.gsub! %r{/tmp/supervisord\.pid}, var/"run/digitalspace-supervisor.pid"
+      s.gsub!(/^;user=supervisord/, "user=root")
       s.gsub!(/^;chmod=.*/, "chmod=0777")
       s.gsub!(/^;\[include\]$/, "[include]")
       s.gsub! %r{^;files = relative/directory/\*\.ini$}, "files = #{etc}/digitalspace-supervisor.d/*.ini"
