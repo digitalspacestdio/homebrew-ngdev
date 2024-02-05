@@ -53,7 +53,7 @@ class DigitalspacePostgresql15 < Formula
 
     supervisor_config =<<~EOS
       [program:mysql80]
-      command=#{Formula["postgresql@15"].opt_bin}/postgres -D #{f.postgresql_data_dir}
+      command=#{Formula["postgresql@15"].opt_bin}/postgres -D #{postgresql_data_dir}
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-postgresql15.log
       stdout_logfile_maxbytes=1MB
@@ -70,7 +70,7 @@ class DigitalspacePostgresql15 < Formula
   end
 
   service do
-    run [Formula["postgresql@15"].opt_bin/"postgres", "-D", f.postgresql_data_dir]
+    run [Formula["postgresql@15"].opt_bin/"postgres", "-D", postgresql_data_dir]
     environment_variables LC_ALL: "C"
     keep_alive true
     require_root false
