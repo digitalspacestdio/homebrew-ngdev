@@ -1,6 +1,11 @@
 class DigitalspaceOpenrestyOpenssl111 < Formula
     desc "This OpenSSL 1.1.1 library build is specifically for OpenResty uses"
     homepage "https://www.openssl.org/"
+
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-openresty-openssl111"
+    sha256 cellar: :any_skip_relocation, sonoma: "20170432dfd358651983ed026d2ff09bba55a0023fd6ed6dd1c021c687cbfa77"
+  end
     VERSION = "1.1.1n".freeze
     revision 1
   
