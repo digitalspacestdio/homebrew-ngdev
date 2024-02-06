@@ -4,7 +4,7 @@ class DigitalspaceNginxLuaModule < Formula
   url "https://github.com/openresty/lua-nginx-module/archive/v0.10.25.tar.gz"
   sha256 "bc764db42830aeaf74755754b900253c233ad57498debe7a441cee2c6f4b07c2"
   head "https://github.com/openresty/lua-nginx-module.git", branch: "master"
-  revision 1
+  revision 2
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-nginx-lua-module"
@@ -13,7 +13,7 @@ class DigitalspaceNginxLuaModule < Formula
   end
 
   depends_on "luajit-openresty"
-  depends_on "denji/nginx/ngx-devel-kit"
+  depends_on "digitalspace-ngx-devel-kit"
   depends_on "digitalspace-openresty"
 
   def install
