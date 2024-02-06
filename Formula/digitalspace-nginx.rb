@@ -571,7 +571,7 @@ end
     end
 
     # Set misc module and mruby module both depend on nginx-devel-kit being compiled in
-    args << "--add-module=#{HOMEBREW_PREFIX}/share/ngx-devel-kit"
+    args << "--add-module=#{HOMEBREW_PREFIX}/share/digitalspace-ngx-devel-kit"
 
     # Third Party Modules
     self.class.third_party_modules.each_key do |name|
