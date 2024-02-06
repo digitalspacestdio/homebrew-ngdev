@@ -5,7 +5,7 @@ class DigitalspaceTraefik < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-traefik"
-    sha256 cellar: :any_skip_relocation, sonoma:       "1f271c265224184c80c1d6ed7625b4c94311c8ef6a42a01cb0fba275f948bb2b"
+    sha256 cellar: :any_skip_relocation, sonoma:       "6f30be2d87432d45ede808f141b24452d4f4c2941ad287e9577c5679446329df"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "6da674f8c682190de5e3fc815eb2422bb03a3ca04e84d271abc96256ed1bde3c"
   end
 

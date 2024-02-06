@@ -8,6 +8,7 @@ class DigitalspaceNginxLuaModule < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-nginx-lua-module"
+    sha256 cellar: :any_skip_relocation, sonoma:       "455412d36ed1f2f9f7caccc48903cd56c35168f09b55c1308a0e24eb95e978f2"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "3a1cb80d02117a5354a6c4eda3ab08e87c805ae73a7d8f9c6f709a59306efd64"
   end
 
