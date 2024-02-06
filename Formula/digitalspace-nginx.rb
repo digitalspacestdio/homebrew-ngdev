@@ -8,7 +8,7 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 7
+  revision 8
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-nginx"
