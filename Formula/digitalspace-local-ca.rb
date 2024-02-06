@@ -3,6 +3,11 @@ class DigitalspaceLocalCa < Formula
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.1"
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-local-ca"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "b991def455ab1b48fe3684a67a505be0ce276a711cc13cc12fbe6e852b7a7682"
+  end
+
   depends_on 'openssl'
 
   def ssl_ca_config

@@ -3,6 +3,11 @@ class DigitalspaceTraefik < Formula
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.2"
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-traefik"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "6da674f8c682190de5e3fc815eb2422bb03a3ca04e84d271abc96256ed1bde3c"
+  end
+
   depends_on "traefik"
   depends_on "digitalspace-local-ca"
 

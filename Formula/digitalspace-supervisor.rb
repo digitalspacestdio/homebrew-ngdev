@@ -7,6 +7,11 @@ class DigitalspaceSupervisor < Formula
   sha256 "d612a48684cf41ea7ce8cdc559eaa4bf9cbaa4687c5aac3f355c6d2df4e4f170"
   license "BSD-3-Clause-Modification"
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
+
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-supervisor"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "e3c83fe391033508a6d4639f074d4fef66721bee80202c7091cbd5c6c2129804"
+  end
   depends_on "python@3.11"
   revision 11
 
