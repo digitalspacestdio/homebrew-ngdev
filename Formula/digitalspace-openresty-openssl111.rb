@@ -4,7 +4,7 @@ class DigitalspaceOpenrestyOpenssl111 < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-openresty-openssl111"
-    sha256 cellar: :any_skip_relocation, sonoma:       "20170432dfd358651983ed026d2ff09bba55a0023fd6ed6dd1c021c687cbfa77"
+    sha256 cellar: :any_skip_relocation, sonoma:       "a991729f69ffe3fbbf18d83dc244c867aba94ff9cae4f01418ba954213bff1ae"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "7adae59a2c81f24d3a7e37f0460f8caf50f77cb9451ac2d1d3d9a4128b277b6c"
   end
     VERSION = "1.1.1n".freeze
