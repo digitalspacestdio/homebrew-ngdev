@@ -8,7 +8,7 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 6
+  revision 7
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-nginx"
@@ -611,7 +611,6 @@ end
 
     (etc/"digitalspace-nginx/conf.d").mkpath
     (etc/"digitalspace-nginx/servers").mkpath
-    (var/"run/digitalspace-nginx").mkpath
 
     (buildpath / "bin" / "digitalspace-nginx-service").write(service_script)
     (buildpath / "bin" / "digitalspace-nginx-service").chmod(0755)
@@ -697,6 +696,9 @@ end
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"nginx.ini").delete if (etc/"digitalspace-supervisor.d"/"nginx.ini").exist?
     (etc/"digitalspace-supervisor.d"/"nginx.ini").write(supervisor_config)
+
+    (var/"run/digitalspace-nginx").mkpath
+    (var/"log/digitalspace-nginx").mkpath
   end
 
   def passenger_caveats
