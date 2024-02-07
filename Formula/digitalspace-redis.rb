@@ -3,6 +3,11 @@ class DigitalspaceRedis < Formula
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.1"
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-redis"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "a607c7ad9cae1f55f1b6f63c55b62e3ec5ff862494aa0b0fb38809036d2f99c9"
+  end
+
   depends_on 'redis'
 
   def redis_listen_address
