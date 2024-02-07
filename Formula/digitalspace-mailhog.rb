@@ -1,7 +1,7 @@
 class DigitalspaceMailhog < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.0"
+  version "0.1.1"
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-mailhog"
@@ -13,7 +13,7 @@ class DigitalspaceMailhog < Formula
   def mailhog_wrapper_script
     <<~EOS
     #!/bin/sh
-    exec #{Formula["mailhog"].opt_bin}/mailhog "$@"
+    exec #{Formula["mailhog"].opt_bin}/MailHog "$@"
     EOS
   rescue StandardError
       nil
