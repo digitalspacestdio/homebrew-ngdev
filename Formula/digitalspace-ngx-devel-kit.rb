@@ -11,7 +11,7 @@ class DigitalspaceNgxDevelKit < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "2d7545b15a38ca4ecc6746a354e3d672b4fa31cec97ecaf3b99cafb9e9858563"
   end
 
-    conflicts_with "denji/nginx/ngx-devel-kit"
+    # conflicts_with "denji/nginx/ngx-devel-kit"
     
     def install
       pkgshare.install Dir["*"]
