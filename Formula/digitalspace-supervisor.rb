@@ -13,7 +13,7 @@ class DigitalspaceSupervisor < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "2a330024edd6e667da54e31d4dac366440af1a00ccff469646bfe5c0de5e7b1d"
   end
   depends_on "python@3.11"
-  revision 13
+  revision 14
 
   def log_dir
       var / "log"
@@ -137,6 +137,8 @@ class DigitalspaceSupervisor < Formula
       s.gsub!(/^;chmod=.*/, "chmod=0777")
       s.gsub!(/^;\[include\]$/, "[include]")
       s.gsub! %r{^;files = relative/directory/\*\.ini$}, "files = #{etc}/digitalspace-supervisor.d/*.ini"
+      s.gsub!(/^;\[inet_http_server\]/, "[inet_http_server]")
+      s.gsub!(/^;port=127.0.0.1:9001/, "port=127.0.0.1:9001")
     end
 
     virtualenv_install_with_resources
