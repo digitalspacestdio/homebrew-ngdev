@@ -5,7 +5,7 @@ class DigitalspaceMailhog < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-mailhog"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "761fdff79a245a46a860428ee6e02ff3978c8a70577d27a68824f77065f4cf63"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "8a6c052c88cca886ea306a187d2ce499a6c0b139d288a0267a7002f3e57aa4aa"
   end
 
   depends_on "mailhog"
