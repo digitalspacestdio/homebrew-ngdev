@@ -10,7 +10,7 @@ class DigitalspaceSupervisor < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-supervisor"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "a4c7700568760528b1b71d9be07093a5ffdd2da0b273d17fd86a7b6ce871acdc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "0661b95bd0c983b56e85c967ff89665be14ec798e5b60b4f0ed1d63a4f4e019d"
   end
   depends_on "python@3.11"
   revision 16
