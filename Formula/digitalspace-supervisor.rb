@@ -13,7 +13,7 @@ class DigitalspaceSupervisor < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "a4c7700568760528b1b71d9be07093a5ffdd2da0b273d17fd86a7b6ce871acdc"
   end
   depends_on "python@3.11"
-  revision 15
+  revision 16
 
   def log_dir
       var / "log"
@@ -155,6 +155,9 @@ class DigitalspaceSupervisor < Formula
     mv bin/"supervisorctl", bin/"digitalspace-supervisorctl"
     mv bin/"pidproxy", bin/"digitalspace-pidproxy"
     mv bin/"echo_supervisord_conf", bin/"digitalspace-echo_supervisord_conf"
+
+    bin.write_exec_script libexec/"digitalspace-supervisor-start"
+    bin.write_exec_script libexec/"digitalspace-supervisor-stop"
 
     etc.install buildpath/"supervisor/skel/sample.conf" => "digitalspace-supervisor.conf"
     log_dir.mkpath
