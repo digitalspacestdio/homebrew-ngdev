@@ -13,7 +13,7 @@ class DigitalspaceSupervisor < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "2a330024edd6e667da54e31d4dac366440af1a00ccff469646bfe5c0de5e7b1d"
   end
   depends_on "python@3.11"
-  revision 12
+  revision 13
 
   def log_dir
       var / "log"
@@ -160,6 +160,15 @@ class DigitalspaceSupervisor < Formula
   end
 
   def post_install
+    
+    if File.exist?(opt_bin / "digitalspace-supervisor-start")
+      File.delete(opt_bin / "digitalspace-supervisor-start")
+    end
+
+    if File.exist?(opt_bin / "digitalspace-supervisor-stop")
+      File.delete(opt_bin / "digitalspace-supervisor-stop")
+    end
+
     on_macos do
       (opt_bin / "digitalspace-supervisor-start").write(start_script_macos)
       (opt_bin / "digitalspace-supervisor-start").chmod(0755)
