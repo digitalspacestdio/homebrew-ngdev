@@ -14,7 +14,7 @@ class DigitalspaceSupervisor < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "e3c83fe391033508a6d4639f074d4fef66721bee80202c7091cbd5c6c2129804"
   end
   depends_on "python@3.11"
-  revision 11
+  revision 12
 
   def log_dir
       var / "log"
@@ -142,26 +142,6 @@ class DigitalspaceSupervisor < Formula
 
     virtualenv_install_with_resources
 
-    on_macos do
-      (buildpath / "bin" / "digitalspace-supervisor-start").write(start_script_macos)
-      (buildpath / "bin" / "digitalspace-supervisor-start").chmod(0755)
-      bin.install "bin/digitalspace-supervisor-start"
-
-      (buildpath / "bin" / "digitalspace-supervisor-stop").write(stop_script_macos)
-      (buildpath / "bin" / "digitalspace-supervisor-stop").chmod(0755)
-      bin.install "bin/digitalspace-supervisor-stop"
-    end
-
-    on_linux do
-      (buildpath / "bin" / "digitalspace-supervisor-start").write(start_script_linux)
-      (buildpath / "bin" / "digitalspace-supervisor-start").chmod(0755)
-      bin.install "bin/digitalspace-supervisor-start"
-
-      (buildpath / "bin" / "digitalspace-supervisor-stop").write(stop_script_linux)
-      (buildpath / "bin" / "digitalspace-supervisor-stop").chmod(0755)
-      bin.install "bin/digitalspace-supervisor-stop"
-    end
-
     (buildpath / "bin" / "digitalspace-supervisord-service").write(service_script)
     (buildpath / "bin" / "digitalspace-supervisord-service").chmod(0755)
     bin.install "bin/digitalspace-supervisord-service"
@@ -181,6 +161,23 @@ class DigitalspaceSupervisor < Formula
   end
 
   def post_install
+    on_macos do
+      (opt_bin / "digitalspace-supervisor-start").write(start_script_macos)
+      (opt_bin / "digitalspace-supervisor-start").chmod(0755)
+
+      (opt_bin / "digitalspace-supervisor-stop").write(stop_script_macos)
+      (opt_bin / "digitalspace-supervisor-stop").chmod(0755)
+    end
+
+    on_linux do
+      (opt_bin / "digitalspace-supervisor-start").write(start_script_linux)
+      (opt_bin / "digitalspace-supervisor-start").chmod(0755)
+      bin.install "bin/digitalspace-supervisor-start"
+
+      (opt_bin / "digitalspace-supervisor-stop").write(stop_script_linux)
+      (opt_bin / "digitalspace-supervisor-stop").chmod(0755)
+    end
+
     (var/"run").mkpath
     (var/"log").mkpath
     conf_warn = <<~EOS
