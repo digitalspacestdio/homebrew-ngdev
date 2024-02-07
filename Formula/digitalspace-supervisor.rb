@@ -13,7 +13,7 @@ class DigitalspaceSupervisor < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "1561ba21abd92c16f2e77577145e1807fdd4b252a00cc65b6498385cd0ebb619"
   end
   depends_on "python@3.11"
-  revision 14
+  revision 15
 
   def log_dir
       var / "log"
@@ -182,7 +182,6 @@ class DigitalspaceSupervisor < Formula
     on_linux do
       (opt_bin / "digitalspace-supervisor-start").write(start_script_linux)
       (opt_bin / "digitalspace-supervisor-start").chmod(0755)
-      bin.install "bin/digitalspace-supervisor-start"
 
       (opt_bin / "digitalspace-supervisor-stop").write(stop_script_linux)
       (opt_bin / "digitalspace-supervisor-stop").chmod(0755)
