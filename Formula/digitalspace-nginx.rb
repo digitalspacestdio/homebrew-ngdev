@@ -12,7 +12,8 @@ class DigitalspaceNginx < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-nginx"
-    sha256 cellar: :any_skip_relocation, sonoma: "3a59b3af4042ddf0b025eaebe8d942639629e70c68e80be2ff366afec9f76add"
+    sha256 cellar: :any_skip_relocation, sonoma:       "3a59b3af4042ddf0b025eaebe8d942639629e70c68e80be2ff366afec9f76add"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "8ab8141e70047b5a476e434a5a3ab4e648a444e9b12359b82df0b82a54cc59dc"
   end
 
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
