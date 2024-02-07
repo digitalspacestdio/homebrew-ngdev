@@ -3,6 +3,11 @@ class DigitalspaceMailhog < Formula
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.0"
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-mailhog"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "761fdff79a245a46a860428ee6e02ff3978c8a70577d27a68824f77065f4cf63"
+  end
+
   depends_on "mailhog"
 
   def mailhog_wrapper_script
