@@ -3,6 +3,11 @@ class DigitalspacePostgresql15 < Formula
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.6"
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-postgresql15"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "b9195e64d357fcd986de2d339153958470136c2dac4db770cd06ea186a01411a"
+  end
+
   depends_on 'postgresql@15'
 
   def postgresql_listen_address

@@ -3,6 +3,11 @@ class DigitalspaceMysql80 < Formula
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.3"
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-mysql80"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "8460bbf399e55b8a3b24ce0dba5b5d57e4b3e60369aa43325d3f884636c672a1"
+  end
+
   depends_on 'mysql@8.0'
 
   def mysql_listen_address
