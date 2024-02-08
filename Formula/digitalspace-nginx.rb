@@ -8,7 +8,7 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 8
+  revision 9
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-nginx"
@@ -184,29 +184,16 @@ class DigitalspaceNginx < Formula
   # env :userpaths
   skip_clean "logs"
 
+  def nginx_document_root_config_path
+    etc / "digitalspace-nginx" / "dev_document_root.conf"
+  end
+
   def nginx_dev_config_path
     etc / "digitalspace-nginx" / "dev.conf"
   end
 
-  def nginx_dev_config
+  def nginx_dev_document_root_config
     <<~EOS
-      set $wwwRoot /var/www;
-      autoindex off;
-      client_max_body_size 256m;
-      
-      gzip on;
-      gzip_proxied any;
-      gzip_types text/plain text/xml text/css application/javascript application/json image/svg+xml application/ttf application/x-ttf application/x-font-ttf font/opentype font/x-woff font/ttf;
-      gzip_vary on;
-      gzip_comp_level 1;
-      
-      if ($project_name ~ ^www\\.(.+)$) {
-          set $project_name $1;
-      }
-      
-      set $projectDir $wwwRoot/$pool/$project_name;
-      set $projectType "default";
-      
       if (!-d $projectDir) {
           set $projectDir $wwwRoot/project-dir-not-found;
       }
@@ -224,19 +211,48 @@ class DigitalspaceNginx < Formula
       if (!-d $documentRoot) {
           set $documentRoot $projectDir;
       }
+      EOS
+  rescue StandardError
+    nil
+  end
+
+  def nginx_dev_config
+    <<~EOS
+      autoindex off;
+      client_max_body_size 256m;
+
+      set $wwwRoot /var/www;
+        
+      if ($project_name ~ ^www\\.(.+)$) {
+          set $project_name $1;
+      }
+      
+      set $projectDir $wwwRoot/$pool/$project_name;
+      set $projectType "default";
+      
+      gzip on;
+      gzip_proxied any;
+      gzip_types text/plain text/xml text/css application/javascript application/json image/svg+xml application/ttf application/x-ttf application/x-font-ttf font/opentype font/x-woff font/ttf;
+      gzip_vary on;
+      gzip_comp_level 1;
+
+      include dev_document_root.conf;
       
       # if the symfony like
       # if (-f $projectDir/../bin/console) {
       #    set $projectType "symfony";
       # }
+
+      # if laravel like
+      # if (-f $projectDir/../artisan) {
+      #    set $projectType "laravel";
+      # }
       
-      # if the Magento 2
+      # if Magento 2
       if (-f $projectDir/../bin/magento) {
           set $projectType "magento2";
       }
-      
-      include php[.]d/*.conf;
-      
+
       root   $documentRoot;
       index  app.php index.php index.html index.htm;
       
@@ -247,6 +263,8 @@ class DigitalspaceNginx < Formula
       if (-f $documentRoot/index.php) {
           set $cgiIndex /index.php;
       }
+      
+      include dev[.]d/*.conf;
       
       # include #{HOMEBREW_PREFIX}/opt/nginx-error-pages/snippets/error_pages_osx.conf;
       
@@ -609,6 +627,7 @@ end
     #   man8.install "man/nginx.8"
     # end
 
+    (etc/"digitalspace-nginx/dev.d").mkpath
     (etc/"digitalspace-nginx/conf.d").mkpath
     (etc/"digitalspace-nginx/servers").mkpath
 
@@ -659,15 +678,11 @@ end
     # for such cases
     sbin.install_symlink bin/"digitalspace-nginx" if rack.subdirs.any? { |d| d.join("sbin").directory? }
 
-    if File.exist?(nginx_dev_config_path)
-      File.delete(nginx_dev_config_path)
+    unless File.exist?(nginx_dev_config_path)
+      nginx_dev_config_path.write(nginx_dev_config) unless File.exist?(nginx_dev_config_path)
+      nginx_document_root_config_path.write(nginx_dev_document_root_config) unless File.exist?(nginx_dev_config_path)
+      nginx_local_config_path.write(nginx_local_config) unless File.exist?(nginx_dev_config_path)
     end
-    nginx_dev_config_path.write(nginx_dev_config)
-
-    if File.exist?(nginx_local_config_path)
-      File.delete(nginx_local_config_path)
-    end
-    nginx_local_config_path.write(nginx_local_config)
 
     default_php_version = `$(brew list 2>/dev/null | grep -o 'php[0-9]\\{2,\\}$' | sort | tail -1) --version 2>/dev/null | grep -o '^PHP \\d\\+.\\d\\+.\\d\\+' 2>/dev/null | grep -o '\\d\\+.\\d\\+' 2>/dev/null | awk -F. '{ print $1"."$2 }'`
     if OS.mac?
