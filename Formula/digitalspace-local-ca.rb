@@ -5,9 +5,8 @@ class DigitalspaceLocalCa < Formula
   revision 1
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-local-ca"
-    sha256 cellar: :any_skip_relocation, sonoma:       "c863219174a31072ec31d7568c959c1e47db35e4ff012bd270ff89414a818a19"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "b991def455ab1b48fe3684a67a505be0ce276a711cc13cc12fbe6e852b7a7682"
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-local-ca"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "171ab817dbf7ec3e789852a8721ecffe95c4b473c6517007322db0d08353d61a"
   end
 
   depends_on 'openssl'

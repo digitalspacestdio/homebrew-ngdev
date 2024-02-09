@@ -5,8 +5,8 @@ class DigitalspaceOpenresty < Formula
   homepage "https://openresty.org"
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-openresty"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "2a087d6361efb1638a9f831c6b210471694887a8954e112c1ed28851e430ab7c"
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-openresty"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "c1f3306403607b60426f4520384b981e8741bec4d3d27c7b0b978584f698647d"
   end
   VERSION = "1.21.4.2".freeze
   revision 4
