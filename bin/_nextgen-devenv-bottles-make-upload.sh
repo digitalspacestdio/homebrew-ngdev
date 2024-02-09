@@ -10,8 +10,27 @@ else
     FORMULAS=$(brew search digitalspacestdio/nextgen-devenv | grep "$1\|$1@[0-9]\+" | awk -F'/' '{ print $3 }' | sort)
 fi
 
-./_nextgen-devenv-bottles-make.sh $FORMULAS && {
-    if [[ -z $NO_UPLOAD ]];  then
-        ./_nextgen-devenv-bottles-upload.sh $FORMULAS
+echo '' > /tmp/.nextgen-devenv_bottles_created_.tmp
+
+for FORMULA in $FORMULAS; do
+    for DEP in $(brew deps --full --direct $FORMULA | grep 'digitalspacestdio/nextgen-devenv'); do
+        if grep "$DEP" -v /tmp/.nextgen-devenv_bottles_created_.tmp; then
+            ./_nextgen-devenv-bottles-make.sh $DEP
+            echo $DEP >> /tmp/.nextgen-devenv_bottles_created_.tmp
+        fi
+    done
+done
+
+for FORMULA in $FORMULAS; do
+    if grep "$FORMULA" -v /tmp/.nextgen-devenv_bottles_created_.tmp; then
+        ./_nextgen-devenv-bottles-make.sh $FORMULA
+        echo $DEP >> /tmp/.nextgen-devenv_bottles_created_.tmp
     fi
-}
+done
+
+
+if [[ -z $NO_UPLOAD ]];  then
+    echo $(cat /tmp/.nextgen-devenv_bottles_created_.tmp) | xargs ./_nextgen-devenv-bottles-upload.sh
+fi
+
+rm /tmp/.nextgen-devenv_bottles_created_.tmp
