@@ -30,25 +30,25 @@ do
                 set -x
                 while read tgzName; do
                     if [[ -f "$tgzName" ]]; then
-                        s3cmd info "s3://homebrew-bottles/$FORMULA/$tgzName" >/dev/null && {
-                            s3cmd del "s3://homebrew-bottles/$FORMULA/$tgzName"
+                        s3cmd info "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$tgzName" >/dev/null 2>&1 && {
+                            s3cmd del "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$tgzName"
                         } || /usr/bin/true
-                        s3cmd put "$tgzName" "s3://homebrew-bottles/$FORMULA/$tgzName"
+                        s3cmd put "$tgzName" "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$tgzName"
                     fi
                 done < <(jq -r '."digitalspacestdio/nextgen-devenv/'$JSON_FORMULA_NAME'".bottle.tags[].filename' "$jsonfile" | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
                 set +x
-                s3cmd info "s3://homebrew-bottles/$FORMULA/$mergedfile" >/dev/null && {
-                    s3cmd get "s3://homebrew-bottles/$FORMULA/$mergedfile" "$mergedfile".src
+                s3cmd info "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$mergedfile" >/dev/null && {
+                    s3cmd get "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$mergedfile" "$mergedfile".src
                     if [[ "object" != $(cat "$mergedfile".src| jq -r type | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;') ]]; then
                         cp "$jsonfile" "$mergedfile".src
                     fi
                     jq -s  '.[1]."digitalspacestdio/nextgen-devenv/'$JSON_FORMULA_NAME'".bottle.tags = .[0]."digitalspacestdio/nextgen-devenv/'$JSON_FORMULA_NAME'".bottle.tags * .[1]."digitalspacestdio/nextgen-devenv/'$JSON_FORMULA_NAME'".bottle.tags | .[1]' "$mergedfile".src "$jsonfile" > "$mergedfile"
-                    s3cmd del "s3://homebrew-bottles/$FORMULA/$mergedfile"
-                    s3cmd put "$mergedfile" "s3://homebrew-bottles/$FORMULA/$mergedfile"
+                    s3cmd del "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$mergedfile"
+                    s3cmd put "$mergedfile" "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$mergedfile"
                     brew bottle --skip-relocation --no-rebuild --merge --write --no-commit --json "$mergedfile"
                     rm "$mergedfile" "$mergedfile".src
                 } || {
-                    s3cmd put "$jsonfile" "s3://homebrew-bottles/$FORMULA/$mergedfile"
+                    s3cmd put "$jsonfile" "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$mergedfile"
                     brew bottle --skip-relocation --no-rebuild --merge --write --no-commit --json "$jsonfile"
                 } || exit 1
             fi
