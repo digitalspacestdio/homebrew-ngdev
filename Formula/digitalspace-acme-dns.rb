@@ -165,7 +165,7 @@ class DigitalspaceAcmeDns < Formula
       (buildpath / "bin" / "digitalspace-acme-dns-start").chmod(0755)
       bin.install "bin/digitalspace-acme-dns-start"
 
-      (buildpath / "bin" / "digitalspace-acme-dns-stop").write(traefik_script_step_ca_init)
+      (buildpath / "bin" / "digitalspace-acme-dns-stop").write(stop_script_linux)
       (buildpath / "bin" / "digitalspace-acme-dns-stop").chmod(0755)
       bin.install "bin/digitalspace-acme-dns-stop"
     end
