@@ -24,7 +24,7 @@ done
 for FORMULA in $FORMULAS; do
     if ! grep "$FORMULA" /tmp/.nextgen-devenv_bottles_created_.tmp; then
         ./_nextgen-devenv-bottles-make.sh $FORMULA
-        echo $DEP >> /tmp/.nextgen-devenv_bottles_created_.tmp
+        echo $FORMULA >> /tmp/.nextgen-devenv_bottles_created_.tmp
     fi
 done
 
