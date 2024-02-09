@@ -13,7 +13,7 @@ class DigitalspaceSupervisor < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "1865de817481fd63f9fd093a8d0a396bfaede14e9aa8412f5ba7b6c8c5016f25"
   end
   depends_on "python@3.11"
-  revision 17
+  revision 18
 
   def log_dir
       var / "log"

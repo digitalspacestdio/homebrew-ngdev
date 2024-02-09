@@ -10,7 +10,7 @@ class DigitalspaceOpenresty < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "8100e1b6969fd9c7a6441ccd36523dc586676d040cb9caecdb4c6f81595b0b6e"
   end
   VERSION = "1.21.4.2".freeze
-  revision 3
+  revision 4
   url "https://openresty.org/download/openresty-#{VERSION}.tar.gz"
   sha256 "5b1eded25c1d4ed76c0336dfae50bd94d187af9c85ead244135dd5ae363b2e2a"
 
