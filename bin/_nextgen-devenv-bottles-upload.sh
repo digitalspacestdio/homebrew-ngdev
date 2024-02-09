@@ -6,6 +6,7 @@ if [[ -z $1 ]]; then
 fi
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 brew tap digitalspacestdio/nextgen-devenv
 brew tap digitalspacestdio/nextgen-devenv
 cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path' | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
