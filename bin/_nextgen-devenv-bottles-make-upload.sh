@@ -14,7 +14,7 @@ echo '' > /tmp/.nextgen-devenv_bottles_created_.tmp
 
 for FORMULA in $FORMULAS; do
     for DEP in $(brew deps --full --direct $FORMULA | grep 'digitalspacestdio/nextgen-devenv'); do
-        if grep "$DEP" -v /tmp/.nextgen-devenv_bottles_created_.tmp; then
+        if ! grep "$DEP" /tmp/.nextgen-devenv_bottles_created_.tmp; then
             ./_nextgen-devenv-bottles-make.sh $DEP
             echo $DEP >> /tmp/.nextgen-devenv_bottles_created_.tmp
         fi
@@ -22,7 +22,7 @@ for FORMULA in $FORMULAS; do
 done
 
 for FORMULA in $FORMULAS; do
-    if grep "$FORMULA" -v /tmp/.nextgen-devenv_bottles_created_.tmp; then
+    if ! grep "$FORMULA" /tmp/.nextgen-devenv_bottles_created_.tmp; then
         ./_nextgen-devenv-bottles-make.sh $FORMULA
         echo $DEP >> /tmp/.nextgen-devenv_bottles_created_.tmp
     fi
