@@ -8,7 +8,7 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 10
+  revision 11
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-nginx"
@@ -677,11 +677,9 @@ end
     # for such cases
     sbin.install_symlink bin/"digitalspace-nginx" if rack.subdirs.any? { |d| d.join("sbin").directory? }
 
-    unless File.exist?(nginx_dev_config_path)
-      nginx_dev_config_path.write(nginx_dev_config) unless File.exist?(nginx_dev_config_path)
-      nginx_document_root_config_path.write(nginx_dev_document_root_config) unless File.exist?(nginx_dev_config_path)
-      nginx_local_config_path.write(nginx_local_config) unless File.exist?(nginx_dev_config_path)
-    end
+    nginx_dev_config_path.write(nginx_dev_config) unless File.exist?(nginx_dev_config_path)
+    nginx_document_root_config_path.write(nginx_dev_document_root_config) unless File.exist?(nginx_document_root_config_path)
+    nginx_local_config_path.write(nginx_local_config) unless File.exist?(nginx_local_config_path)
 
     default_php_version = `$(brew list 2>/dev/null | grep -o 'php[0-9]\\{2,\\}$' | sort | tail -1) --version 2>/dev/null | grep -o '^PHP \\d\\+.\\d\\+.\\d\\+' 2>/dev/null | grep -o '\\d\\+.\\d\\+' 2>/dev/null | awk -F. '{ print $1"."$2 }'`
     if OS.mac?
