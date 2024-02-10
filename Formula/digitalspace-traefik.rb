@@ -5,7 +5,8 @@ class DigitalspaceTraefik < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-traefik"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "2d9d1c2103354596178d421f47edcd2c43c363199b726aa734c2f9ed63a9809e"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "a991519ac47514848864813e3d53b2814b7e52c3bb277137c7bda166d514d1ce"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2d9d1c2103354596178d421f47edcd2c43c363199b726aa734c2f9ed63a9809e"
   end
 
   depends_on "traefik"
