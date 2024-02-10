@@ -6,6 +6,11 @@ class DigitalspaceAcmeDns < Formula
   version "1.0-fix.wildcard-dns"
   revision 4
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-acme-dns"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "825f1b25c2941dcb140d4798d25873e04d22c8b28b8dd8132e5b3c59804ac189"
+  end
+
   depends_on "go" => :build
 
   def start_script_macos

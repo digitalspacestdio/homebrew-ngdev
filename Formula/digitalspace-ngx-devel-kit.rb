@@ -7,7 +7,7 @@ class DigitalspaceNgxDevelKit < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-ngx-devel-kit"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "8d9455beea246f7374613c725d0447d6bba39a28961531d426bf069a51c42b0c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "91b09bcb1e2c3440f69692a7d16d06c97e5de15fb0394d918528f67688b8eb21"
   end
 
   revision 2

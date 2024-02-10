@@ -5,8 +5,8 @@ class DigitalspacePostgresql15 < Formula
   revision 1
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-postgresql15"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "b9195e64d357fcd986de2d339153958470136c2dac4db770cd06ea186a01411a"
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-postgresql15"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "5e9d9a59257f8c6509f40be6eefed343c93ef5882e21e41d1d8acac3b46cd0a4"
   end
 
   depends_on 'postgresql@15'

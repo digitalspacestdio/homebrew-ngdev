@@ -11,6 +11,11 @@ class DigitalspaceDnsmasq < Formula
     regex(/href=.*?dnsmasq[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-dnsmasq"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "4fd5bc223a041c561eddcef5d1f8324ed31d075815c53d4b4a49b9ef12ee8ac9"
+  end
+
   depends_on "pkg-config" => :build
 
   def start_script_macos

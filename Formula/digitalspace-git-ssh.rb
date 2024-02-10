@@ -4,6 +4,11 @@ class DigitalspaceGitSsh < Formula
   version "0.2.1"
   revision 1
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-git-ssh"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "3ab978886c72830621c236e342c29a196853d2e703c83ea9f27c9d295d7dc0c2"
+  end
+
   def git_ssh_gen_script
     <<~EOS
     #!/bin/bash

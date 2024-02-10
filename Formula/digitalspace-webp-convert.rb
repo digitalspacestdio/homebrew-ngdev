@@ -3,6 +3,11 @@ class DigitalspaceWebpConvert < Formula
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.10"
 
+  bottle do
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-webp-convert"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "66393ef896527a2fbda32c7b38a6b3dceb2f84760cae8be87c13b895113351ec"
+  end
+
   depends_on 'webp'
   depends_on 'rush-parallel'
 

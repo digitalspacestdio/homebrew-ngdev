@@ -4,8 +4,8 @@ class DigitalspaceRedis < Formula
   version "0.1.2"
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-redis"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "a607c7ad9cae1f55f1b6f63c55b62e3ec5ff862494aa0b0fb38809036d2f99c9"
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-redis"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "f816630b3e5d020e848d0b4da5e95eecf21f171fb9309407b096fb95f767bc8b"
   end
 
   depends_on 'redis'

@@ -8,7 +8,7 @@ class DigitalspaceNginxLuaModule < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-nginx-lua-module"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "89abc0a480db80cd7a95c5ae6897830ae6d2706dceef3523d29ae0f67cb313e2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "b018ab9e64fe1843b4e22564c7ba177720ad23558b96c61257df32082a2bccd6"
   end
 
   depends_on "luajit-openresty"

@@ -9,8 +9,8 @@ class DigitalspaceSupervisor < Formula
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-supervisor"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "1865de817481fd63f9fd093a8d0a396bfaede14e9aa8412f5ba7b6c8c5016f25"
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-supervisor"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "5e03eb0014e6e66a7eedcc29fc8b40b185ac2d56f5938e5c53cc826761cafdff"
   end
   depends_on "python@3.11"
   revision 18
