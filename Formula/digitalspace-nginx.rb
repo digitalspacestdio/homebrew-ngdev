@@ -254,18 +254,14 @@ class DigitalspaceNginx < Formula
 
       root   $documentRoot;
       index  app.php index.php index.html index.htm;
+
+      set $cgiIndex /index.php;
       
       if (-f $documentRoot/app.php) {
           set $cgiIndex /app.php;
       }
       
-      if (-f $documentRoot/index.php) {
-          set $cgiIndex /index.php;
-      }
-      
       include dev[.]d/*.conf;
-      
-      # include #{HOMEBREW_PREFIX}/opt/nginx-error-pages/snippets/error_pages_osx.conf;
       
       # deny access to hidden files
       location ~ /\\. {
@@ -688,6 +684,7 @@ end
       system "sed -i '' 's|return \"\\d+.\\d+\"|return \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
     else
       system "sed -i 's|/var/www|'$HOME'/www|g' #{etc}/digitalspace-nginx/dev.conf"
+      system "sed -i 's|/home/linuxbrew/www|'$HOME'/www|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i 's|set $php_version.*;|set $php_version \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i 's|return \"\\d+.\\d+\"|return \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
     end
