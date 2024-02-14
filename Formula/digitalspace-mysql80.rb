@@ -2,7 +2,7 @@ class DigitalspaceMysql80 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "8"
-  revision 1
+  revision 2
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-mysql80"
@@ -295,6 +295,8 @@ class DigitalspaceMysql80 < Formula
     secure_file_priv   = #{mysql_tmp_dir}
     general_log_file   = #{mysql_log_dir}/query.log
     general_log        = 0
+
+    log_bin_trust_function_creators = 1
 
     # * Fine Tuning
     max_allowed_packet    = 512M
