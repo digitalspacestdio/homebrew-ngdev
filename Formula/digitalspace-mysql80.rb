@@ -6,8 +6,7 @@ class DigitalspaceMysql80 < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-mysql80"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "908b5b936dcc647da68ab64280e080ae9d303ee2f3fc9c10bbe12ced0a857702"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e38fe0c232544bc7d807a8c892fc28d6020a42510b0336a5225c4ee408c92b22"
+    sha256 cellar: :any_skip_relocation, sonoma: "9eab954c40c65a8d63328221c83ab0e62974d05da012a1abe18fe10f77df97f0"
   end
 
   depends_on 'mysql@8.0'
