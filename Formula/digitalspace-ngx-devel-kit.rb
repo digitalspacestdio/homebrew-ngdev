@@ -6,9 +6,8 @@ class DigitalspaceNgxDevelKit < Formula
   head "https://github.com/simpl/ngx_devel_kit.git", branch: "master"
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-ngx-devel-kit"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "fb6bd52197153f379fd024bc841fa6af1dfb3d2557124d97cceb4cad67835446"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "91b09bcb1e2c3440f69692a7d16d06c97e5de15fb0394d918528f67688b8eb21"
+    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/digitalspace-ngx-devel-kit"
+    sha256 cellar: :any_skip_relocation, sonoma: "6772710b63beaa9287f4d05f43eed55474ad38733f99759c6487bcdb6c65e837"
   end
 
   revision 2

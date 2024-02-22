@@ -9,6 +9,7 @@ class DigitalspaceLuaRestyCore < Formula
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-lua-resty-core"
     sha256 cellar: :any_skip_relocation, arm64_ventura: "23dfef07d3d2a22ba73b18f48a6d7bcca6d81166830bf3456365fb9b8a867b48"
+    sha256 cellar: :any_skip_relocation, sonoma:        "04008c530020979ca713fd32ec6ce38b536397221f97e5416833268a42da4cac"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "0a67b47119afd1037ce5c9598ef13c8c13115a617a2cdc7b85e5887d54511229"
   end
 

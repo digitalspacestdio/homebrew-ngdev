@@ -11,6 +11,7 @@ class DigitalspaceSupervisor < Formula
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-supervisor"
     sha256 cellar: :any_skip_relocation, arm64_ventura: "2e964dcf66d4cc41dc43752510a64438b635c8337704dfa659e5b4ec36cbc6d7"
+    sha256 cellar: :any_skip_relocation, sonoma:        "d1b19d5453666c367cc652bbc4694ff6b43b900d1d38004bd32f61026797f7f2"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "5e03eb0014e6e66a7eedcc29fc8b40b185ac2d56f5938e5c53cc826761cafdff"
   end
   depends_on "python@3.11"
