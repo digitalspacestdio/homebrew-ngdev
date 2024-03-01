@@ -64,5 +64,7 @@ cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path' | 
 git add .
 git commit -m "bottles update"
 git pull --rebase
+if [[ -z $NO_PUSH ]];  then
 git push
+fi
 cd -
