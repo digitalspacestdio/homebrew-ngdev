@@ -45,19 +45,17 @@ do
             cd ${HOME}/.bottles/$FORMULA.bottle
 
             echo "==> Installing dependencies for $FORMULA ..."
-
-            # while read formulaDep; do
-            #     brew uninstall -f --ignore-dependencies {} || /usr/bin/true
-            # done < <(brew deps --direct $FORMULA | grep $FORMULA)
-
-            # brew deps --direct $FORMULA | grep $FORMULA | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf '--no-run-if-empty'; fi;) -I{} bash -c 'brew uninstall -f --ignore-dependencies {} || /usr/bin/true'
             if brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$" > /dev/null; then
-                if brew deps $(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$") | grep -v $FORMULA > /dev/null; then
-                    DEPS=$(brew deps $(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$") | grep -v $FORMULA)
-                    echo -e "\033[33m==> Installing dependencies ($DEPS) for $FORMULA ..."
-                    echo -e "\033[0m"
-                    brew install -s --quiet $DEPS
-                fi
+                DEPS=$(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$")
+                echo -e "\033[33m==> Installing dependencies ($DEPS) for $FORMULA ..."
+                echo -e "\033[0m"
+                brew install --quiet $DEPS
+                # if brew deps $(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$") | grep -v $FORMULA"$" > /dev/null; then
+                #     DEPS=$(brew deps $(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$") | grep -v $FORMULA"$")
+                #     echo -e "\033[33m==> Installing dependencies ($DEPS) for $FORMULA ..."
+                #     echo -e "\033[0m"
+                #     brew install -s --quiet $DEPS
+                # fi
             fi
 
             echo "==> Building bottles for $FORMULA ..."
