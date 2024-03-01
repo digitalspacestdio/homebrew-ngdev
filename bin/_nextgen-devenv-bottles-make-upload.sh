@@ -14,8 +14,7 @@ export FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$FORMULAS" | md5sum | awk '{ print $
 
 if [[ -f "/tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp" ]]; then
     read -r -p "A previous incomplete run was found, do you want to continue it? [Y/n] " response
-    response=${response,,}    # tolower
-    if [[ "$response" =~ ^(no|n)$ ]]; then
+    if ! [[ "$response" =~ ^(yes|y)$ ]]; then
         echo '' > /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
     fi
 else 
