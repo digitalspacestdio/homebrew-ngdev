@@ -22,7 +22,6 @@ for ARG in "$@"
 do
     FORMULAS=$(brew search digitalspacestdio/nextgen-devenv | grep "\($ARG\|$ARG@[0-9]\+\)\$" | awk -F'/' '{ print $3 }' | sort)
 
-    if [[ -n "$FORMULAS" ]]; then
     echo "==> Next formulas found:"
     echo -e "\033[33m==> The following formulas are matched:\033[0m"
     echo "$FORMULAS"
