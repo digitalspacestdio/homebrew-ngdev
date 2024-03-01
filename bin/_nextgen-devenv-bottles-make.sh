@@ -56,7 +56,7 @@ do
                     DEPS=$(brew deps $(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$") | grep -v $FORMULA)
                     echo -e "\033[33m==> Installing dependencies ($DEPS) for $FORMULA ..."
                     echo -e "\033[0m"
-                    brew install --quiet $DEPS
+                    brew install -s --quiet $DEPS
                 fi
             fi
 
