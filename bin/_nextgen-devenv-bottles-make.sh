@@ -9,6 +9,7 @@ fi
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
 brew tap digitalspacestdio/nextgen-devenv
 #cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path')
 #git stash
