@@ -147,7 +147,7 @@ class DigitalspaceTraefik < Formula
 
     [http.routers]
       [http.routers.dev_com]
-        rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.dev.com`)"
+        rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.dev.com`, `{subsubdomain:[a-z0-9-]+}.{subdomain:[a-z0-9-]+}.dev.com`)"
         priority = 100
         service = "digitalspace-nginx"
         entryPoints = ["default"]
@@ -158,7 +158,7 @@ class DigitalspaceTraefik < Formula
         main = "*.dev.com"
 
       [http.routers.loc_com]
-        rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.loc.com`)"
+        rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.loc.com`, `{subsubdomain:[a-z0-9-]+}.{subdomain:[a-z0-9-]+}.loc.com`)"
         priority = 110
         service = "digitalspace-nginx"
         entryPoints = ["default"]
@@ -170,7 +170,7 @@ class DigitalspaceTraefik < Formula
 
 
       [http.routers.dev_local]
-        rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.dev.local`)"
+        rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.dev.local`, `{subsubdomain:[a-z0-9-]+}.{subdomain:[a-z0-9-]+}.dev.local`)"
         priority = 120
         service = "digitalspace-nginx"
         entryPoints = ["default"]
