@@ -22,7 +22,6 @@ do
     echo -e "\033[33m==> The following formulas are matched:\033[0m"
     echo "$FORMULAS"
 
-    set -x
     for FORMULA in $FORMULAS; do
         echo -e "\033[33m==> Installing dependencies:\033[0m"
         echo "$FORMULA"
@@ -33,8 +32,6 @@ do
             fi
         done
     done
-    set +x
-
     
     sleep 5
     for FORMULA in $FORMULAS; do

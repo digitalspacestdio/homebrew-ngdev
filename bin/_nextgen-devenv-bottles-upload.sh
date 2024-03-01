@@ -30,7 +30,6 @@ do
             JSON_FORMULA_NAME=$(jq -r '.[].formula.name' "$jsonfile" | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
             if ! [[ -z $JSON_FORMULA_NAME ]]; then
                 mergedfile=$(jq -r '.["digitalspacestdio/nextgen-devenv/'$JSON_FORMULA_NAME'"].formula.name + "-" + ."digitalspacestdio/nextgen-devenv/'$JSON_FORMULA_NAME'".formula.pkg_version + ".json"' "$jsonfile" | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
-                set -x
                 while read tgzName; do
                     if [[ -f "$tgzName" ]]; then
                         s3cmd info "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$tgzName" >/dev/null 2>&1 && {
@@ -39,8 +38,7 @@ do
                         s3cmd put "$tgzName" "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$tgzName"
                     fi
                 done < <(jq -r '."digitalspacestdio/nextgen-devenv/'$JSON_FORMULA_NAME'".bottle.tags[].filename' "$jsonfile" | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
-                set +x
-                s3cmd info "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$mergedfile" >/dev/null && {
+                s3cmd info "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$mergedfile" >/dev/null 2>&1 && {
                     s3cmd get "s3://homebrew-bottles/nextgen-devenv/$FORMULA/$mergedfile" "$mergedfile".src
                     if [[ "object" != $(cat "$mergedfile".src| jq -r type | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;') ]]; then
                         cp "$jsonfile" "$mergedfile".src
