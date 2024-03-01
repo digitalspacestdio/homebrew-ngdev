@@ -18,7 +18,7 @@ done
 
 
 if [[ -z $NO_UPLOAD ]];  then
-    echo $(cat /tmp/.nextgen-devenv_bottles_created_.tmp) | xargs ./_nextgen-devenv-bottles-upload.sh
+    ./_nextgen-devenv-bottles-upload.sh $(cat /tmp/.nextgen-devenv_bottles_created_.tmp)
 fi
 
 rm /tmp/.nextgen-devenv_bottles_created_.tmp
