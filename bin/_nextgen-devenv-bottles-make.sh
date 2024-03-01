@@ -11,9 +11,8 @@ export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
 brew tap digitalspacestdio/nextgen-devenv
-#cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path')
-#git stash
-#git pull
+
+FORMULAS_MD5=${FORMULAS_MD5:-$(md5sum "$@" | awk '{ print $1 }')}
 
 for ARG in "$@"
 do
@@ -25,11 +24,12 @@ do
 
     set -x
     for FORMULA in $FORMULAS; do
-        echo "--> Building dependencies for: $FORMULA"
+        echo -e "\033[33m==> Installing dependencies:\033[0m"
+        echo "$FORMULA"
         for DEP in $(brew deps --full --direct $FORMULA | grep 'digitalspacestdio/nextgen-devenv'); do
-            if ! grep "$DEP$" /tmp/.nextgen-devenv_bottles_created_.tmp; then
+            if ! grep "$DEP$" /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp; then
                 ${DIR}/_nextgen-devenv-bottles-make.sh $
-                echo $DEP >> /tmp/.nextgen-devenv_bottles_created_.tmp
+                echo $DEP >> /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
             fi
         done
     done
@@ -38,13 +38,12 @@ do
     
     sleep 5
     for FORMULA in $FORMULAS; do
-        if ! grep "$FORMULA$" /tmp/.nextgen-devenv_bottles_created_.tmp; then
+        if ! grep "$FORMULA$" /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp; then
             echo -e "\033[33m==> Creating bottles for $FORMULA ...\033[0m"
             rm -rf ${HOME}/.bottles/$FORMULA.bottle
             mkdir -p ${HOME}/.bottles/$FORMULA.bottle
             cd ${HOME}/.bottles/$FORMULA.bottle
 
-            echo "==> Installing dependencies for $FORMULA ..."
             if brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$" > /dev/null; then
                 DEPS=$(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$")
                 echo -e "\033[33m==> Installing dependencies ($DEPS) for $FORMULA ..."
@@ -71,7 +70,7 @@ do
             ls | grep $FORMULA'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
             cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path')
 
-            echo $FORMULA >> /tmp/.nextgen-devenv_bottles_created_.tmp
+            echo $FORMULA >> /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
         fi
     done
 done

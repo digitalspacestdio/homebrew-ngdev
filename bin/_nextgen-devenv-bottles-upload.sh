@@ -14,6 +14,8 @@ cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path' | 
 git stash
 git pull
 
+FORMULAS_MD5=${FORMULAS_MD5:-$(md5sum "$@" | awk '{ print $1 }')}
+
 for ARG in "$@"
 do
     FORMULAS=$(brew search digitalspacestdio/nextgen-devenv | grep "\($ARG\|$ARG@[0-9]\+\)\$" | awk -F'/' '{ print $3 }' | sort)
