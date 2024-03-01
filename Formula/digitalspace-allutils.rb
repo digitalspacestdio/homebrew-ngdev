@@ -1,7 +1,7 @@
 class DigitalspaceAllutils < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.0"
+  version "0.1.1"
 
   depends_on "coreutils"
   depends_on "moreutils"
@@ -14,6 +14,7 @@ class DigitalspaceAllutils < Formula
   depends_on "s3cmd"
   depends_on "jenv"
   depends_on "nvm"
+  depends_on "vim"
   
 
   def install
