@@ -7,7 +7,7 @@ class DigitalspaceGitSsh < Formula
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-git-ssh"
     sha256 cellar: :any_skip_relocation, arm64_ventura: "77368afe5f45aafb7685fe7d6820799123dc66694db4d9a058c6e7f13b03ee05"
-    sha256 cellar: :any_skip_relocation, sonoma:        "650942207cd120da41a721264387b00f07dffbd34dfe6c4ff95639bf3521853c"
+    sha256 cellar: :any_skip_relocation, sonoma:        "9ff51a3e7d3aae199a1100354cf44752025522cfb118079e95d0c159205b2a19"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "3ab978886c72830621c236e342c29a196853d2e703c83ea9f27c9d295d7dc0c2"
   end
 

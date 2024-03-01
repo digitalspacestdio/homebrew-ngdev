@@ -9,7 +9,7 @@ class DigitalspaceAcmeDns < Formula
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-acme-dns"
     sha256 cellar: :any_skip_relocation, arm64_ventura: "246106412665c97c03587f3ce17132674445fd9616b607e1ddca619053acb63e"
-    sha256 cellar: :any_skip_relocation, sonoma:        "459dc2907766d54019f5013f4aaa07f1464a642ad1ba8b0f6c5655c5abec247b"
+    sha256 cellar: :any_skip_relocation, sonoma:        "4d2400837c8ee2809c37213202426410f57386dc3b3222bfb5713d1872354a3a"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "825f1b25c2941dcb140d4798d25873e04d22c8b28b8dd8132e5b3c59804ac189"
   end
 

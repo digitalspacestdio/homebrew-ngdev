@@ -7,7 +7,7 @@ class DigitalspacePostgresql15 < Formula
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-postgresql15"
     sha256 cellar: :any_skip_relocation, arm64_ventura: "4423e9ef9a6ba2bfa786356a31c44a05ddfc2a2da630b55277ec13d15f2f2284"
-    sha256 cellar: :any_skip_relocation, sonoma:        "f7d5c27655ffcd98b57fcb9fea3bc44461644b7e35fe6600c8e05dbeaf73bd41"
+    sha256 cellar: :any_skip_relocation, sonoma:        "76cb9686a9c0346605976f1f300bf6146c2d03c37af896b18549f69e58656d11"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "5e9d9a59257f8c6509f40be6eefed343c93ef5882e21e41d1d8acac3b46cd0a4"
   end
 
