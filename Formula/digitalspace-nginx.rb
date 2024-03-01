@@ -368,12 +368,6 @@ class DigitalspaceNginx < Formula
           rewrite ^(.*.php)/ $1 last;
       }
       
-      set $auto_prepend_file '';
-      
-      if ($cookie_xdebug_profile != "") {
-          set $auto_prepend_file #{HOMEBREW_PREFIX}/opt/xhgui/external/header.php;
-      }
-      
       set $fcgi_https $https;
       
       if ($http_x_forwarded_proto = "https") {
@@ -455,7 +449,6 @@ class DigitalspaceNginx < Formula
           fastcgi_param                   MAGE_IS_DEVELOPER_MODE true;
           fastcgi_param                   SERVER_NAME $host;
           fastcgi_param                   HTTPS $fcgi_https;
-          fastcgi_param                   PHP_VALUE "auto_prepend_file=$auto_prepend_file";
       }
       EOS
 rescue StandardError
