@@ -10,7 +10,7 @@ else
     FORMULAS=$(brew search digitalspacestdio/nextgen-devenv | grep "$1\|$1@[0-9]\+" | awk -F'/' '{ print $3 }' | sort)
 fi
 
-FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$FORMULAS" | md5sum | awk '{ print $1 }')}
+export FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$FORMULAS" | md5sum | awk '{ print $1 }')}
 
 if [[ -f "/tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp" ]]; then
     read -r -p "A previous incomplete run was found, do you want to continue it? [Y/n] " response
