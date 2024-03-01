@@ -17,7 +17,7 @@ class DigitalspaceAllutils < Formula
   
 
   def install
-    (buildpath / ".keepme").write("")
-    prefix.install ".keepme"
+    (buildpath / "keepme.txt").write("")
+    prefix.install "keepme.txt"
   end
 end
