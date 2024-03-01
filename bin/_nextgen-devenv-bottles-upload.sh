@@ -16,7 +16,7 @@ git pull
 
 FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$FORMULAS" | md5sum | awk '{ print $1 }')}
 if ! [[ -f "/tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp" ]]; then
-    echo '' > /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
+    echo -n '' > /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
 fi
 
 for ARG in "$@"

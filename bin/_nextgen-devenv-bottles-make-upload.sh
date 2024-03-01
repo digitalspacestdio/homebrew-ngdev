@@ -12,13 +12,13 @@ fi
 
 export FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$FORMULAS" | md5sum | awk '{ print $1 }')}
 
-if [[ -f "/tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp" ]]; then
+if [[ -f "/tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp" ]] && [[ $(cat /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp | wc -l) -gt 0 ]]; then
     read -r -p "A previous incomplete run was found, do you want to continue it? [Y/n] " response
     if [[ "$response" =~ ^(no|n)$ ]]; then
-        echo '' > /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
+        echo -n '' > /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
     fi
 else 
-    echo '' > /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
+    echo -n '' > /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
 fi
 
 for FORMULA in $FORMULAS; do
