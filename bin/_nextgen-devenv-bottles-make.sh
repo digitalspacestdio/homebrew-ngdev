@@ -12,7 +12,7 @@ export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
 brew tap digitalspacestdio/nextgen-devenv
 
-FORMULAS_MD5=${FORMULAS_MD5:-$(md5sum "$@" | awk '{ print $1 }')}
+FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$@" | md5sum | awk '{ print $1 }')}
 
 for ARG in "$@"
 do
