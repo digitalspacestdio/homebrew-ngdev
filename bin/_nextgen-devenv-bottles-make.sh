@@ -22,6 +22,7 @@ for ARG in "$@"
 do
     FORMULAS=$(brew search digitalspacestdio/nextgen-devenv | grep "\($ARG\|$ARG@[0-9]\+\)\$" | awk -F'/' '{ print $3 }' | sort)
 
+    if [[ -n "$FORMULAS" ]]; then
     echo "==> Next formulas found:"
     echo -e "\033[33m==> The following formulas are matched:\033[0m"
     echo "$FORMULAS"
@@ -31,13 +32,13 @@ do
         echo "$FORMULA"
         for DEP in $(brew deps --full --direct $FORMULA | grep 'digitalspacestdio/nextgen-devenv'); do
             if ! grep "$DEP$" /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp; then
-                ${DIR}/_nextgen-devenv-bottles-make.sh $
+                ${DIR}/_nextgen-devenv-bottles-make.sh $DEP
                 echo $DEP >> /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
             fi
         done
     done
     
-    sleep 5
+    sleep 1
     for FORMULA in $FORMULAS; do
         if ! grep "$FORMULA$" /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp; then
             echo -e "\033[33m==> Creating bottles for $FORMULA ...\033[0m"
@@ -49,13 +50,11 @@ do
                 DEPS=$(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$")
                 echo -e "\033[33m==> Installing dependencies ($DEPS) for $FORMULA ..."
                 echo -e "\033[0m"
-                brew install --quiet $DEPS
-                # if brew deps $(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$") | grep -v $FORMULA"$" > /dev/null; then
-                #     DEPS=$(brew deps $(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$") | grep -v $FORMULA"$")
-                #     echo -e "\033[33m==> Installing dependencies ($DEPS) for $FORMULA ..."
-                #     echo -e "\033[0m"
-                #     brew install -s --quiet $DEPS
-                # fi
+                if echo $DEPS | grep 'digitalspacestdio/nextgen-devenv'; then
+                    brew install -s --quiet $DEPS
+                else
+                    brew install --quiet $DEPS
+                fi
             fi
 
             echo "==> Building bottles for $FORMULA ..."
