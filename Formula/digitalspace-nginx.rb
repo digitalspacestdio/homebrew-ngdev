@@ -705,9 +705,9 @@ end
     (var/"log/digitalspace-nginx").mkpath
 
     inreplace etc / "digitalspace-nginx" / "nginx.conf" do |s|
-      s.gsub! (/^worker_rlimit_nofile=.*\n/, "")
-      s.gsub! (/^worker_processes=.*/, "worker_processes auto;\nworker_rlimit_nofile 16384")
-      s.gsub! ("listen       80;", "listen       1984;")
+      s.gsub!(/^worker_rlimit_nofile=.*\n/, "")
+      s.gsub!(/^worker_processes=.*/, "worker_processes auto;\nworker_rlimit_nofile 16384")
+      s.gsub!("listen       80;", "listen       1984;")
     end
   end
 
