@@ -674,10 +674,16 @@ end
 
     default_php_version = `$(brew list 2>/dev/null | grep -o 'php[0-9]\\{2,\\}$' | sort | tail -1) --version 2>/dev/null | grep -o '^PHP \\d\\+.\\d\\+.\\d\\+' 2>/dev/null | grep -o '\\d\\+.\\d\\+' 2>/dev/null | awk -F. '{ print $1"."$2 }'`
     if OS.mac?
+      system "sed -i '' '\\|^worker_rlimit_nofile.*|d' #{etc}/digitalspace-nginx/nginx.conf"
+      system "sed -i '' 's|^worker_processes.*|worker_processes auto;\\nworker_rlimit_nofile 16384;|g' #{etc}/digitalspace-nginx/nginx.conf"
+
       system "sed -i '' 's|/var/www|'$HOME'/www|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i '' 's|set $php_version.*;|set $php_version \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i '' 's|return \"\\d+.\\d+\"|return \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
     else
+      system "sed -i '\\|^worker_rlimit_nofile.*|d' #{etc}/digitalspace-nginx/nginx.conf"
+      system "sed -i 's|^worker_processes.*|worker_processes auto;\\nworker_rlimit_nofile 16384;|g' #{etc}/digitalspace-nginx/nginx.conf"
+
       system "sed -i 's|/var/www|'$HOME'/www|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i 's|/home/linuxbrew/www|'$HOME'/www|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i 's|set $php_version.*;|set $php_version \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
@@ -703,12 +709,6 @@ end
 
     (var/"run/digitalspace-nginx").mkpath
     (var/"log/digitalspace-nginx").mkpath
-
-    inreplace etc / "digitalspace-nginx" / "nginx.conf" do |s|
-      s.gsub!(/^worker_rlimit_nofile=.*\n/, "")
-      s.gsub!(/^worker_processes=.*/, "worker_processes auto;\nworker_rlimit_nofile 16384")
-      s.gsub!("listen       80;", "listen       1984;")
-    end
   end
 
   def passenger_caveats
