@@ -521,7 +521,6 @@ end
     inreplace "conf/nginx.conf" do |s|
       s.gsub! "http {", "http {\n    lua_package_path '#{Formula["digitalspace-openresty"].opt_prefix}/lualib/?.lua;;';"
       
-      s.gsub! /^worker_processes=.*/, "worker_processes auto;\nworker_rlimit_nofile 16384"
       s.gsub! "listen       80;", "listen       1984;"
       s.gsub! "    #}\n\n}", "    #}\n    include conf.d/*;\n    include servers/*;\n    include servers_custom/*;\n}"
 
