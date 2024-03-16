@@ -12,6 +12,8 @@ macOS/Linux/Windows 10 LEMP (NGINX/PHP/MySql) Development Environment
 1. Add the homebrew taps
 ```bash
 brew tap digitalspacestdio/nextgen-devenv
+```
+```bash
 brew tap digitalspacestdio/php
 ```
 
