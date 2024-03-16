@@ -8,6 +8,9 @@ macOS/Linux/Windows 10 LEMP (NGINX/PHP/MySql) Development Environment
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+```bash
+(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/m1/.zprofile && eval "$(/opt/homebrew/bin/brew shellenv)"
+```
 
 1. Add the homebrew taps
 ```bash
