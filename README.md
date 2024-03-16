@@ -4,7 +4,10 @@ macOS/Linux/Windows 10 LEMP (NGINX/PHP/MySql) Development Environment
 
 
 ### Installation
-0. Install Homebrew by following official guide [https://brew.sh/](https://brew.sh/)
+0. Install Homebrew
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
 1. Add the homebrew taps
 ```bash
