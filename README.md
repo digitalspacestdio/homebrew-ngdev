@@ -54,7 +54,7 @@ sudo $(which digitalspace-supervisor-start)
 
 8. Check the services status
 ```bash
-digitalspace-supctl
+digitalspace-supctl status
 ```
 9. Create your first project
 
