@@ -9,7 +9,9 @@ macOS/Linux/Windows 10 LEMP (NGINX/PHP/MySql) Development Environment
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 ```bash
-BREW_BIN=$(find /opt/homebrew/bin /usr/local/bin /home/linuxbrew/.linuxbrew/bin -name "brew" 2> /dev/null); (echo; echo 'eval "$(${BREW_BIN} shellenv)"') >> $HOME/.zprofile; eval "$(${BREW_BIN} shellenv)"
+BREW_BIN=$(find /opt/homebrew/bin /usr/local/bin /home/linuxbrew/.linuxbrew/bin -name "brew" 2> /dev/null) \
+&& (echo; echo 'eval "$(${BREW_BIN} shellenv)"') | tee -a $HOME/.zprofile | tee -a $HOME/.bashrc \
+&& eval "$(${BREW_BIN} shellenv)"
 ```
 
 1. Add the homebrew taps
