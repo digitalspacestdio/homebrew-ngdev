@@ -27,15 +27,13 @@ brew tap digitalspacestdio/php
 ```bash
 brew install digitalspace-dnsmasq digitalspace-nginx digitalspace-traefik digitalspace-supervisor
 ```
-### 3. Install mysql (optional)
+
+### 4. Install Several PHP Versions (optional)
 ```bash
-brew install digitalspace-mysql80
+brew install php82-common php74-common php56-common
 ```
-### 4. Install PHPs (optional)
-```bash
-brew install php83-common php82-common php74-common
-```
-> you can select only the formulas you need
+> you can select any of version you need just by changing the name to phpXX-common, where XX is the first two numbers of the php version without dots
+> next versions available (mac: intel, arm64; linux: x86_64): 8.3, 8.2, 8.1, 8.0, 7.4, 7.3, 7.2, 7.1, 7.0, 5.6
 
 ### 5. Install the root certificat to the system
 #### Macos
@@ -59,16 +57,16 @@ sudo update-ca-certificates
 sudo $(which digitalspace-dnsmasq-start)
 ```
 
-### 7. Start the supervisor
+### 7. Start the supervisor service
 ```bash
 digitalspace-supervisor-start
 ```
 
-### 8. Check the services status
+### 8. Verify that Supervisor services started successfully
 ```bash
 digitalspace-supctl status
 ```
-### 9. Create your first project
+### 9. Creating the example project
 
 Create the project dir
 ```bash
