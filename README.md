@@ -71,7 +71,7 @@ sudo update-ca-certificates
 
 ### 6. Enable and Start Dnsmasq Service
 ```bash
-sudo $(which digitalspace-dnsmasq-start)
+digitalspace-dnsmasq-start
 ```
 
 ### 7. Enable and Start Supervisor Service
