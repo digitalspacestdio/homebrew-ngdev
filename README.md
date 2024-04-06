@@ -16,7 +16,7 @@ BREW_BIN=$(find /opt/homebrew/bin /usr/local/bin /home/linuxbrew/.linuxbrew/bin 
 && eval "$(${BREW_BIN} shellenv)"
 ```
 
-### 1. Add the homebrew taps
+### 1. Add Homebrew Taps
 ```bash
 brew tap digitalspacestdio/nextgen-devenv
 ```
@@ -29,14 +29,14 @@ brew tap digitalspacestdio/php
 brew install digitalspace-supervisor digitalspace-nginx digitalspace-traefik digitalspace-dnsmasq
 ```
 
-### 3. Install Needed PHP Versions (optional)
+### 3. Install PHP (You need install at least one version)
 ```bash
 brew install php82-common php74-common php56-common
 ```
-> you can select any of version you need just by changing the name to `phpXX-common`, where XX is the first two numbers of the php version without dots
-> next versions available (mac: intel, arm64; linux: x86_64): `8.3`, `8.2`, `8.1`, `8.0`, `7.4`, `7.3`, `7.2`, `7.1`, `7.0`, `5.6`
+> select any of version you need just by changing the name to `phpXX-common`, where XX is the first two numbers of the php version without dots
+> available versions (mac: intel, arm64; linux: x86_64): `8.3`, `8.2`, `8.1`, `8.0`, `7.4`, `7.3`, `7.2`, `7.1`, `7.0`, `5.6`
 
-### 4. Install Composer  (optional)
+### 4. Install Composer (optional)
 ```bash
 brew install composer@2
 ```
@@ -69,12 +69,12 @@ sudo update-ca-certificates
 > If you want re-generate the root certificate you need to remove certificates folder by following command: `rm -rf $(brew --prefix)/etc/openssl/localCA`
 > and resinstall the `digitalspace-local-ca` formula: `brew uninstall --ignore-dependencies digitalspace-local-ca && brew install digitalspace-local-ca`
 
-### 6. Enable and Start Dnsmasq Service
+### 6. Enable/Start Dnsmasq Service
 ```bash
 digitalspace-dnsmasq-start
 ```
 
-### 7. Enable and Start Supervisor Service
+### 7. Enable/Start Supervisor Service
 ```bash
 digitalspace-supervisor-start
 ```
@@ -85,15 +85,16 @@ digitalspace-supctl status
 ```
 ### 9. Creating an Example Project
 
-Create the project dir
+Create the new project dir in following path: `~/www/dev/hello/%2nd_level_domain%/%3rd_level_domain%`
 ```bash
 mkdir -p ~/www/dev/hello
 ```
+> By default dns and web-server configured for domains in the `.dev.local` pool 
 
 Create index.php
 ```bash
 echo '<?php phpinfo();' > ~/www/dev/hello/index.php
 ```
 
-Opein in browser `https://hello.dev.local/`
+Opein `https://hello.dev.local/` in your browser and check the result.
 
