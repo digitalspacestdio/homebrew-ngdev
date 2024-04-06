@@ -29,7 +29,7 @@ brew tap digitalspacestdio/php
 brew install digitalspace-supervisor digitalspace-nginx digitalspace-traefik digitalspace-dnsmasq
 ```
 
-### 3. Install PHP (You need install at least one version)
+### 3. Install PHP (You need at least one)
 ```bash
 brew install php82-common php74-common php56-common
 ```
