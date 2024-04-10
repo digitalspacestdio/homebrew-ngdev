@@ -4,11 +4,6 @@ class DigitalspaceMysql57 < Formula
   version "8"
   revision 2
 
-  bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-mysql57"
-    sha256 cellar: :any_skip_relocation, sonoma: "906c3b6005e8a3299f21956ce4c2d333dd25f7725e323fbcfe793106bad39a14"
-  end
-
   depends_on 'mysql@5.7'
 
   def mysql_listen_address
