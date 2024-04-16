@@ -280,6 +280,7 @@ class DigitalspaceMysql80 < Formula
     nice               = 0
 
     [mysqld]
+    disable_log_bin
     default-authentication-plugin = mysql_native_password
     user               = #{ENV['USER']}
     pid-file           = #{var}/run/mysqld80.pid
