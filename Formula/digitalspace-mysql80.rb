@@ -281,7 +281,10 @@ class DigitalspaceMysql80 < Formula
 
     [mysqld]
     disable_log_bin
+    binlog_expire_logs_seconds = 3600
     default-authentication-plugin = mysql_native_password
+    explicit_defaults_for_timestamp = 1
+
     user               = #{ENV['USER']}
     pid-file           = #{var}/run/mysqld80.pid
     socket             = #{var}/run/mysqld80.sock
@@ -291,7 +294,6 @@ class DigitalspaceMysql80 < Formula
     tmpdir             = #{mysql_tmp_dir}
     lc-messages-dir    = #{mysql_base_dir}/share/mysql
     bind-address       = #{mysql_listen_address}
-    explicit_defaults_for_timestamp = 1
 
     secure_file_priv   = #{mysql_tmp_dir}
     general_log_file   = #{mysql_log_dir}/query.log
