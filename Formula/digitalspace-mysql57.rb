@@ -312,6 +312,7 @@ class DigitalspaceMysql57 < Formula
     max_heap_table_size   = 256M
     log_error             = #{mysql_log_dir}/error.log
 
+    innodb_doublewrite              = 0
     innodb_file_per_table           = 1
     innodb_thread_concurrency       = 8
     innodb_lock_wait_timeout        = 300

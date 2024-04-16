@@ -314,6 +314,7 @@ class DigitalspaceMysql80 < Formula
     log_error             = #{mysql_log_dir}/error.log
     expire_logs_days      = 7
 
+    innodb_doublewrite              = 0
     innodb_file_per_table           = 1
     innodb_thread_concurrency       = 8
     innodb_lock_wait_timeout        = 300
