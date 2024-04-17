@@ -12,7 +12,7 @@ class DigitalspaceMailhog < Formula
   end
 
   depends_on "mailhog"
-  depends_on "msmtprc"
+  depends_on "msmtp"
 
   def mailhog_msmtprc_config
     <<~EOS
