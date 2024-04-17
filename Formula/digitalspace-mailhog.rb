@@ -16,7 +16,7 @@ class DigitalspaceMailhog < Formula
 
   def mailhog_msmtprc_config
     <<~EOS
-    account mailhog
+    account default
     tls off
     tls_certcheck off
     auth off
@@ -43,7 +43,7 @@ class DigitalspaceMailhog < Formula
 
     (buildpath / "bin" / "digitalspace-mailhog").write(mailhog_wrapper_script)
     (buildpath / "bin" / "digitalspace-mailhog").chmod(0755)
-    
+
     bin.install "bin/digitalspace-mailhog"
   end
 
