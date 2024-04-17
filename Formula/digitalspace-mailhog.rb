@@ -20,7 +20,7 @@ class DigitalspaceMailhog < Formula
     tls off
     tls_certcheck off
     auth off
-    host mail
+    host 127.0.0.1
     port 1025
     from www-data@localhost
     EOS
