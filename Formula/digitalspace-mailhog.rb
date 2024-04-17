@@ -12,6 +12,21 @@ class DigitalspaceMailhog < Formula
   end
 
   depends_on "mailhog"
+  depends_on "msmtprc"
+
+  def mailhog_msmtprc_config
+    <<~EOS
+    account mailhog
+    tls off
+    tls_certcheck off
+    auth off
+    host mail
+    port 1025
+    from www-data@localhost
+    EOS
+  rescue StandardError
+      nil
+  end
 
   def mailhog_wrapper_script
     <<~EOS
@@ -23,8 +38,12 @@ class DigitalspaceMailhog < Formula
   end
 
   def install
+    (etc / ".msmtprc ").write(mailhog_msmtprc_config)
+    (etc / ".msmtprc ").chmod(0644)
+
     (buildpath / "bin" / "digitalspace-mailhog").write(mailhog_wrapper_script)
     (buildpath / "bin" / "digitalspace-mailhog").chmod(0755)
+    
     bin.install "bin/digitalspace-mailhog"
   end
 
