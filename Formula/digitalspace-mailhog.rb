@@ -61,8 +61,10 @@ class DigitalspaceMailhog < Formula
   end
 
   def post_install
-    (etc / ".msmtprc").write(mailhog_msmtprc_config)
-    (etc / ".msmtprc").chmod(0644)
+    if !(etc / ".msmtprc").exist?
+      (etc / ".msmtprc").write(mailhog_msmtprc_config)
+      (etc / ".msmtprc").chmod(0644)
+    end
 
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"mailhog.ini").delete if (etc/"digitalspace-supervisor.d"/"mailhog.ini").exist?
