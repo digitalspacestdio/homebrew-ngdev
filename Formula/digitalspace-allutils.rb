@@ -11,6 +11,7 @@ class DigitalspaceAllutils < Formula
   depends_on "coreutils"
   depends_on "moreutils"
   depends_on "gettext"
+  depends_on "gnu-tar"
   depends_on "mtr"
   depends_on "htop"
   depends_on "jq"
@@ -18,7 +19,6 @@ class DigitalspaceAllutils < Formula
   depends_on "pv"
   depends_on "s3cmd"
   depends_on "jenv"
-  depends_on "nvm"
   depends_on "vim"
   
 
