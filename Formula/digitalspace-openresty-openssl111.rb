@@ -4,10 +4,11 @@ class DigitalspaceOpenrestyOpenssl111 < Formula
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-openresty-openssl111"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "61aede217e50039027b56896642a79eb0c66001d2a9aa6c659acaaab4304e5d4"
-    sha256 cellar: :any_skip_relocation, sonoma:        "181a38b027ffc8ae5b83c5a5c1e3582120d9b312edf72adab4906e926f56ab5b"
-    sha256 cellar: :any_skip_relocation, monterey:      "c7af88e82947c263f8a02e2ef171fa5371c1f3cda44198dfadd3df46f2e97d22"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "dd662a6b33cef19fe7ecd07bdf774bce87bf4073e424eaddc0ae4d3b696f0579"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "61aede217e50039027b56896642a79eb0c66001d2a9aa6c659acaaab4304e5d4"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "ded0a21f56ace183202f0d2a3261a998a2ec9bb04525fc9fa3ef58a383fe5fac"
+    sha256 cellar: :any_skip_relocation, sonoma:         "181a38b027ffc8ae5b83c5a5c1e3582120d9b312edf72adab4906e926f56ab5b"
+    sha256 cellar: :any_skip_relocation, monterey:       "c7af88e82947c263f8a02e2ef171fa5371c1f3cda44198dfadd3df46f2e97d22"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dd662a6b33cef19fe7ecd07bdf774bce87bf4073e424eaddc0ae4d3b696f0579"
   end
   VERSION = "1.1.1n".freeze
   revision 2
