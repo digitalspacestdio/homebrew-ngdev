@@ -13,6 +13,7 @@ class DigitalspaceNginx < Formula
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-nginx"
     sha256 cellar: :any_skip_relocation, sonoma:       "6818c1b83b2508d7247ee6f59470805e65709cc7f006a7a77c3846895cbb2943"
+    sha256 cellar: :any_skip_relocation, monterey:     "165240d6dbf4785595713273334f64d9dc96df4782580f6dc7d5fefa8a160dd5"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "97c467eaf3a757ca26c43c222b3870927cb23fbe0b4e1c9d63e9000d9c49617d"
   end
 
