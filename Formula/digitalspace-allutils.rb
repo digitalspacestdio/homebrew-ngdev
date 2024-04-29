@@ -20,6 +20,8 @@ class DigitalspaceAllutils < Formula
   depends_on "jenv"
   depends_on "nvm"
   depends_on "vim"
+  depends_on "watch"
+  depends_on "flock"
   
 
   def install
