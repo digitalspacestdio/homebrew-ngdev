@@ -29,7 +29,7 @@ brew tap digitalspacestdio/php
 
 ### 4. Install Base Packages
 ```bash
-brew install digitalspace-supervisor digitalspace-nginx digitalspace-traefik digitalspace-dnsmasq
+brew install digitalspace-supervisor digitalspace-nginx digitalspace-traefik digitalspace-dnsmasq digitalspace-allutils
 ```
 
 ### 5. Install PHP
