@@ -1,7 +1,7 @@
 class DigitalspaceTraefik < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.3"
+  version "0.1.4"
 
   bottle do
     root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-traefik"
@@ -10,7 +10,7 @@ class DigitalspaceTraefik < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "2d9d1c2103354596178d421f47edcd2c43c363199b726aa734c2f9ed63a9809e"
   end
 
-  depends_on "traefik"
+  depends_on "traefik@2"
   depends_on "digitalspace-local-ca"
 
   def traefik_main_config
@@ -203,7 +203,7 @@ class DigitalspaceTraefik < Formula
       #!/usr/bin/env bash
       set -e
       
-      exec #{Formula["traefik"].opt_bin}/traefik "$@"
+      exec #{Formula["traefik@2"].opt_bin}/traefik "$@"
     EOS
   rescue StandardError
       nil
