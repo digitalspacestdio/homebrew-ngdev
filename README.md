@@ -3,14 +3,22 @@ LEMP (NGINX/PHP/MySql) Development Environment
 
 Supported OS: **macOS** (Intel, Apple Silicon), **Linux** (x86_64), **Windows 10/11** (x86_64) over WSL2  
 Supported PHP: **8.3**, **8.2**, **8.1**, **8.0**, **7.4**, **7.3**, **7.2**, **7.1**, **7.0**, **5.6**  
-Supported CMS and Frameworks: **Symfony**, **Laravel**, **Yii v1/v2**, **Magento v1/v2**, **OroCommerce/OroCRM/OroPlatform**, **AkeneoPIM**, **Wordpress**, and more
+Supported CMS and Frameworks: **Symfony**, **Laravel**, **Yii v1|v2**, **Magento v1|v2**, **OroCommerce|OroCRM|OroPlatform**, **AkeneoPIM**, **Wordpress**, and more
 
 ## Installation
 ### 1. Install Base Tools
 - Macos: `xcode-select --install`
-- Linux (Debian based): `sudo apt install -yq curl git patch systemtap-sdt-dev python3 build-essential tar`
-- Linux (OpenSUSE 15+): `sudo zypper install curl git patch systemtap-sdt-devel python3 tar` or `sudo transactional-update pkg install curl git patch systemtap-sdt-devel python3 gcc tar`
-- Windows (10/11): Enable WSL with supported system and follow related steps
+- Linux (Ubuntu/Debian)
+    - `sudo apt install -yq curl git patch systemtap-sdt-dev python3 build-essential tar`
+- Linux (OpenSUSE 15+)
+    - `sudo zypper install curl git patch systemtap-sdt-devel python3 tar gcc` or `sudo transactional-update pkg install curl git patch systemtap-sdt-devel python3 gcc tar`
+- Linux (Fedora 40+)
+    - `sudo dnf install -y curl git patch systemtap-sdt-devel python3 tar`
+    - `sudo dnf groupinstall -y "Development Tools" "Development Libraries"`
+- Windows (10/11)
+    - Enable WSL2
+    - Install one of supported Linux OS from Windows Store
+    - Follow related Linux steps
 ### 2. Install Homebrew
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
