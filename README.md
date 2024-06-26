@@ -7,7 +7,8 @@ Supported CMS and Frameworks: **Symfony**, **Laravel**, **Yii v1|v2**, **Magento
 
 ## Installation
 ### 1. Install Base Tools
-- Macos: `xcode-select --install`
+- Macos
+    - `xcode-select --install`
 - Linux (Ubuntu/Debian)
     - `sudo apt install -yq curl git patch systemtap-sdt-dev python3 build-essential tar`
 - Linux (OpenSUSE 15+)
@@ -19,6 +20,7 @@ Supported CMS and Frameworks: **Symfony**, **Laravel**, **Yii v1|v2**, **Magento
     - Enable WSL2
     - Install one of supported Linux OS from Windows Store
     - Follow related Linux steps
+
 ### 2. Install Homebrew
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
