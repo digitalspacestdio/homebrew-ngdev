@@ -72,15 +72,22 @@ brew install digitalspace-postgresql15
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain $(brew --prefix)/etc/openssl/localCA/root_ca.crt
 ```
 
-#### Linux / Windows WSL (Debian|Ubuntu)
+#### Debian|Ubuntu Linux / Windows WSL
 ```bash
+# Create folder
 sudo mkdir /usr/local/share/ca-certificates/extra
+
+# Copy the CRT cert 
 sudo cp $(brew --prefix)/etc/openssl/localCA/root_ca.crt /usr/local/share/ca-certificates/extra/
+
+# Reconfigure
 sudo dpkg-reconfigure ca-certificates
+
+# Update
 sudo update-ca-certificates
 ```
 
-#### Linux / Windows WSL (Fedora)
+#### Fedora Linux / Windows WSL
 ```
 # Convert CRT to PEM
 openssl x509 -in $(brew --prefix)/etc/openssl/localCA/root_ca.crt -out $(brew --prefix)/etc/openssl/localCA/root_ca.pem -outform PEM
