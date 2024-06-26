@@ -66,18 +66,30 @@ PostgreSQL 15
 brew install digitalspace-postgresql15
 ```
 
-### 8. Install Root SSL Certificate
+### 8. Install Self-signed Root Certificate
 #### Macos
 ```bash
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain $(brew --prefix)/etc/openssl/localCA/root_ca.crt
 ```
 
-#### Linux / Windows WSL (Ubuntu)
+#### Linux / Windows WSL (Debian|Ubuntu)
 ```bash
 sudo mkdir /usr/local/share/ca-certificates/extra
 sudo cp $(brew --prefix)/etc/openssl/localCA/root_ca.crt /usr/local/share/ca-certificates/extra/
 sudo dpkg-reconfigure ca-certificates
 sudo update-ca-certificates
+```
+
+#### Linux / Windows WSL (Fedora)
+```
+# Convert CRT to PEM
+openssl x509 -in $(brew --prefix)/etc/openssl/localCA/root_ca.crt -out $(brew --prefix)/etc/openssl/localCA/root_ca.pem -outform PEM
+
+# Move the PEM cert
+sudo mv $(brew --prefix)/etc/openssl/localCA/root_ca.pem /etc/pki/ca-trust/source/anchors/
+
+# Update the CA trust
+sudo update-ca-trust
 ```
 
 > If you want re-generate the root certificate you need to remove certificates folder by following command: `rm -rf $(brew --prefix)/etc/openssl/localCA`
