@@ -10,7 +10,8 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
-brew tap digitalspacestdio/nextgen-devenv
+TAP_NAME="digitalspacestdio/nextgen-devenv"
+brew tap "${TAP_NAME}"
 
 FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$@" | md5sum | awk '{ print $1 }')}
 
@@ -20,7 +21,7 @@ fi
 
 for ARG in "$@"
 do
-    FORMULAS=$(brew search digitalspacestdio/nextgen-devenv | grep "\($ARG\|$ARG@[0-9]\+\)\$" | awk -F'/' '{ print $3 }' | sort)
+    FORMULAS=$(brew search "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | awk -F'/' '{ print $3 }' | sort)
 
     echo "==> Next formulas found:"
     echo -e "\033[33m==> The following formulas are matched:\033[0m"
@@ -29,7 +30,7 @@ do
     for FORMULA in $FORMULAS; do
         echo -e "\033[33m==> Installing dependencies:\033[0m"
         echo "$FORMULA"
-        for DEP in $(brew deps --full --direct $FORMULA | grep 'digitalspacestdio/nextgen-devenv'); do
+        for DEP in $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}"); do
             if ! grep "$DEP$" /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp; then
                 ${DIR}/_nextgen-devenv-bottles-make.sh $DEP
                 echo $DEP >> /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
@@ -49,7 +50,7 @@ do
                 DEPS=$(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$")
                 echo -e "\033[33m==> Installing dependencies ($DEPS) for $FORMULA ..."
                 echo -e "\033[0m"
-                if echo $DEPS | grep 'digitalspacestdio/nextgen-devenv'; then
+                if echo $DEPS | grep "${TAP_NAME}"; then
                     brew install -s --quiet $DEPS
                 else
                     brew install --quiet $DEPS
@@ -67,7 +68,7 @@ do
             brew bottle --skip-relocation --no-rebuild --root-url 'https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/'$FORMULA --json $FORMULA
             ls | grep $FORMULA'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
             ls | grep $FORMULA'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
-            cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path')
+            cd $(brew tap-info --json "${TAP_NAME}" | jq -r '.[].path')
 
             echo $FORMULA >> /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
         fi
