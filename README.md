@@ -1,20 +1,20 @@
 # PHP - Homebrew Development Environment
 LEMP (NGINX/PHP/MySql) Development Environment
 
-Supported OS: **macOS** (Intel, Apple Silicon), **Linux** (x86_64), **Windows 10/11** (x86_64) over WSL2  
-Supported PHP: **8.3**, **8.2**, **8.1**, **8.0**, **7.4**, **7.3**, **7.2**, **7.1**, **7.0**, **5.6**  
-Supported CMS and Frameworks: **Symfony**, **Laravel**, **Yii v1|v2**, **Magento v1|v2**, **OroCommerce|OroCRM|OroPlatform**, **AkeneoPIM**, **Wordpress**, and more
+Supported OS: **macOS** (`Intel`, `Apple Silicon`), **Linux** (`x86_64`, `aarch64`), **Windows 10/11** (`x86_64`) over WSL2  
+Supported PHP: `8.4`, `8.3`, `8.2`, `8.1`, `8.0`, `7.4`, `7.3`, `7.2`, `7.1`, `7.0`, `5.6`  
+Supported CMS and Frameworks: **Symfony**, **Laravel**, **Yii v1/v2**, **Magento v1/v2**, **OroCommerce/OroCRM/OroPlatform**, **AkeneoPIM**, **Wordpress**, and more
 
 ## Installation
-### 1. Install Base Tools
+### 1. Install Required Tools
 - Macos
     - `xcode-select --install`
 - Linux (Ubuntu/Debian)
-    - `sudo apt install -yq curl git patch systemtap-sdt-dev python3 build-essential tar`
+    - `sudo apt install -yq curl git patch systemtap-sdt-dev build-essential python3`
 - Linux (OpenSUSE 15+)
-    - `sudo zypper install curl git patch systemtap-sdt-devel python3 tar gcc` or `sudo transactional-update pkg install curl git patch systemtap-sdt-devel python3 gcc tar`
+    - `sudo zypper install curl git patch systemtap-sdt-devel gcc python3` or `sudo transactional-update pkg install curl git patch systemtap-sdt-devel python3 gcc`
 - Linux (Fedora 40+)
-    - `sudo dnf install -y curl git patch systemtap-sdt-devel python3 tar`
+    - `sudo dnf install -y curl git patch systemtap-sdt-devel python3`
     - `sudo dnf groupinstall -y "Development Tools" "Development Libraries"`
 - Windows (10/11)
     - Enable WSL2
