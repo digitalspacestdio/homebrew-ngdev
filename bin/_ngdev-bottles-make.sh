@@ -24,7 +24,7 @@ if [[ -n $REBUILD ]] || ! [[ -f "/tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_
     echo -n '' > /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp
 fi
 
-for ARG in "$ARGS"
+for ARG in $ARGS
 do
     FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
     if [[ -n "$FORMULAS" ]]; then

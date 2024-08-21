@@ -8,7 +8,7 @@ fi
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
-TAP_NAME="digitalspacestdio/nextgen-devenv"
+TAP_NAME="digitalspacestdio/ngdev"
 tap "${TAP_NAME}"
 cd $(brew tap-info --json "${TAP_NAME}" | jq -r '.[].path' | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
 S3_BUCKET="homebrew";

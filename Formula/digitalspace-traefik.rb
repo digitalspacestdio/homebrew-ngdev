@@ -4,7 +4,7 @@ class DigitalspaceTraefik < Formula
   version "0.1.3"
   revision 106
 
-  depends_on "traefik@2"
+  depends_on "digitalspace-traefik@2"
   depends_on "digitalspace-local-ca"
 
   def traefik_main_config
@@ -197,7 +197,7 @@ class DigitalspaceTraefik < Formula
       #!/usr/bin/env bash
       set -e
       
-      exec #{Formula["traefik@2"].opt_bin}/traefik "$@"
+      exec #{Formula["digitalspace-traefik@2"].opt_bin}/traefik "$@"
     EOS
   rescue StandardError
       nil
