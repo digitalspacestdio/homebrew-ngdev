@@ -8,7 +8,7 @@ class DigitalspaceNginxLuaModule < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-nginx-lua-module"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "db890c37d5f0c87b81f72783525915df9b93b7b55c2e93f979ae1ae5dbb722f0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "a2221ad31f7d0a843f63d61954541239de6a35f6bc94b47fe5d6eaecb9df9065"
   end
 
   depends_on "luajit-openresty"

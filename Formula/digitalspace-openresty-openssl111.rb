@@ -5,7 +5,7 @@ class DigitalspaceOpenrestyOpenssl111 < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-openresty-openssl111"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "475cb4fe63c39f3e418ff3118942a30c288645d7ce60a35431be23836b861c0b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "6b23009b4e22c23b46303b8f569ecf354998c3e8445006ac0a3c543cd1742279"
   end
 
   VERSION = "1.1.1n".freeze

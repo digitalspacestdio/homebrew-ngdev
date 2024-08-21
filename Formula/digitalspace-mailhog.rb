@@ -6,7 +6,7 @@ class DigitalspaceMailhog < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-mailhog"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "75504425dd7333715897437618cd8cd50f390177a8e4a9e866e6c86cd5c835c6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "4b7386755b3b99e2e1ee5eee575d7f12935e40f424957b3b4f49ea3974c54380"
   end
 
   depends_on "mailhog"

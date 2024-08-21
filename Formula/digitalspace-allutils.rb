@@ -6,7 +6,7 @@ class DigitalspaceAllutils < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-allutils"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "3c81bbeb60076ce13dce1089bf91d347a72022a297fe5ae5dc62cd3fcf0a6f86"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "5df74ee3af3aeb38b5ea64ad0818e17702c44163f7d08825428556cd2ecf86de"
   end
 
   depends_on "coreutils"
