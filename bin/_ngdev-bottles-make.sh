@@ -51,15 +51,18 @@ do
             mkdir -p ${HOME}/.bottles/$FORMULA.bottle
             cd ${HOME}/.bottles/$FORMULA.bottle
 
-            if brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$" > /dev/null; then
-                DEPS=$(brew deps --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$")
+            if brew deps --full --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$" > /dev/null; then
+                DEPS=$(brew deps --full --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$")
                 echo -e "\033[33m==> Installing dependencies ($DEPS) for $FORMULA ..."
                 echo -e "\033[0m"
-                if echo $DEPS | grep "${TAP_NAME}"; then
-                    brew install -s --quiet $DEPS
-                else
-                    brew install --quiet $DEPS
-                fi
+                for DEP in $DEPS; do
+                    if echo $DEP | grep "${TAP_NAME}"; then
+                        brew install -s --quiet $DEP
+                    else
+                        brew install --quiet $DEP
+                    fi
+                done
+                
             fi
 
             echo "==> Building bottles for $FORMULA ..."
