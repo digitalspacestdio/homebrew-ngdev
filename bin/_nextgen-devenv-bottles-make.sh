@@ -2,45 +2,46 @@
 set -e
 if [[ ! -z $DEBUG ]]; then set -x; fi
 pushd `dirname $0` > /dev/null;DIR=`pwd -P`;popd > /dev/null
-if [[ -z $1 ]]; then
-    echo "Usage $0 <FORMULA_NAME>"
-    exit 1;
-fi
+
+TAP_NAME=${TAP_NAME:-"digitalspacestdio/nextgen-devenv"}
+TAP_SUBDIR=$(echo $TAP_NAME | awk -F/ '{ print $2 }')
+BASE_ROOT_URL="https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/${TAP_SUBDIR}"
+ARGS=${@:-$(brew search "${TAP_NAME}")}
+
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
-TAP_NAME="digitalspacestdio/nextgen-devenv"
 brew tap "${TAP_NAME}"
 
-FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$@" | md5sum | awk '{ print $1 }')}
+FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$ARGS" | md5sum | awk '{ print $1 }')}
 
-if ! [[ -f "/tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp" ]]; then
-    echo -n '' > /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
+if [[ -n $REBUILD ]] || ! [[ -f "/tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp" ]]; then
+    echo -n '' > /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp
 fi
 
-for ARG in "$@"
+for ARG in "$ARGS"
 do
-    FORMULAS=$(brew search "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | awk -F'/' '{ print $3 }' | sort)
-
-    echo "==> Next formulas found:"
-    echo -e "\033[33m==> The following formulas are matched:\033[0m"
-    echo "$FORMULAS"
-
-    for FORMULA in $FORMULAS; do
-        echo -e "\033[33m==> Installing dependencies:\033[0m"
-        echo "$FORMULA"
-        for DEP in $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}"); do
-            if ! grep "$DEP$" /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp; then
-                ${DIR}/_nextgen-devenv-bottles-make.sh $DEP
-                echo $DEP >> /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
+    FORMULAS=$(brew search "${TAP_NAME}" | grep "($ARG\|$ARG@[0-9]\+)\$" | awk -F'/' '{ print $3 }' | sort)
+    if [[ -n "$FORMULAS" ]]; then
+        for FORMULA in $FORMULAS; do
+            if [[ -n $REBUILD ]]; then
+                brew uninstall --force $FORMULA
             fi
+            for DEP in $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}"); do
+                if ! grep "$DEP$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp > /dev/null; then
+                    echo -n -e "\033[33m==> Installing dependency \033[0m"
+                    echo -e "$DEP \033[33mfor\033[0m $FORMULA"
+                    ${DIR}/_${TAP_SUBDIR}-bottles-make.sh $DEP
+                    echo $DEP >> /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp
+                fi
+            done
         done
-    done
+    fi
     
     sleep 1
     for FORMULA in $FORMULAS; do
-        if ! grep "$FORMULA$" /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp; then
+        if ! grep "$FORMULA$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp; then
             echo -e "\033[33m==> Creating bottles for $FORMULA ...\033[0m"
             rm -rf ${HOME}/.bottles/$FORMULA.bottle
             mkdir -p ${HOME}/.bottles/$FORMULA.bottle
@@ -65,12 +66,12 @@ do
             }
 
             brew install --quiet --build-bottle $FORMULA 2>&1
-            brew bottle --skip-relocation --no-rebuild --root-url 'https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/'$FORMULA --json $FORMULA
+            brew bottle --skip-relocation --no-rebuild --root-url $BASE_ROOT_URL'/'$FORMULA --json $FORMULA
             ls | grep $FORMULA'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
             ls | grep $FORMULA'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
             cd $(brew tap-info --json "${TAP_NAME}" | jq -r '.[].path')
 
-            echo $FORMULA >> /tmp/.nextgen-devenv_bottles_created_${FORMULAS_MD5}.tmp
+            echo $FORMULA >> /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp
         fi
     done
 done

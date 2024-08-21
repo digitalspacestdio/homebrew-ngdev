@@ -2,14 +2,7 @@ class DigitalspaceGitSsh < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.2.1"
-  revision 1
-
-  bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-git-ssh"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "77368afe5f45aafb7685fe7d6820799123dc66694db4d9a058c6e7f13b03ee05"
-    sha256 cellar: :any_skip_relocation, sonoma:        "9ff51a3e7d3aae199a1100354cf44752025522cfb118079e95d0c159205b2a19"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3ab978886c72830621c236e342c29a196853d2e703c83ea9f27c9d295d7dc0c2"
-  end
+  revision 106
 
   def git_ssh_gen_script
     <<~EOS

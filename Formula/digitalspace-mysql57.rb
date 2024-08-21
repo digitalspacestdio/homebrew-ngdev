@@ -1,15 +1,10 @@
 class DigitalspaceMysql57 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "8"
-  revision 2
+  version "5.7"
+  revision 106
 
-  bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-mysql57"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "7049b7f7f3e66f9a6224a192d35fe97ff8f46fb523b60be3ad5b860029b19960"
-  end
-
-  depends_on 'mysql@5.7'
+  depends_on 'digitalspace-mysql@5.7'
 
   def mysql_listen_address
     "127.0.0.1"

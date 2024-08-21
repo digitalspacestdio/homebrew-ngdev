@@ -3,15 +3,9 @@ require 'etc'
 class DigitalspaceOpenresty < Formula
   desc "Scalable Web Platform by Extending NGINX with Lua"
   homepage "https://openresty.org"
+  revision 106
 
-  bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-openresty"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "4617cff6dc8251dce06d0912aada89ecdefac8c327123bffe2c0eec8cb25c9d8"
-    sha256 cellar: :any_skip_relocation, sonoma:        "a9404689253d60a575270f7711f727f727aa0038294bcf63a626b75c80757dbc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6aee05d654037a64fc0752389ae5182d21878a3f5102312ed39b6777afca3315"
-  end
   VERSION = "1.21.4.2".freeze
-  revision 4
   url "https://openresty.org/download/openresty-#{VERSION}.tar.gz"
   sha256 "5b1eded25c1d4ed76c0336dfae50bd94d187af9c85ead244135dd5ae363b2e2a"
 

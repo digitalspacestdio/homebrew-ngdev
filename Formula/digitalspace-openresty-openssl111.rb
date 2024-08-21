@@ -1,16 +1,9 @@
 class DigitalspaceOpenrestyOpenssl111 < Formula
   desc "This OpenSSL 1.1.1 library build is specifically for OpenResty uses"
   homepage "https://www.openssl.org/"
+  revision 106
 
-  bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-openresty-openssl111"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "61aede217e50039027b56896642a79eb0c66001d2a9aa6c659acaaab4304e5d4"
-    sha256 cellar: :any_skip_relocation, sonoma:        "181a38b027ffc8ae5b83c5a5c1e3582120d9b312edf72adab4906e926f56ab5b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "dd662a6b33cef19fe7ecd07bdf774bce87bf4073e424eaddc0ae4d3b696f0579"
-  end
   VERSION = "1.1.1n".freeze
-  revision 2
-
   stable do
     url "https://www.openssl.org/source/openssl-#{VERSION}.tar.gz"
     mirror "https://openresty.org/download/openssl-#{VERSION}.tar.gz"

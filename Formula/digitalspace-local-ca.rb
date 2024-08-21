@@ -2,14 +2,7 @@ class DigitalspaceLocalCa < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.1"
-  revision 1
-
-  bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-local-ca"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "a38d96c7e606213946289a895e3238af7e1cea4ab0016843a2a1759b9a1ab0ee"
-    sha256 cellar: :any_skip_relocation, sonoma:        "77ec4edc3d3da0ecfa5b88fa8937e48424c6b4578b9cd7ddf5e63b0059220891"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4bd583d5b1c288ac78057a7f85d2f6840588e39fbf187dd1e2916abc390d7394"
-  end
+  revision 106
 
   depends_on 'openssl'
 
