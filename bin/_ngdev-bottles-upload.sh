@@ -84,12 +84,12 @@ do
                     S3_BASE_PATH=${S3_BUCKET}/${S3_BASE_PATH}
                 fi
                 if ! [[ -z $JSON_FORMULA_NAME ]]; then
-                    mergedfile=$(jq -r '.["'$TAP_NAME'/'$JSON_FORMULA_NAME'"].formula.name + "-" + ."'$TAP_NAME'/'$JSON_FORMULA_NAME'".formula.pkg_version + ".json"' "$jsonfile")
+                    mergedfile=$(jq -r '.["'$TAP_NAME'/'$JSON_FORMULA_NAME'"].formula.name + "-" + ."'$TAP_NAME'/'$JSON_FORMULA_NAME'".formula.pkg_version + ".json"' "$jsonfile" | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
                     while read tgzName; do
                         if [[ -f "$tgzName" ]]; then
                             s3cmd put "$tgzName" "s3://$S3_BASE_PATH/$tgzName"
                         fi
-                    done < <(jq -r '."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags[].filename' "$jsonfile")
+                    done < <(jq -r '."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags[].filename' "$jsonfile" | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
                     echo "Checking is file exists 's3://$S3_BASE_PATH/$mergedfile' ..."
                     s3cmd info "s3://$S3_BASE_PATH/$mergedfile" > /dev/null 2>&1 && {
                         s3cmd get "s3://$S3_BASE_PATH/$mergedfile" "$mergedfile".src
