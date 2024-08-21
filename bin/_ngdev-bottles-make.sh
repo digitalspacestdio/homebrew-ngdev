@@ -11,8 +11,8 @@ BASE_ROOT_URL="https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/${TAP_SUBDIR}
 brew tap "${TAP_NAME}"
 
 ARGS=${@:-$(brew search "${TAP_NAME}" | grep "${TAP_NAME}")}
+REBUILD=${REBUILD:-''}
 
-export REBUILD=${REBUILD:-''}
 export FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$ARGS" | md5sum | awk '{ print $1 }')}
 
 export HOMEBREW_NO_AUTO_UPDATE=1
@@ -26,18 +26,18 @@ fi
 
 for ARG in "$ARGS"
 do
-    FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "($ARG\|$ARG@[0-9]\+)\$" | sort)
+    FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
     if [[ -n "$FORMULAS" ]]; then
         for FORMULA in $FORMULAS; do
             if [[ -n $REBUILD ]]; then
-                brew uninstall --force $FORMULA
+                brew uninstall --force --ignore-dependencies $FORMULA $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}")
+                rm -rf ${HOME}/.bottles/$FORMULA.bottle
             fi
             for DEP in $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}"); do
                 if ! grep "$DEP$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp > /dev/null; then
                     echo -n -e "\033[33m==> Building dependency bottle \033[0m"
                     echo -e "$DEP \033[33mfor\033[0m $FORMULA"
-                    ${DIR}/_${TAP_SUBDIR}-bottles-make.sh $DEP
-                    echo $DEP >> /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp
+                    $0 $DEP
                 fi
             done
         done
