@@ -3,7 +3,7 @@ set -e
 if [[ ! -z $DEBUG ]]; then set -x; fi
 pushd `dirname $0` > /dev/null;DIR=`pwd -P`;popd > /dev/null
 
-TAP_NAME=${TAP_NAME:-"digitalspacestdio/nextgen-devenv"}
+TAP_NAME=${TAP_NAME:-"digitalspacestdio/ngdev"}
 TAP_SUBDIR=$(echo $TAP_NAME | awk -F/ '{ print $2 }')
 BASE_ROOT_URL="https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/${TAP_SUBDIR}"
 ARGS=${@:-$(brew search "${TAP_NAME}")}
@@ -22,7 +22,7 @@ fi
 
 for ARG in "$ARGS"
 do
-    FORMULAS=$(brew search "${TAP_NAME}" | grep "($ARG\|$ARG@[0-9]\+)\$" | awk -F'/' '{ print $3 }' | sort)
+    FORMULAS=$(brew search "${TAP_NAME}" | grep "($ARG\|$ARG@[0-9]\+)\$" | sort)
     if [[ -n "$FORMULAS" ]]; then
         for FORMULA in $FORMULAS; do
             if [[ -n $REBUILD ]]; then
