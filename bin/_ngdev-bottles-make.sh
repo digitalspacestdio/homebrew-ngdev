@@ -1,20 +1,24 @@
 #!/bin/bash
 set -e
+export DEBUG=${DEBUG:-''}
 if [[ ! -z $DEBUG ]]; then set -x; fi
 pushd `dirname $0` > /dev/null;DIR=`pwd -P`;popd > /dev/null
 
 TAP_NAME=${TAP_NAME:-"digitalspacestdio/ngdev"}
 TAP_SUBDIR=$(echo $TAP_NAME | awk -F/ '{ print $2 }')
 BASE_ROOT_URL="https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/${TAP_SUBDIR}"
-ARGS=${@:-$(brew search "${TAP_NAME}")}
+
+brew tap "${TAP_NAME}"
+
+ARGS=${@:-$(brew search "${TAP_NAME}" | grep "${TAP_NAME}")}
+
+export REBUILD=${REBUILD:-''}
+export FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$ARGS" | md5sum | awk '{ print $1 }')}
 
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
-brew tap "${TAP_NAME}"
-
-FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$ARGS" | md5sum | awk '{ print $1 }')}
 
 if [[ -n $REBUILD ]] || ! [[ -f "/tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp" ]]; then
     echo -n '' > /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp
@@ -22,7 +26,7 @@ fi
 
 for ARG in "$ARGS"
 do
-    FORMULAS=$(brew search "${TAP_NAME}" | grep "($ARG\|$ARG@[0-9]\+)\$" | sort)
+    FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "($ARG\|$ARG@[0-9]\+)\$" | sort)
     if [[ -n "$FORMULAS" ]]; then
         for FORMULA in $FORMULAS; do
             if [[ -n $REBUILD ]]; then
@@ -30,7 +34,7 @@ do
             fi
             for DEP in $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}"); do
                 if ! grep "$DEP$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp > /dev/null; then
-                    echo -n -e "\033[33m==> Installing dependency \033[0m"
+                    echo -n -e "\033[33m==> Building dependency bottle \033[0m"
                     echo -e "$DEP \033[33mfor\033[0m $FORMULA"
                     ${DIR}/_${TAP_SUBDIR}-bottles-make.sh $DEP
                     echo $DEP >> /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp

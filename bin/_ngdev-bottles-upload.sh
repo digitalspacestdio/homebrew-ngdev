@@ -41,7 +41,7 @@ function uri_extract_path {
 
 FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$FORMULAS" | md5sum | awk '{ print $1 }')}
 for ARG in "$@"; do
-    FORMULAS=$(brew search "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
+    FORMULAS=$(brew search "${TAP_NAME}" | grep ${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
     for FORMULA in $FORMULAS; do
         echo "Uploading bottles for $PHP_FORMULA ..."
         echo "Checking permissions 's3://$S3_BUCKET' ..."

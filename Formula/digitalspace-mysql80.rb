@@ -4,7 +4,7 @@ class DigitalspaceMysql80 < Formula
   version "5.7"
   revision 106
 
-  depends_on 'digitalspace-mysql@8.0'
+  depends_on 'digitalspace-digitalspace-mysql@8.0'
 
   def mysql_listen_address
     "127.0.0.1"
@@ -338,7 +338,7 @@ class DigitalspaceMysql80 < Formula
   def mysql_client_script
     <<~EOS
     #!/bin/sh
-    exec #{Formula["mysql@8.0"].opt_bin}/mysql --defaults-file=#{etc}/mysql/8.0/my.cnf --host #{mysql_listen_address} --port #{mysql_listen_port} --user root "$@"
+    exec #{Formula["digitalspace-mysql@8.0"].opt_bin}/mysql --defaults-file=#{etc}/mysql/8.0/my.cnf --host #{mysql_listen_address} --port #{mysql_listen_port} --user root "$@"
     EOS
   rescue StandardError
       nil
@@ -361,12 +361,12 @@ class DigitalspaceMysql80 < Formula
 
     if !mysql_data_dir.exist?
       mysql_data_dir.mkpath
-      system("#{Formula["mysql@8.0"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{mysql_base_dir} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
+      system("#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{mysql_base_dir} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
     end
 
     supervisor_config =<<~EOS
       [program:mysql80]
-      command=#{Formula["mysql@8.0"].opt_bin}/mysqld --defaults-file=#{etc}/mysql/8.0/my.cnf
+      command=#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld --defaults-file=#{etc}/mysql/8.0/my.cnf
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-mysql80.log
       stdout_logfile_maxbytes=1MB
@@ -383,7 +383,7 @@ class DigitalspaceMysql80 < Formula
   end
 
   service do
-    run ["#{Formula["mysql@8.0"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/8.0/my.cnf"]
+    run ["#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/8.0/my.cnf"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false
