@@ -43,73 +43,71 @@ function uri_extract_path {
     echo $path
 }
 
-export FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$ARGS" | md5sum | awk '{ print $1 }')}
-
 for ARG in $ARGS
 do
     FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
-    for FORMULA in $FORMULAS; do
-        echo "Uploading bottles for $PHP_FORMULA ..."
-        echo "Checking permissions 's3://$S3_BUCKET' ..."
-        s3cmd info "s3://$S3_BUCKET" > /dev/null
+    if [[ -n "$FORMULAS" ]]; then
+        for FORMULA in $FORMULAS; do
+            echo "Uploading bottles for $PHP_FORMULA ..."
+            echo "Checking permissions 's3://$S3_BUCKET' ..."
+            s3cmd info "s3://$S3_BUCKET" > /dev/null
+            cd ${HOME}/.bottles/${FORMULA//"$TAP_NAME/"/}.bottle
+            ls | grep ${FORMULA//"$TAP_NAME/"/}'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
+            ls | grep ${FORMULA//"$TAP_NAME/"/}'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
 
-        set -x
-        cd ${HOME}/.bottles/${FORMULA//"$TAP_NAME/"/}.bottle
-        ls | grep ${FORMULA//"$TAP_NAME/"/}'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
-        ls | grep ${FORMULA//"$TAP_NAME/"/}'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
+            for jsonfile in ./*.json; do
+                jsonfile=$(basename $jsonfile)
+                JSON_FORMULA_NAME=$(jq -r '.[].formula.name' "$jsonfile")
+                S3_BASE_PATH=$(uri_extract_path $(jq -r '.[].bottle.root_url' "$jsonfile"))
+                if ! [[ -z $JSON_FORMULA_NAME ]]; then
+                    while read tgzName; do
+                        if [[ -f "$tgzName" ]]; then
+                            echo "Checking is file does not exists 's3://$S3_BASE_PATH/$tgzName' ..."
+                            s3cmd info "s3://$S3_BASE_PATH/$tgzName" > /dev/null 2>&1 && {
+                                echo "File already exists on remote storage s3://$S3_BASE_PATH/$tgzName"
+                                echo "Terminating..."
+                                exit 1
+                            }
+                        fi
+                    done < <(jq -r '."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags[].filename' "$jsonfile")
+                fi
+            done
 
-        for jsonfile in ./*.json; do
-            jsonfile=$(basename $jsonfile)
-            JSON_FORMULA_NAME=$(jq -r '.[].formula.name' "$jsonfile")
-            S3_BASE_PATH=$(uri_extract_path $(jq -r '.[].bottle.root_url' "$jsonfile"))
-            if ! [[ -z $JSON_FORMULA_NAME ]]; then
-                while read tgzName; do
-                    if [[ -f "$tgzName" ]]; then
-                        echo "Checking is file does not exists 's3://$S3_BASE_PATH/$tgzName' ..."
-                        s3cmd info "s3://$S3_BASE_PATH/$tgzName" > /dev/null 2>&1 && {
-                            echo "File already exists on remote storage s3://$S3_BASE_PATH/$tgzName"
-                            echo "Terminating..."
-                            exit 1
-                        }
-                    fi
-                done < <(jq -r '."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags[].filename' "$jsonfile")
-            fi
+            for jsonfile in ./*.json; do
+                jsonfile=$(basename $jsonfile)
+                JSON_FORMULA_NAME=$(jq -r '.[].formula.name' "$jsonfile")
+                S3_BASE_PATH=$(uri_extract_path $(jq -r '.[].bottle.root_url' "$jsonfile"))
+
+                # If the bucket is absent in the base url we need to add it for s3cmd
+                if [[ $S3_BASE_PATH != "${S3_BUCKET}/*" ]]; then
+                    S3_BASE_PATH=${S3_BUCKET}/${S3_BASE_PATH}
+                fi
+                if ! [[ -z $JSON_FORMULA_NAME ]]; then
+                    mergedfile=$(jq -r '.["'$TAP_NAME'/'$JSON_FORMULA_NAME'"].formula.name + "-" + ."'$TAP_NAME'/'$JSON_FORMULA_NAME'".formula.pkg_version + ".json"' "$jsonfile")
+                    while read tgzName; do
+                        if [[ -f "$tgzName" ]]; then
+                            s3cmd put "$tgzName" "s3://$S3_BASE_PATH/$tgzName"
+                        fi
+                    done < <(jq -r '."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags[].filename' "$jsonfile")
+                    echo "Checking is file exists 's3://$S3_BASE_PATH/$mergedfile' ..."
+                    s3cmd info "s3://$S3_BASE_PATH/$mergedfile" > /dev/null 2>&1 && {
+                        s3cmd get "s3://$S3_BASE_PATH/$mergedfile" "$mergedfile".src
+                        if [[ "object" != $(cat "$mergedfile".src| jq -r type) ]]; then
+                            cp "$jsonfile" "$mergedfile".src
+                        fi
+                        jq -s  '.[1]."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags = .[0]."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags * .[1]."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags | .[1]' "$mergedfile".src "$jsonfile" > "$mergedfile"
+                        s3cmd del "s3://$S3_BASE_PATH/$mergedfile"
+                        s3cmd put "$mergedfile" "s3://$S3_BASE_PATH/$mergedfile"
+                        brew bottle --skip-relocation --no-rebuild --merge --write --no-commit --json "$mergedfile"
+                        rm "$mergedfile" "$mergedfile".src
+                    } || {
+                        s3cmd put "$jsonfile" "s3://$S3_BASE_PATH/$mergedfile"
+                        brew bottle --skip-relocation --no-rebuild --merge --write --no-commit --json "$jsonfile"
+                    } || exit 1
+                fi
+            done
         done
-
-        for jsonfile in ./*.json; do
-            jsonfile=$(basename $jsonfile)
-            JSON_FORMULA_NAME=$(jq -r '.[].formula.name' "$jsonfile")
-            S3_BASE_PATH=$(uri_extract_path $(jq -r '.[].bottle.root_url' "$jsonfile"))
-
-            # If the bucket is absent in the base url we need to add it for s3cmd
-            if [[ $S3_BASE_PATH != "${S3_BUCKET}/*" ]]; then
-                S3_BASE_PATH=${S3_BUCKET}/${S3_BASE_PATH}
-            fi
-            if ! [[ -z $JSON_FORMULA_NAME ]]; then
-                mergedfile=$(jq -r '.["'$TAP_NAME'/'$JSON_FORMULA_NAME'"].formula.name + "-" + ."'$TAP_NAME'/'$JSON_FORMULA_NAME'".formula.pkg_version + ".json"' "$jsonfile")
-                while read tgzName; do
-                    if [[ -f "$tgzName" ]]; then
-                        s3cmd put "$tgzName" "s3://$S3_BASE_PATH/$tgzName"
-                    fi
-                done < <(jq -r '."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags[].filename' "$jsonfile")
-                echo "Checking is file exists 's3://$S3_BASE_PATH/$mergedfile' ..."
-                s3cmd info "s3://$S3_BASE_PATH/$mergedfile" > /dev/null 2>&1 && {
-                    s3cmd get "s3://$S3_BASE_PATH/$mergedfile" "$mergedfile".src
-                    if [[ "object" != $(cat "$mergedfile".src| jq -r type) ]]; then
-                        cp "$jsonfile" "$mergedfile".src
-                    fi
-                    jq -s  '.[1]."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags = .[0]."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags * .[1]."'$TAP_NAME'/'$JSON_FORMULA_NAME'".bottle.tags | .[1]' "$mergedfile".src "$jsonfile" > "$mergedfile"
-                    s3cmd del "s3://$S3_BASE_PATH/$mergedfile"
-                    s3cmd put "$mergedfile" "s3://$S3_BASE_PATH/$mergedfile"
-                    brew bottle --skip-relocation --no-rebuild --merge --write --no-commit --json "$mergedfile"
-                    rm "$mergedfile" "$mergedfile".src
-                } || {
-                    s3cmd put "$jsonfile" "s3://$S3_BASE_PATH/$mergedfile"
-                    brew bottle --skip-relocation --no-rebuild --merge --write --no-commit --json "$jsonfile"
-                } || exit 1
-            fi
-        done
-    done
+    fi
 done
 
 cd $(brew tap-info --json digitalspacestdio/ngdev | jq -r '.[].path' | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
