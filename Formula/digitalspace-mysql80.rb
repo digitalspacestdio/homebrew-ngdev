@@ -4,7 +4,7 @@ class DigitalspaceMysql80 < Formula
   version "5.7"
   revision 106
 
-  depends_on 'digitalspace-digitalspace-mysql@8.0'
+  depends_on 'digitalspace-mysql@8.0'
 
   def mysql_listen_address
     "127.0.0.1"
