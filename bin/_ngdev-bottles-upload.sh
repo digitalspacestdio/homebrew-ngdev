@@ -53,9 +53,9 @@ do
         echo "Checking permissions 's3://$S3_BUCKET' ..."
         s3cmd info "s3://$S3_BUCKET" > /dev/null
 
-        cd ${HOME}/.bottles/$FORMULA.bottle
-        ls | grep $FORMULA'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
-        ls | grep $FORMULA'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
+        cd ${HOME}/.bottles/${FORMULA//"$TAP_NAME"/}.bottle
+        ls | grep ${FORMULA//"$TAP_NAME"/}'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
+        ls | grep ${FORMULA//"$TAP_NAME"/}'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
 
         for jsonfile in ./*.json; do
             jsonfile=$(basename $jsonfile)

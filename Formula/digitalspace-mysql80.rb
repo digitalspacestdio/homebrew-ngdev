@@ -5,8 +5,8 @@ class DigitalspaceMysql80 < Formula
   revision 106
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-mysql80"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "b176d55a9393114c9714274f20a2a4d24dc4d1269707f3a19ba2d05fa07572ff"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-mysql80"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "8cbc8d7b70f9ead0671cbe148dd54e1c2855986e67cc48f44af19178e353a89d"
   end
 
   depends_on 'digitalspace-mysql@8.0'
