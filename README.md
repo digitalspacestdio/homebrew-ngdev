@@ -1,9 +1,8 @@
-# PHP - Homebrew Development Environment
-LEMP (NGINX/PHP/MySql) Development Environment
+# Homebrew based Development Environment
+`NGINX`/`PHP`/`MySQL`/`PgSQL`/`Redis`/`Mailhog`
 
-Supported OS: **macOS** (Intel, Apple Silicon), **Linux** (x86_64), **Windows 10/11** (x86_64) over WSL2  
-Supported PHP: **8.3**, **8.2**, **8.1**, **8.0**, **7.4**, **7.3**, **7.2**, **7.1**, **7.0**, **5.6**  
-Supported CMS and Frameworks: **Symfony**, **Laravel**, **Yii v1/v2**, **Magento v1/v2**, **OroCommerce/OroCRM/OroPlatform**, **AkeneoPIM**, **Wordpress**
+Tested on **macOS** (`Intel` / `Apple Silicon`), **Linux** (`x86_64` / `aarch64`) / **Windows 10/11** (`x86_64`) over *WSL*  
+Supported CMS and Frameworks: **Symfony**, **Laravel**, **Yii v1/v2**, **Magento v1/v2**, **OroCommerce/OroCRM/OroPlatform**, **AkeneoPIM**, **Wordpress**, and more
 
 ## Installation
 ### 0. Install Homebrew
@@ -18,7 +17,7 @@ BREW_BIN=$(find /opt/homebrew/bin /usr/local/bin /home/linuxbrew/.linuxbrew/bin 
 
 ### 1. Add Homebrew Taps
 ```bash
-brew tap digitalspacestdio/nextgen-devenv
+brew tap digitalspacestdio/ngdev
 ```
 ```bash
 brew tap digitalspacestdio/php
@@ -29,13 +28,13 @@ brew tap digitalspacestdio/php
 brew install digitalspace-supervisor digitalspace-nginx digitalspace-traefik digitalspace-dnsmasq
 ```
 
-### 3. Install PHP
+### 3. Install needed PHP versions
 You need to install at least one
 ```bash
-brew install php82-common php74-common php56-common
+brew install php84-common php74-common php56-common
 ```
 > select any of version you need just by changing the name to `phpXX-common`, where XX is the first two numbers of the php version without dots
-> available versions (mac: intel, arm64; linux: x86_64): `8.3`, `8.2`, `8.1`, `8.0`, `7.4`, `7.3`, `7.2`, `7.1`, `7.0`, `5.6`
+> available versions: `8.4`, `8.3`, `8.2`, `8.1`, `8.0`, `7.4`, `7.3`, `7.2`, `7.1`, `7.0`, `5.6`
 
 ### 4. Install Composer (optional)
 ```bash
@@ -43,14 +42,19 @@ brew install composer@2
 ```
 ### 4. Install Databases (optional)
 
+PostgreSQL 15
+```bash
+brew install digitalspace-postgresql15
+```
+
 MySQL 8.0
 ```bash
 brew install digitalspace-mysql80
 ```
 
-PostgreSQL 15
+MySQL 5.7
 ```bash
-brew install digitalspace-postgresql15
+brew install digitalspace-mysql57
 ```
 
 ### 5. Install Root SSL Certificate
