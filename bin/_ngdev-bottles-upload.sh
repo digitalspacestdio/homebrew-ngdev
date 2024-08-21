@@ -111,6 +111,6 @@ do
     done
 done
 
-cd $(brew tap-info --json digitalspacestdio/nextgen-devenv | jq -r '.[].path' | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
+cd $(brew tap-info --json digitalspacestdio/ngdev | jq -r '.[].path' | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
 git add .
 git commit -m "bottles update"

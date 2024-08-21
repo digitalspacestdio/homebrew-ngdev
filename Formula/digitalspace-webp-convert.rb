@@ -4,6 +4,11 @@ class DigitalspaceWebpConvert < Formula
   version "0.1.10"
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-webp-convert"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "0508f8bbc5f4293807001b665b46b2b37d55050c84b2f6358a13797a5aa06468"
+  end
+
   depends_on 'webp'
   depends_on 'rush-parallel'
 
