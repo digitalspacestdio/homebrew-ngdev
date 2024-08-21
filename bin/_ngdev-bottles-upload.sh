@@ -56,6 +56,7 @@ do
             ls | grep ${FORMULA//"$TAP_NAME/"/}'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
 
             for jsonfile in ./*.json; do
+                set -x
                 jsonfile=$(basename $jsonfile)
                 JSON_FORMULA_NAME=$(jq -r '.[].formula.name' "$jsonfile")
                 S3_BASE_PATH=$(uri_extract_path $(jq -r '.[].bottle.root_url' "$jsonfile"))
