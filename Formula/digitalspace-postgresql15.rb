@@ -11,6 +11,11 @@ class DigitalspacePostgresql15 < Formula
     regex(%r{href=["']?v?(15(?:\.\d+)+)/?["' >]}i)
   end
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-postgresql15"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "318164bf7ca47106a4d9b1d4531ff0564018d81e1c43262960670f38c42e4948"
+  end
+
   depends_on "pkg-config" => :build
   depends_on "gettext"
   depends_on "icu4c"

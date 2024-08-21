@@ -10,6 +10,11 @@ class DigitalspaceNginx < Formula
   head "http://hg.nginx.org/nginx/", using: :hg
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-nginx"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "cae4cd26cef1b83d20f3857e18e26de724d1c9371ba0a8f72704aa11c095507f"
+  end
+
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
 
   depends_on "gd" if build.with?("image-filter")

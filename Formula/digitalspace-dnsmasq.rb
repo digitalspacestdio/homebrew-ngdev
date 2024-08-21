@@ -12,10 +12,8 @@ class DigitalspaceDnsmasq < Formula
   end
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-dnsmasq"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "947acd93f50cfb27969b7c8fb7f6f98fa470aed1942ca554a9c952067a7a52e6"
-    sha256 cellar: :any_skip_relocation, sonoma:        "1702052abf8eb29a9f2e3f448649dd398ed3a6a99d400d56fafb7e1343864655"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4fd5bc223a041c561eddcef5d1f8324ed31d075815c53d4b4a49b9ef12ee8ac9"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-dnsmasq"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "52404a6c6bb0bf09dd8cb9fc6f3a4c451d2c73ad7e458acdc087348b119c2556"
   end
 
   depends_on "pkg-config" => :build

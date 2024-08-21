@@ -4,6 +4,11 @@ class DigitalspaceRedis < Formula
   version "0.1.2"
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-redis"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "f0fd7bc7fd240da5ba9d11c7d975e41897ad184f89bbd09f5ccd10a5a609476f"
+  end
+
   depends_on 'redis'
 
   def redis_listen_address

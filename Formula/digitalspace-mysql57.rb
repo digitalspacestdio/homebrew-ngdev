@@ -4,6 +4,11 @@ class DigitalspaceMysql57 < Formula
   version "5.7"
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-mysql57"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "9b626b280c655017ee9eaab77bafcf82aa091ae781c739df0a5d421ccade1260"
+  end
+
   depends_on 'digitalspace-mysql@5.7'
 
   def mysql_listen_address

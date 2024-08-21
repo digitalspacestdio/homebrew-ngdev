@@ -43,7 +43,6 @@ do
         done
     fi
     
-    sleep 1
     for FORMULA in $FORMULAS; do
         if ! grep "$FORMULA$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp; then
             echo -e "\033[33m==> Creating bottles for $FORMULA ...\033[0m"
@@ -68,7 +67,6 @@ do
             echo "==> Building bottles for $FORMULA ..."
             [[ "true" == $(brew info  --json=v1 $FORMULA | jq '.[0].installed[0].built_as_bottle') ]] || {
                 echo "==> Removing previously installed formula $FORMULA ..."
-                sleep 3
                 brew uninstall --force --ignore-dependencies $FORMULA
             }
 

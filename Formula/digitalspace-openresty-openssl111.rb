@@ -3,6 +3,11 @@ class DigitalspaceOpenrestyOpenssl111 < Formula
   homepage "https://www.openssl.org/"
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-openresty-openssl111"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "b846fb09117dd8f35cf37ac2143d3fe62cbf2bca8ac4b650e06a7680fbf6c6f2"
+  end
+
   VERSION = "1.1.1n".freeze
   stable do
     url "https://www.openssl.org/source/openssl-#{VERSION}.tar.gz"

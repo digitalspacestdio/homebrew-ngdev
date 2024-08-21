@@ -1,15 +1,20 @@
 #!/bin/bash
 set -e
+export DEBUG=${DEBUG:-''}
 if [[ ! -z $DEBUG ]]; then set -x; fi
 pushd `dirname $0` > /dev/null;DIR=`pwd -P`;popd > /dev/null
-if [[ -z $1 ]]; then
-    exit 1;
-fi
+
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
-TAP_NAME="digitalspacestdio/ngdev"
-tap "${TAP_NAME}"
+export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
+
+TAP_NAME=${TAP_NAME:-"digitalspacestdio/ngdev"}
+TAP_SUBDIR=$(echo $TAP_NAME | awk -F/ '{ print $2 }')
+ARGS=${@:-$(brew search "${TAP_NAME}" | grep "${TAP_NAME}")}
+
+brew tap "${TAP_NAME}"
+
 cd $(brew tap-info --json "${TAP_NAME}" | jq -r '.[].path' | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
 S3_BUCKET="homebrew";
 S3_BASEDIR="ngdev"
@@ -38,10 +43,11 @@ function uri_extract_path {
     echo $path
 }
 
+export FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$ARGS" | md5sum | awk '{ print $1 }')}
 
-FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$FORMULAS" | md5sum | awk '{ print $1 }')}
-for ARG in "$@"; do
-    FORMULAS=$(brew search "${TAP_NAME}" | grep ${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
+for ARG in $ARGS
+do
+    FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
     for FORMULA in $FORMULAS; do
         echo "Uploading bottles for $PHP_FORMULA ..."
         echo "Checking permissions 's3://$S3_BUCKET' ..."

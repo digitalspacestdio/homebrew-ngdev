@@ -6,6 +6,11 @@ class DigitalspaceNginxLuaModule < Formula
   head "https://github.com/openresty/lua-nginx-module.git", branch: "master"
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-nginx-lua-module"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "55d8436d6250c8b850dfcc3f5584e0be7c79531867ec990079bd225f4fe58ec0"
+  end
+
   depends_on "luajit-openresty"
   depends_on "digitalspace-ngx-devel-kit"
   depends_on "digitalspace-openresty"

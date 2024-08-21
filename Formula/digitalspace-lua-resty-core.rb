@@ -6,6 +6,11 @@ class DigitalspaceLuaRestyCore < Formula
   head "https://github.com/openresty/lua-resty-core.git", branch: "master"
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-lua-resty-core"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "02c3522f2da4f12756654235be855263851dda6948de96b9ca994432bfef0fb7"
+  end
+
   def install
     pkgshare.install Dir["*"]
   end

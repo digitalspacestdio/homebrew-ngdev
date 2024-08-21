@@ -4,6 +4,11 @@ class DigitalspaceLocalCa < Formula
   version "0.1.1"
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-local-ca"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "70258b250d4f2e7472f7bbf6cab2eb36eb94f455fc1682b93886bb336e3dfe9c"
+  end
+
   depends_on 'openssl'
 
   def ssl_ca_config

@@ -5,6 +5,11 @@ class DigitalspaceOpenresty < Formula
   homepage "https://openresty.org"
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-openresty"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "4aed86136c2b9b3ae00c48bb463fb9ac32bf6d673ffab853053d73ac59ffd2a7"
+  end
+
   VERSION = "1.21.4.2".freeze
   url "https://openresty.org/download/openresty-#{VERSION}.tar.gz"
   sha256 "5b1eded25c1d4ed76c0336dfae50bd94d187af9c85ead244135dd5ae363b2e2a"

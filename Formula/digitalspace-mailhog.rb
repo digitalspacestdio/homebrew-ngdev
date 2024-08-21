@@ -4,6 +4,11 @@ class DigitalspaceMailhog < Formula
   version "0.1.1"
   revision 106
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-mailhog"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "3fb8f899fe59f9b599e1ca4c152bfa0c39f1d13c2e3660955fc27872e74623ae"
+  end
+
   depends_on "mailhog"
   depends_on "msmtp"
 

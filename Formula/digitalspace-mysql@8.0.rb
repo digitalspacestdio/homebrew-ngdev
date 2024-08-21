@@ -11,6 +11,11 @@ class DigitalspaceMysqlAT80 < Formula
     regex(/href=.*?mysql[._-](?:boost[._-])?v?(8\.0(?:\.\d+)*)\.t/i)
   end
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspacestdio/ngdev/digitalspace-mysql@8.0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "aa9ab3ce890dd0dc66451698225ebf0a468ec78783687d5af29ad69d6ae7da67"
+  end
+
   keg_only :versioned_formula
 
   depends_on "bison" => :build
