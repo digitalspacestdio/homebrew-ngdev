@@ -6,8 +6,9 @@ class DigitalspaceRedis < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-redis"
-    sha256 cellar: :any_skip_relocation, monterey:     "2c218cc00d2b3e9079c8890a72b8a1adb3a535331e08b46d28dd5bbda60a3511"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "72db5592333499b4a4c8a199a354b1d657c08b029c24e8e8f24c7d6fe046e845"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "65e3dff05b64eec902985ca307821ae13d6a7a69c46916e6740dd6e81ae8dad8"
+    sha256 cellar: :any_skip_relocation, monterey:       "2c218cc00d2b3e9079c8890a72b8a1adb3a535331e08b46d28dd5bbda60a3511"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "72db5592333499b4a4c8a199a354b1d657c08b029c24e8e8f24c7d6fe046e845"
   end
 
   depends_on 'redis'
