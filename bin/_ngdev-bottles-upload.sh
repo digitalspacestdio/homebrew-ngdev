@@ -10,6 +10,7 @@ export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
 
 TAP_NAME=${TAP_NAME:-"digitalspacestdio/ngdev"}
+TAP_NAME_PREFIX="${TAP_NAME}/"
 TAP_SUBDIR=$(echo $TAP_NAME | awk -F/ '{ print $2 }')
 ARGS=${@:-$(brew search "${TAP_NAME}" | grep "${TAP_NAME}")}
 
@@ -51,9 +52,9 @@ do
             echo "Uploading bottles for $PHP_FORMULA ..."
             echo "Checking permissions 's3://$S3_BUCKET' ..."
             s3cmd info "s3://$S3_BUCKET" > /dev/null
-            cd ${HOME}/.bottles/${FORMULA//"$TAP_NAME\/"/}.bottle
-            ls | grep ${FORMULA//"$TAP_NAME\/"/}'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
-            ls | grep ${FORMULA//"$TAP_NAME\/"/}'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
+            cd ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle
+            ls | grep ${FORMULA//"$TAP_NAME_PREFIX"/}'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
+            ls | grep ${FORMULA//"$TAP_NAME_PREFIX"/}'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
 
             for jsonfile in ./*.json; do
                 jsonfile=$(basename $jsonfile)

@@ -5,6 +5,7 @@ if [[ ! -z $DEBUG ]]; then set -x; fi
 pushd `dirname $0` > /dev/null;DIR=`pwd -P`;popd > /dev/null
 
 TAP_NAME=${TAP_NAME:-"digitalspacestdio/ngdev"}
+TAP_NAME_PREFIX="${TAP_NAME}/"
 TAP_SUBDIR=$(echo $TAP_NAME | awk -F/ '{ print $2 }')
 BASE_ROOT_URL="https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/${TAP_SUBDIR}"
 
@@ -44,11 +45,11 @@ do
     fi
     
     for FORMULA in $FORMULAS; do
-        if ! [[ -d ${HOME}/.bottles/${FORMULA//"$TAP_NAME\/"/}.bottle ]] || ! grep "$FORMULA$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp; then
+        if ! [[ -d ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle ]] || ! grep "$FORMULA$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp; then
             echo -e "\033[33m==> Creating bottles for $FORMULA ...\033[0m"
-            rm -rf ${HOME}/.bottles/${FORMULA//"$TAP_NAME\/"/}.bottle
-            mkdir -p ${HOME}/.bottles/${FORMULA//"$TAP_NAME\/"/}.bottle
-            cd ${HOME}/.bottles/${FORMULA//"$TAP_NAME\/"/}.bottle
+            rm -rf ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle
+            mkdir -p ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle
+            cd ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle
 
             if brew deps --full --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$" > /dev/null; then
                 DEPS=$(brew deps --full --direct $FORMULA | grep $FORMULA | grep -v $FORMULA"$")
@@ -71,9 +72,9 @@ do
             }
 
             brew install --quiet --build-bottle $FORMULA 2>&1
-            brew bottle --skip-relocation --no-rebuild --root-url $BASE_ROOT_URL'/'${FORMULA//"$TAP_NAME\/"/} --json $FORMULA
-            ls | grep ${FORMULA//"$TAP_NAME\/"/}'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
-            ls | grep ${FORMULA//"$TAP_NAME\/"/}'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
+            brew bottle --skip-relocation --no-rebuild --root-url $BASE_ROOT_URL'/'${FORMULA//"$TAP_NAME_PREFIX"/} --json $FORMULA
+            ls | grep ${FORMULA//"$TAP_NAME_PREFIX"/}'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
+            ls | grep ${FORMULA//"$TAP_NAME_PREFIX"/}'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
             cd $(brew tap-info --json "${TAP_NAME}" | jq -r '.[].path')
 
             echo $FORMULA >> /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp
