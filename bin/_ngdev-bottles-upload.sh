@@ -58,7 +58,8 @@ do
             for jsonfile in ./*.json; do
                 jsonfile=$(basename $jsonfile)
                 JSON_FORMULA_NAME=$(jq -r '.[].formula.name' "$jsonfile")
-                S3_BASE_PATH=$(uri_extract_path $(jq -r '.[].bottle.root_url' "$jsonfile"))
+                FORMULA_ROOT_URL=$(jq -r '.[].bottle.root_url' "$jsonfile")
+                S3_BASE_PATH=$(uri_extract_path "${FORMULA_ROOT_URL}")
                 if ! [[ -z $JSON_FORMULA_NAME ]]; then
                     while read tgzName; do
                         if [[ -f "$tgzName" ]]; then
