@@ -2,12 +2,13 @@ class DigitalspaceRedis < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.2"
+  revision 106
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-redis"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "eb3d4233f609d021c7338787301fac7b81de9e5da3c9a1d3f4aaf283fd55dbde"
-    sha256 cellar: :any_skip_relocation, sonoma:        "7444ba8d271383b43d76ee2db3621fd65f5673b6a85c5d4b722ac6c23944f577"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f816630b3e5d020e848d0b4da5e95eecf21f171fb9309407b096fb95f767bc8b"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-redis"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "65e3dff05b64eec902985ca307821ae13d6a7a69c46916e6740dd6e81ae8dad8"
+    sha256 cellar: :any_skip_relocation, monterey:       "2c218cc00d2b3e9079c8890a72b8a1adb3a535331e08b46d28dd5bbda60a3511"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "72db5592333499b4a4c8a199a354b1d657c08b029c24e8e8f24c7d6fe046e845"
   end
 
   depends_on 'redis'

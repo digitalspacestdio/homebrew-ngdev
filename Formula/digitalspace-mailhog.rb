@@ -2,13 +2,13 @@ class DigitalspaceMailhog < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.1"
-  revision 1
+  revision 106
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-mailhog"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "f62737ddacc0875e5da0d29d9d8a5060edaad1098d36bee2055cab0bfb4ae707"
-    sha256 cellar: :any_skip_relocation, sonoma:        "a4190a614992a0a997355f85016ea37f93eb43c380fef62126dbae3b594ed40e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1b8790fb1aa1b957ac3381f3d03f75a431a9be4cf96b6d639a46b0b596cf3379"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-mailhog"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "09a39f8aafa079a000343964b844be6121e2ee1f71d45cdccc583d464fb7178f"
+    sha256 cellar: :any_skip_relocation, monterey:       "041ab2448d9174d3594383cfb39a1f17a491f5ee551506d03dbf3f44a0d7f4fe"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4b7386755b3b99e2e1ee5eee575d7f12935e40f424957b3b4f49ea3974c54380"
   end
 
   depends_on "mailhog"

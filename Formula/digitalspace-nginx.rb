@@ -8,14 +8,13 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 11
+  revision 106
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-nginx"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "b60906b4946ad79ac9f7b2b479333e562582dd69bda8a3c772a3841277ea8a28"
-    sha256 cellar: :any_skip_relocation, sonoma:         "6818c1b83b2508d7247ee6f59470805e65709cc7f006a7a77c3846895cbb2943"
-    sha256 cellar: :any_skip_relocation, monterey:       "165240d6dbf4785595713273334f64d9dc96df4782580f6dc7d5fefa8a160dd5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "97c467eaf3a757ca26c43c222b3870927cb23fbe0b4e1c9d63e9000d9c49617d"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-nginx"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "e76c63f6f5be862fd3b9f29d4bf878b9d30067f4700008b5a92d57b6aa387cdf"
+    sha256 cellar: :any_skip_relocation, monterey:       "25dfa29f4ae90dea2f43cd4ded354ba2f810824b2b10f42039141b82ad72c961"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9d90414b6f8f5ad611114ac29f69182cefd93b3303e53a1e387e4e690976bf55"
   end
 
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"

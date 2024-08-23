@@ -1,18 +1,16 @@
 class DigitalspaceOpenrestyOpenssl111 < Formula
   desc "This OpenSSL 1.1.1 library build is specifically for OpenResty uses"
   homepage "https://www.openssl.org/"
+  revision 106
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-openresty-openssl111"
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "61aede217e50039027b56896642a79eb0c66001d2a9aa6c659acaaab4304e5d4"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "2a8f886156a6a3433d44523b3b095e760ae0680dc8285f699a048d68a66bea79"
-    sha256 cellar: :any_skip_relocation, sonoma:         "181a38b027ffc8ae5b83c5a5c1e3582120d9b312edf72adab4906e926f56ab5b"
-    sha256 cellar: :any_skip_relocation, monterey:       "c7af88e82947c263f8a02e2ef171fa5371c1f3cda44198dfadd3df46f2e97d22"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dd662a6b33cef19fe7ecd07bdf774bce87bf4073e424eaddc0ae4d3b696f0579"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-openresty-openssl111"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1446a2a2b4e9326f5958d1396239eb97edfb8fa3bdeb8fd235ac5d00ac34a303"
+    sha256 cellar: :any_skip_relocation, monterey:       "0bdf9344d6be284512ba099dc0060f48efab00a0af8e27ce9fd13f7eb289eab2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6b23009b4e22c23b46303b8f569ecf354998c3e8445006ac0a3c543cd1742279"
   end
-  VERSION = "1.1.1n".freeze
-  revision 2
 
+  VERSION = "1.1.1n".freeze
   stable do
     url "https://www.openssl.org/source/openssl-#{VERSION}.tar.gz"
     mirror "https://openresty.org/download/openssl-#{VERSION}.tar.gz"

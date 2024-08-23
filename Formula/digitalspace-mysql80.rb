@@ -1,16 +1,17 @@
 class DigitalspaceMysql80 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "8"
-  revision 2
+  version "5.7"
+  revision 106
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-mysql80"
-    sha256 cellar: :any_skip_relocation, sonoma:       "906c3b6005e8a3299f21956ce4c2d333dd25f7725e323fbcfe793106bad39a14"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "f3b948f76e8d51b8c88a93ab5fb8f7fd397d105cba52e588a0907c28175cf909"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-mysql80"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1a1797c36802da1cc9f323eec5452e2fa7eb7069f6c387c5c62d7861082a72a1"
+    sha256 cellar: :any_skip_relocation, monterey:       "128984fc530573b314c9271886d543af88a2b71dd564dd3df3bfd4b6a0609d11"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "255840ebdce63ffd59cb0cb6594da5defd31d49a2bf60c3bc2536c83e53e232c"
   end
 
-  depends_on 'mysql@8.0'
+  depends_on 'digitalspace-mysql@8.0'
 
   def mysql_listen_address
     "127.0.0.1"
@@ -344,7 +345,7 @@ class DigitalspaceMysql80 < Formula
   def mysql_client_script
     <<~EOS
     #!/bin/sh
-    exec #{Formula["mysql@8.0"].opt_bin}/mysql --defaults-file=#{etc}/mysql/8.0/my.cnf --host #{mysql_listen_address} --port #{mysql_listen_port} --user root "$@"
+    exec #{Formula["digitalspace-mysql@8.0"].opt_bin}/mysql --defaults-file=#{etc}/mysql/8.0/my.cnf --host #{mysql_listen_address} --port #{mysql_listen_port} --user root "$@"
     EOS
   rescue StandardError
       nil
@@ -367,12 +368,12 @@ class DigitalspaceMysql80 < Formula
 
     if !mysql_data_dir.exist?
       mysql_data_dir.mkpath
-      system("#{Formula["mysql@8.0"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{mysql_base_dir} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
+      system("#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{mysql_base_dir} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
     end
 
     supervisor_config =<<~EOS
       [program:mysql80]
-      command=#{Formula["mysql@8.0"].opt_bin}/mysqld --defaults-file=#{etc}/mysql/8.0/my.cnf
+      command=#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld --defaults-file=#{etc}/mysql/8.0/my.cnf
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-mysql80.log
       stdout_logfile_maxbytes=1MB
@@ -389,7 +390,7 @@ class DigitalspaceMysql80 < Formula
   end
 
   service do
-    run ["#{Formula["mysql@8.0"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/8.0/my.cnf"]
+    run ["#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/8.0/my.cnf"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false

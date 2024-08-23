@@ -3,17 +3,16 @@ require 'etc'
 class DigitalspaceOpenresty < Formula
   desc "Scalable Web Platform by Extending NGINX with Lua"
   homepage "https://openresty.org"
+  revision 106
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-openresty"
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "4617cff6dc8251dce06d0912aada89ecdefac8c327123bffe2c0eec8cb25c9d8"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "82398b8269fc083138a48dd11df3feba19c90275771f9b8f954ed73e10369225"
-    sha256 cellar: :any_skip_relocation, sonoma:         "a9404689253d60a575270f7711f727f727aa0038294bcf63a626b75c80757dbc"
-    sha256 cellar: :any_skip_relocation, monterey:       "c38d5b9a5d08fdd3418f1989da30b2b5a05011a27b380105fc73acc7048134f5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6aee05d654037a64fc0752389ae5182d21878a3f5102312ed39b6777afca3315"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-openresty"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "82fec2b52197823dec1a2a4075811687f364e00cf4615af0b9b7cea1019bd6b2"
+    sha256 cellar: :any_skip_relocation, monterey:       "898b3af4c7035a4def951270c22cc5dd86b2c6a37a83aa15671e7e9b8a228603"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "df4fe84e00567dff27a9199dafd88e0f46171e922c239c472b85707337d208ee"
   end
+
   VERSION = "1.21.4.2".freeze
-  revision 4
   url "https://openresty.org/download/openresty-#{VERSION}.tar.gz"
   sha256 "5b1eded25c1d4ed76c0336dfae50bd94d187af9c85ead244135dd5ae363b2e2a"
 

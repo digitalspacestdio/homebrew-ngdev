@@ -1,15 +1,17 @@
 class DigitalspaceMysql57 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "8"
-  revision 2
+  version "5.7"
+  revision 106
 
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-mysql57"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "7049b7f7f3e66f9a6224a192d35fe97ff8f46fb523b60be3ad5b860029b19960"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-mysql57"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "19a9982330c1b16eba5598be91d1caa159c410152f9b0441ae479242f434b314"
+    sha256 cellar: :any_skip_relocation, monterey:       "d777a7cb2137aca43a7fae2219a2215c2fed88861f9209d9376ad06c3de46fa2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "cd88a1b09bedf0322b983d72924bd6a487ac87f10ddf2c21f6b70dfe07a0f8d3"
   end
 
-  depends_on 'mysql@5.7'
+  depends_on 'digitalspace-mysql@5.7'
 
   def mysql_listen_address
     "127.0.0.1"
@@ -339,7 +341,7 @@ class DigitalspaceMysql57 < Formula
   def mysql_client_script
     <<~EOS
     #!/bin/sh
-    exec #{Formula["mysql@5.7"].opt_bin}/mysql --defaults-file=#{etc}/mysql/5.7/my.cnf --host #{mysql_listen_address} --port #{mysql_listen_port} --user root "$@"
+    exec #{Formula["digitalspace-mysql@5.7"].opt_bin}/mysql --defaults-file=#{etc}/mysql/5.7/my.cnf --host #{mysql_listen_address} --port #{mysql_listen_port} --user root "$@"
     EOS
   rescue StandardError
       nil
@@ -362,12 +364,12 @@ class DigitalspaceMysql57 < Formula
 
     if !mysql_data_dir.exist?
       mysql_data_dir.mkpath
-      system("#{Formula["mysql@5.7"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{mysql_base_dir} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
+      system("#{Formula["digitalspace-mysql@5.7"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{mysql_base_dir} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
     end
 
     supervisor_config =<<~EOS
       [program:mysql57]
-      command=#{Formula["mysql@5.7"].opt_bin}/mysqld --defaults-file=#{etc}/mysql/5.7/my.cnf
+      command=#{Formula["digitalspace-mysql@5.7"].opt_bin}/mysqld --defaults-file=#{etc}/mysql/5.7/my.cnf
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-mysql57.log
       stdout_logfile_maxbytes=1MB
@@ -384,7 +386,7 @@ class DigitalspaceMysql57 < Formula
   end
 
   service do
-    run ["#{Formula["mysql@5.7"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/5.7/my.cnf"]
+    run ["#{Formula["digitalspace-mysql@5.7"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/5.7/my.cnf"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false

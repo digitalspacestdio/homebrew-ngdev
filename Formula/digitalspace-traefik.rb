@@ -1,10 +1,20 @@
 class DigitalspaceTraefik < Formula
-  url "file:///dev/null"
-  sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "0.1.4"
+  desc "Modern reverse proxy"
+  homepage "https://traefik.io/"
+  url "https://github.com/traefik/traefik/releases/download/v2.11.8/traefik-v2.11.8.src.tar.gz"
+  sha256 "e95c47584ee9bd041215de0fcf3627215a4ef48a1cca06fdb638132428521fa2"
+  license "MIT"
+  revision 106
 
-  depends_on "traefik@2"
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-traefik"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "2ab21efa515ba0d1d8b9fbf4e8ab04dff45f0dfbc08b83c830048cb4ecda35fb"
+    sha256 cellar: :any_skip_relocation, monterey:       "c8d8185623819a93ecd172a5dedcac169c412d16e1a87d17e2777658c063f0b8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "11b2d577ac973d874fe74012232543cfa2adb6c06189d572bc597d04e7ab3d37"
+  end
+
   depends_on "digitalspace-local-ca"
+  depends_on "go" => :build
 
   def traefik_main_config
     <<~EOS
@@ -183,30 +193,26 @@ class DigitalspaceTraefik < Formula
       nil
   end
 
-  def binary_dir
-    buildpath / "bin"
-  end
-
-  def binary_path
-    binary_dir / "bin" / "digitalspace-traefik"
-  end
-
   def binary_wrapper
     <<~EOS
       #!/usr/bin/env bash
       set -e
       
-      exec #{Formula["traefik@2"].opt_bin}/traefik "$@"
+      exec #{Formula["digitalspace-traefik"].opt_bin}/traefik "$@"
     EOS
   rescue StandardError
       nil
   end
 
   def install
-    binary_dir.mkpath
-    binary_path.write(binary_wrapper)
-    binary_path.chmod(0755)
-    bin.install binary_path
+    ldflags = %W[
+      -s -w
+      -X github.com/traefik/traefik/v#{version.major}/pkg/version.Version=#{version}
+    ]
+    system "go", "generate"
+    system "go", "build", *std_go_args(ldflags:, output: bin/"traefik"), "./cmd/traefik"
+
+    mv bin/"traefik", bin/"digitalspace-traefik"
   end
 
   def supervisor_config
@@ -264,5 +270,38 @@ class DigitalspaceTraefik < Formula
     error_log_path var/"log/digitalspace-service-traefik-error.log"
     #environment_variables LEGO_CA_CERTIFICATES: "#{step_path.strip}/certs/root_ca.crt"
     #environment_variables LEGO_CA_CERTIFICATES: "#{step_path.strip}/certs/root_ca.crt", ACME_DNS_API_BASE: 'http://auth.localhost:5380', ACME_DNS_STORAGE_PATH: "#{etc}/digitalspace-traefik/acme.json"
+  end
+
+  test do
+    ui_port = free_port
+    http_port = free_port
+
+    (testpath/"traefik.toml").write <<~EOS
+      [entryPoints]
+        [entryPoints.http]
+          address = ":#{http_port}"
+        [entryPoints.traefik]
+          address = ":#{ui_port}"
+      [api]
+        insecure = true
+        dashboard = true
+    EOS
+
+    begin
+      pid = fork do
+        exec bin/"digitalspace-traefik", "--configfile=#{testpath}/traefik.toml"
+      end
+      sleep 8
+      cmd_ui = "curl -sIm3 -XGET http://127.0.0.1:#{http_port}/"
+      assert_match "404 Not Found", shell_output(cmd_ui)
+      sleep 1
+      cmd_ui = "curl -sIm3 -XGET http://127.0.0.1:#{ui_port}/dashboard/"
+      assert_match "200 OK", shell_output(cmd_ui)
+    ensure
+      Process.kill(9, pid)
+      Process.wait(pid)
+    end
+
+    assert_match version.to_s, shell_output("#{bin}/digitalspace-traefik version 2>&1")
   end
 end

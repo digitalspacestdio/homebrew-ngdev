@@ -8,14 +8,16 @@ class DigitalspaceSupervisor < Formula
   license "BSD-3-Clause-Modification"
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
 
+  revision 106
+
   bottle do
-    root_url "https://f003.backblazeb2.com/file/homebrew-bottles/nextgen-devenv/digitalspace-supervisor"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "2e964dcf66d4cc41dc43752510a64438b635c8337704dfa659e5b4ec36cbc6d7"
-    sha256 cellar: :any_skip_relocation, sonoma:        "5b0b9efb87a08ce2153242593c93d1e99559490407471ff3768f8325dc631632"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5e03eb0014e6e66a7eedcc29fc8b40b185ac2d56f5938e5c53cc826761cafdff"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-supervisor"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "9a0b6d6e3b5290b50c0e222113a46fa9db60cbcd2abf0ebae51c645cb84e07c3"
+    sha256 cellar: :any_skip_relocation, monterey:       "5e9c3b2f699864b9db6b08113b3dc36bcd847dc800ba5b9bdc0d5eec9679fd99"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dfc8d3305af4dc055f6de4d636010e2a01cdcdcec887a397d442be93e1cc69d4"
   end
+
   depends_on "python@3.11"
-  revision 18
 
   def log_dir
       var / "log"
