@@ -18,7 +18,6 @@ class DigitalspaceAllutils < Formula
   depends_on "jq"
   depends_on "pv"
   depends_on "jenv"
-  depends_on "nvm"
   depends_on "vim"
   depends_on "watch"
 
