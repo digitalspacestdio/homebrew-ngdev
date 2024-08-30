@@ -165,7 +165,7 @@ class DigitalspacePostgresql15 < Formula
   end
 
   def postgresql_datadir
-    var/name
+    var / "lib" / "postgresql" / "15"
   end
 
   def postgresql_log_path
