@@ -4,7 +4,7 @@ class DigitalspacePostgresql15 < Formula
   url "https://ftp.postgresql.org/pub/source/v15.8/postgresql-15.8.tar.bz2"
   sha256 "4403515f9a69eeb3efebc98f30b8c696122bfdf895e92b3b23f5b8e769edcb6a"
   license "PostgreSQL"
-  revision 106
+  revision 107
 
   livecheck do
     url "https://ftp.postgresql.org/pub/source/"
@@ -13,7 +13,7 @@ class DigitalspacePostgresql15 < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-postgresql15"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "16ecadb78f9f5e6281a04f2be1a4603e1843527bfd7c9f98b0abee0699f08e9c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "e77f8bcac742048bd5e1d5354b3cec22c737582e2d40f32cf620ace274cf6813"
   end
 
   depends_on "pkg-config" => :build
@@ -142,6 +142,11 @@ class DigitalspacePostgresql15 < Formula
                 "LD = #{HOMEBREW_PREFIX}/Homebrew/Library/Homebrew/shims/linux/super/ld",
                 "LD = #{HOMEBREW_PREFIX}/bin/ld"
     end
+
+    (buildpath / "bin" / "psql15").write(postgresql_client_script)
+    (buildpath / "bin" / "psql15").chmod(0755)
+
+    bin.install "bin/psql15"
   end
 
   def post_install
