@@ -40,25 +40,12 @@ class DigitalspacePostgresql15 < Formula
     depends_on "util-linux"
   end
 
-
   def postgresql_listen_address
     "127.0.0.1"
   end
 
   def postgresql_listen_port
     "5432"
-  end
-
-  def postgresql_base_dir
-    opt_prefix
-  end
-
-  def postgresql_data_dir
-    var / "lib" / "postgresql" / "15"
-  end
-
-  def postgresql_tmp_dir
-    "/tmp"
   end
 
   def postgresql_log_dir
@@ -160,7 +147,7 @@ class DigitalspacePostgresql15 < Formula
 
     supervisor_config =<<~EOS
       [program:postgresql15]
-      command=#{bin}/postgres -D #{postgresql_data_dir}
+      command=#{bin}/postgres -D #{postgresql_datadir}
       environment=LC_ALL=C
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-postgresql15.log
@@ -174,7 +161,7 @@ class DigitalspacePostgresql15 < Formula
 
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"postgresql15.ini").delete if (etc/"digitalspace-supervisor.d"/"postgresql15.ini").exist?
-    (etc/"digitalspace-supervisor.d"/"postgresql15.ini").write(supervisor_config) unless (etc/"digitalspace-supervisor.d"/"postgresql15.ini").exist?
+    (etc/"digitalspace-supervisor.d"/"postgresql15.ini").write(supervisor_config)
   end
 
   def postgresql_datadir
