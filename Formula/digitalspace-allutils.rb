@@ -20,14 +20,8 @@ class DigitalspaceAllutils < Formula
   depends_on "jenv"
   depends_on "vim"
   depends_on "watch"
-
-  on_macos do 
-    depends_on "flock"
-  end
-
-  # on_linux do
-  #   depends_on "util-linux"
-  # end
+  depends_on "flock"
+  
 
   def install
     (buildpath / "keepme.txt").write("")

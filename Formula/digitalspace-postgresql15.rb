@@ -1,8 +1,8 @@
 class DigitalspacePostgresql15 < Formula
   desc "Object-relational database system"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v15.7/postgresql-15.7.tar.bz2"
-  sha256 "a46fe49485ab6385e39dabbbb654f5d3049206f76cd695e224268729520998f7"
+  url "https://ftp.postgresql.org/pub/source/v15.8/postgresql-15.8.tar.bz2"
+  sha256 "4403515f9a69eeb3efebc98f30b8c696122bfdf895e92b3b23f5b8e769edcb6a"
   license "PostgreSQL"
   revision 106
 
@@ -13,15 +13,13 @@ class DigitalspacePostgresql15 < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-postgresql15"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "336fadd386996229f44c1ce7f67362f2aa9a46a51c89d24467de769e5036fae2"
-    sha256 cellar: :any_skip_relocation, monterey:       "dff4274e6d3251e04eec0223f219b5ca89e89d844f12ebc2d0d59d69372743d9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "98242ed42b4b4ad43fbf64adc761a2fffdfa1413156975ea3c2c1e1982dad743"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "16ecadb78f9f5e6281a04f2be1a4603e1843527bfd7c9f98b0abee0699f08e9c"
   end
 
   depends_on "pkg-config" => :build
   depends_on "gettext"
   depends_on "icu4c"
-  
+
   # GSSAPI provided by Kerberos.framework crashes when forked.
   # See https://github.com/Homebrew/homebrew-core/issues/47494.
   depends_on "krb5"
@@ -35,6 +33,7 @@ class DigitalspacePostgresql15 < Formula
   uses_from_macos "libxslt"
   uses_from_macos "openldap"
   uses_from_macos "perl"
+  uses_from_macos "zlib"
 
   on_linux do
     depends_on "linux-pam"
@@ -76,50 +75,83 @@ class DigitalspacePostgresql15 < Formula
   end
 
   def install
-    system "./configure", "--disable-dependency-tracking",
-                          "--disable-silent-rules",
-                          "--prefix=#{prefix}",
-                          "--disable-ipcs",        # does not build on macOS
-                          "--disable-ipcrm",       # does not build on macOS
-                          "--disable-wall",        # already comes with macOS
-                          "--enable-libuuid"       # conflicts with ossp-uuid
-                          # "--disable-libsmartcols" # macOS already ships 'column'
+    ENV.delete "PKG_CONFIG_LIBDIR"
+    ENV.prepend "LDFLAGS", "-L#{Formula["openssl@3"].opt_lib} -L#{Formula["readline"].opt_lib}"
+    ENV.prepend "CPPFLAGS", "-I#{Formula["openssl@3"].opt_include} -I#{Formula["readline"].opt_include}"
 
-    system "make", "install"
+    # Fix 'libintl.h' file not found for extensions
+    ENV.prepend "LDFLAGS", "-L#{Formula["gettext"].opt_lib}"
+    ENV.prepend "CPPFLAGS", "-I#{Formula["gettext"].opt_include}"
 
-    # Remove binaries already shipped by macOS
-    %w[cal col colcrt colrm getopt hexdump logger nologin look mesg more renice rev ul whereis].each do |prog|
-      rm_f bin/prog
-      rm_f sbin/prog
-      rm_f man1/"#{prog}.1"
-      rm_f man8/"#{prog}.8"
-      rm_f share/"bash-completion/completions/#{prog}"
+    on_linux do
+      ENV.prepend "LDFLAGS", "-L#{Formula["util-linux"].opt_lib}"
+      ENV.prepend "CPPFLAGS", "-I#{Formula["util-linux"].opt_include}"
+    end    
+
+    args = std_configure_args + %W[
+      --datadir=#{opt_pkgshare}
+      --libdir=#{opt_lib}
+      --includedir=#{opt_include}
+      --sysconfdir=#{etc}
+      --docdir=#{doc}
+      --enable-nls
+      --enable-thread-safety
+      --with-gssapi
+      --with-icu
+      --with-ldap
+      --with-libxml
+      --with-libxslt
+      --with-lz4
+      --with-zstd
+      --with-openssl
+      --with-pam
+      --with-perl
+      --with-uuid=e2fs
+      --with-extra-version=\ (#{tap.user})
+    ]
+    if OS.mac?
+      args += %w[
+        --with-bonjour
+        --with-tcl
+      ]
     end
 
-    # # install completions only for installed programs
-    # Pathname.glob("bash-completion/*") do |prog|
-    #   if (bin/prog.basename).exist? || (sbin/prog.basename).exist?
-    #     bash_completion.install prog
-    #   end
-    # end
+    # PostgreSQL by default uses xcodebuild internally to determine this,
+    # which does not work on CLT-only installs.
+    args << "PG_SYSROOT=#{MacOS.sdk_path}" if OS.mac? && MacOS.sdk_root_needed?
 
-    (buildpath / "bin" / "psql15").write(postgresql_client_script)
-    (buildpath / "bin" / "psql15").chmod(0755)
+    system "./configure", *args
 
-    bin.install "bin/psql15"
-  end
+    # Work around busted path magic in Makefile.global.in. This can't be specified
+    # in ./configure, but needs to be set here otherwise install prefixes containing
+    # the string "postgres" will get an incorrect pkglibdir.
+    # See https://github.com/Homebrew/homebrew-core/issues/62930#issuecomment-709411789
+    system "make", "pkglibdir=#{opt_lib}/postgresql",
+                   "pkgincludedir=#{opt_include}/postgresql",
+                   "includedir_server=#{opt_include}/postgresql/server"
+    system "make", "install-world", "datadir=#{pkgshare}",
+                                    "libdir=#{lib}",
+                                    "pkglibdir=#{lib}/postgresql",
+                                    "includedir=#{include}",
+                                    "pkgincludedir=#{include}/postgresql",
+                                    "includedir_server=#{include}/postgresql/server",
+                                    "includedir_internal=#{include}/postgresql/internal"
 
-  test do
-    out = shell_output("#{bin}/namei -lx /usr").split("\n")
-    assert_equal ["f: /usr", "Drwxr-xr-x root wheel /", "drwxr-xr-x root wheel usr"], out
+    if OS.linux?
+      inreplace lib/"postgresql/pgxs/src/Makefile.global",
+                "LD = #{HOMEBREW_PREFIX}/Homebrew/Library/Homebrew/shims/linux/super/ld",
+                "LD = #{HOMEBREW_PREFIX}/bin/ld"
+    end
   end
 
   def post_install
-    postgresql_log_dir.mkpath
-    if !postgresql_data_dir.exist?
-      postgresql_data_dir.mkpath
-      system "#{bin}/initdb", "--username=postgres", "--locale=C", "-E", "UTF-8", postgresql_data_dir
-    end
+    (var/"log").mkpath
+    postgresql_datadir.mkpath
+
+    # Don't initialize database, it clashes when testing other PostgreSQL versions.
+    return if ENV["HOMEBREW_GITHUB_ACTIONS"]
+
+    system bin/"initdb", "--locale=C", "-E", "UTF-8", postgresql_datadir unless pg_version_exists?
 
     supervisor_config =<<~EOS
       [program:postgresql15]
@@ -140,8 +172,29 @@ class DigitalspacePostgresql15 < Formula
     (etc/"digitalspace-supervisor.d"/"postgresql15.ini").write(supervisor_config) unless (etc/"digitalspace-supervisor.d"/"postgresql15.ini").exist?
   end
 
+  def postgresql_datadir
+    var/name
+  end
+
+  def postgresql_log_path
+    var/"log/#{name}.log"
+  end
+
+  def pg_version_exists?
+    (postgresql_datadir/"PG_VERSION").exist?
+  end
+
+  def caveats
+    <<~EOS
+      This formula has created a default database cluster with:
+        initdb --locale=C -E UTF-8 #{postgresql_datadir}
+      For more details, read:
+        https://www.postgresql.org/docs/#{version.major}/app-initdb.html
+    EOS
+  end
+
   service do
-    run [Formula["postgresql@15"].opt_bin/"postgres", "-D", f.postgresql_data_dir]
+    run [opt_bin/"postgres", "-D", f.postgresql_datadir]
     environment_variables LC_ALL: "C"
     keep_alive true
     require_root false
