@@ -135,5 +135,5 @@ Create index.php
 echo '<?php phpinfo();' > ~/www/dev/hello/index.php
 ```
 
-Opein `https://hello.dev.local/` in your browser and check the result.
+Open https://hello.dev.local/ in the browser and check the result
 
