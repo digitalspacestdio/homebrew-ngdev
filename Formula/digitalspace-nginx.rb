@@ -8,13 +8,11 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 106
+  revision 107
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-nginx"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "e76c63f6f5be862fd3b9f29d4bf878b9d30067f4700008b5a92d57b6aa387cdf"
-    sha256 cellar: :any_skip_relocation, monterey:       "25dfa29f4ae90dea2f43cd4ded354ba2f810824b2b10f42039141b82ad72c961"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9d90414b6f8f5ad611114ac29f69182cefd93b3303e53a1e387e4e690976bf55"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "ae5da2782dfe72caf6042da93ffb8b6e23ffc6572822b46caf613faba0d45b59"
   end
 
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
