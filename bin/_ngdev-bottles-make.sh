@@ -15,7 +15,7 @@ ARGS=${@:-$(brew search "${TAP_NAME}" | grep "${TAP_NAME}")}
 REBUILD=${REBUILD:-''}
 
 export FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$ARGS" | md5sum | awk '{ print $1 }')}
-
+export HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-$(brew --prefix)}
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
@@ -30,6 +30,7 @@ do
     FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
     if [[ -n "$FORMULAS" ]]; then
         for FORMULA in $FORMULAS; do
+            find "${HOMEBREW_PREFIX}" -name "${FORMULA}*" -exec rm -rf {} \;
             if [[ -n $REBUILD ]]; then
                 brew uninstall --force --ignore-dependencies $FORMULA $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}")
                 rm -rf ${HOME}/.bottles/$FORMULA.bottle

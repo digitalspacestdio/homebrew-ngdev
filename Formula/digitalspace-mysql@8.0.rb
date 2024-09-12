@@ -4,7 +4,7 @@ class DigitalspaceMysqlAT80 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-boost-8.0.39.tar.gz"
   sha256 "93208da9814116d81a384eae42120fd6c2ed507f1696064c510bc36047050241"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
-  revision 106
+  revision 107
 
   livecheck do
     url "https://dev.mysql.com/downloads/mysql/8.0.html?tpl=files&os=src&version=8.0"
