@@ -30,7 +30,7 @@ do
     FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
     if [[ -n "$FORMULAS" ]]; then
         for FORMULA in $FORMULAS; do
-            find "${HOMEBREW_PREFIX}" -name "${FORMULA}*" -exec rm -rf {} \;
+            find "${HOMEBREW_PREFIX}/etc" -maxdepth 0 -name "${FORMULA//"$TAP_NAME_PREFIX"/}*" -exec rm -v -rf {} \; || true
             if [[ -n $REBUILD ]]; then
                 brew uninstall --force --ignore-dependencies $FORMULA $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}")
                 rm -rf ${HOME}/.bottles/$FORMULA.bottle
@@ -46,6 +46,7 @@ do
     fi
     
     for FORMULA in $FORMULAS; do
+
         if ! [[ -d ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle ]] || ! grep "$FORMULA$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp; then
             echo -e "\033[33m==> Creating bottles for $FORMULA ...\033[0m"
             rm -rf ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle
