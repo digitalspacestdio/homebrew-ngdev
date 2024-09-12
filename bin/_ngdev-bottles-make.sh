@@ -32,7 +32,7 @@ do
         for FORMULA in $FORMULAS; do
             find "${HOMEBREW_PREFIX}/etc" -maxdepth 0 -name "${FORMULA//"$TAP_NAME_PREFIX"/}*" -exec rm -v -rf {} \; || true
             if [[ -n $REBUILD ]]; then
-                brew list | grep ${FORMULA//"$TAP_NAME_PREFIX"/} && brew uninstall --force --ignore-dependencies $FORMULA $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}")
+                brew list | grep '^'${FORMULA//"$TAP_NAME_PREFIX"/}'$' && brew uninstall --force --ignore-dependencies $FORMULA $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}")
                 rm -rf ${HOME}/.bottles/$FORMULA.bottle
             fi
             for DEP in $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}"); do
@@ -70,7 +70,7 @@ do
             echo "==> Building bottles for $FORMULA ..."
             [[ "true" == $(brew info --json=v1 $FORMULA | jq '.[0].installed[0].built_as_bottle') ]] || {
                 echo "==> Removing previously installed formula $FORMULA ..."
-                brew list | grep ${FORMULA//"$TAP_NAME_PREFIX"/} && brew uninstall --force --ignore-dependencies $FORMULA
+                brew list | grep '^'${FORMULA//"$TAP_NAME_PREFIX"/}'$' && brew uninstall --force --ignore-dependencies $FORMULA 
             }
 
             brew install --quiet --build-bottle $FORMULA 2>&1
