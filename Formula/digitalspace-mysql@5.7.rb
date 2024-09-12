@@ -43,15 +43,15 @@ class DigitalspaceMysqlAT57 < Formula
   end
 
   def mysql_data_dir
-    var / "lib" / "mysql" / "5.7"
+    var / "lib" / "digitalspace-mysql" / "5.7"
   end
 
   def mysql_etc_dir
-    etc / "mysql" / "5.7"
+    etc / "digitalspace-mysql" / "5.7"
   end
 
   def mysql_log_dir
-    var / "log" / "mysql" / "5.7"
+    var / "log" / "digitalspace-mysql" / "5.7"
   end
 
   def mysql_tmp_dir

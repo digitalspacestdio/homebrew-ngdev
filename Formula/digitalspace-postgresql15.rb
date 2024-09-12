@@ -49,7 +49,7 @@ class DigitalspacePostgresql15 < Formula
   end
 
   def postgresql_log_dir
-    var / "log" / "postgresql" / "15"
+    var / "log" / "digitalspace-postgresql" / "15"
   end
 
   def postgresql_client_script
@@ -165,7 +165,7 @@ class DigitalspacePostgresql15 < Formula
   end
 
   def postgresql_datadir
-    var / "lib" / "postgresql" / "15"
+    var / "lib" / "digitalspace-postgresql" / "15"
   end
 
   def postgresql_log_path

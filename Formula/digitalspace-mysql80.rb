@@ -26,11 +26,11 @@ class DigitalspaceMysql80 < Formula
   end
 
   def mysql_etc_dir
-    etc / "mysql" / "8.0"
+    etc / "digitalspace-mysql" / "8.0"
   end
 
   def mysql_data_dir
-    var / "lib" / "mysql" / "8.0"
+    var / "lib" / "digitalspace-mysql" / "8.0"
   end
 
   def mysql_tmp_dir
@@ -38,7 +38,7 @@ class DigitalspaceMysql80 < Formula
   end
 
   def mysql_log_dir
-    var / "log" / "mysql" / "8.0"
+    var / "log" / "digitalspace-mysql" / "8.0"
   end
 
   def mysql_mydumper_script
