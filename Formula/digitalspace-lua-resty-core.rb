@@ -8,6 +8,7 @@ class DigitalspaceLuaRestyCore < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-lua-resty-core"
+    sha256 cellar: :any_skip_relocation, monterey:     "1828a40449da48f0a2f68003e2297ed9b52f657d114cdb0ec39256fbf09deb63"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "ee522dad0bde950f7d8481e3e644f7967ee1f80c9ffc073b46c93f03c2f0f804"
   end
 

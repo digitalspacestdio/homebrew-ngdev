@@ -12,6 +12,7 @@ class DigitalspaceNginx < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-nginx"
+    sha256 cellar: :any_skip_relocation, monterey:     "d9ca9420e5ac98d568e9e5f9aeab52060b880b32149a37f043f2a8d422ae7f60"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "880512f93c5fc98d66fcd2a664ca069eb5b03bd0f3da1fba2a6a2c5f22155c81"
   end
 

@@ -12,6 +12,7 @@ class DigitalspaceSupervisor < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-supervisor"
+    sha256 cellar: :any_skip_relocation, monterey:     "8a091cfe8c2b85db67061f277ff6cf27cf42c342042af51bd8d63d3a8da1ba2f"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "143345c83f7d5b36a3f880225cfc37ead25e445568af4e61f1180a72afb8d175"
   end
 

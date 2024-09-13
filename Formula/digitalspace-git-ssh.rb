@@ -6,6 +6,7 @@ class DigitalspaceGitSsh < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-git-ssh"
+    sha256 cellar: :any_skip_relocation, monterey:     "6df5ecf66ff0f242a0b189a2b736126cf76475fdac77433b9a2015a529986217"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "e2f5482ade8cb04d5c5cf187eef1004954c11b132bfcda3016b9305f4d191147"
   end
 
