@@ -30,7 +30,7 @@ do
     FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
     if [[ -n "$FORMULAS" ]]; then
         for FORMULA in $FORMULAS; do
-            find "${HOMEBREW_PREFIX}/etc" -maxdepth 0 -name "${FORMULA//"$TAP_NAME_PREFIX"/}*" -exec rm -v -rf {} \; || true
+            find "${HOMEBREW_PREFIX}/etc" -maxdepth 1 -name "${FORMULA//"$TAP_NAME_PREFIX"/}*" -exec rm -v -rf {} \; || true
             if [[ -n $REBUILD ]]; then
                 brew list | grep '^'${FORMULA//"$TAP_NAME_PREFIX"/}'$' && brew uninstall --force --ignore-dependencies $FORMULA $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}")
                 rm -rf ${HOME}/.bottles/$FORMULA.bottle
