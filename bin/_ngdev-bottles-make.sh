@@ -40,7 +40,7 @@ do
                 if ! grep "$DEP$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp > /dev/null; then
                     echo -n -e "\033[33m==> Building dependency bottle \033[0m"
                     echo -e "$DEP \033[33mfor\033[0m $FORMULA"
-                    $0 $DEP
+                    REBUILD='' $0 $DEP
                 fi
             done
         done
