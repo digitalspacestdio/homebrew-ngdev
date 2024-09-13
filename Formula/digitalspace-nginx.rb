@@ -12,7 +12,7 @@ class DigitalspaceNginx < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-nginx"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "ae5da2782dfe72caf6042da93ffb8b6e23ffc6572822b46caf613faba0d45b59"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "880512f93c5fc98d66fcd2a664ca069eb5b03bd0f3da1fba2a6a2c5f22155c81"
   end
 
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
