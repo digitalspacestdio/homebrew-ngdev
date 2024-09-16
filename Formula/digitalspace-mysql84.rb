@@ -276,7 +276,6 @@ class DigitalspaceMysql84 < Formula
     [mysqld]
     disable_log_bin
     binlog_expire_logs_seconds = 3600
-    default-authentication-plugin = mysql_native_password
     explicit_defaults_for_timestamp = 1
 
     user               = #{ENV['USER']}
@@ -309,7 +308,6 @@ class DigitalspaceMysql84 < Formula
     tmp_table_size        = 256M
     max_heap_table_size   = 256M
     log_error             = #{mysql_log_dir}/error.log
-    expire_logs_days      = 7
 
     innodb_doublewrite              = 0
     innodb_file_per_table           = 1
