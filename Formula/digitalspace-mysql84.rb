@@ -345,9 +345,9 @@ class DigitalspaceMysql84 < Formula
   end
 
   def install
-    (buildpath / "bin" / "mydumper").write(mysql_mydumper_script)
-    (buildpath / "bin" / "mydumper").chmod(0755)
-    bin.install "bin/mydumper"
+    (buildpath / "bin" / "mydumper81").write(mysql_mydumper_script)
+    (buildpath / "bin" / "mydumper81").chmod(0755)
+    bin.install "bin/mydumper81"
 
     (buildpath / "bin" / "mysql81").write(mysql_client_script)
     (buildpath / "bin" / "mysql81").chmod(0755)
