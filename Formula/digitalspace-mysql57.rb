@@ -341,7 +341,7 @@ class DigitalspaceMysql57 < Formula
   def mysql_client_script
     <<~EOS
     #!/bin/sh
-    exec #{Formula["digitalspace-mysql@5.7"].opt_bin}/mysql --defaults-file=#{etc}/mysql/5.7/my.cnf --host #{mysql_listen_address} --port #{mysql_listen_port} --user root "$@"
+    exec #{Formula["digitalspace-mysql@5.7"].opt_bin}/mysql --defaults-file=#{mysql_etc_dir}/my.cnf --host #{mysql_listen_address} --port #{mysql_listen_port} --user root "$@"
     EOS
   rescue StandardError
       nil
@@ -369,7 +369,7 @@ class DigitalspaceMysql57 < Formula
 
     supervisor_config =<<~EOS
       [program:mysql57]
-      command=#{Formula["digitalspace-mysql@5.7"].opt_bin}/mysqld --defaults-file=#{etc}/mysql/5.7/my.cnf
+      command=#{Formula["digitalspace-mysql@5.7"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-mysql57.log
       stdout_logfile_maxbytes=1MB
@@ -386,7 +386,7 @@ class DigitalspaceMysql57 < Formula
   end
 
   service do
-    run ["#{Formula["digitalspace-mysql@5.7"].opt_bin}/mysqld", "--defaults-file=#{etc}/mysql/5.7/my.cnf"]
+    run ["#{Formula["digitalspace-mysql@5.7"].opt_bin}/mysqld", "--defaults-file=#{mysql_etc_dir}/my.cnf"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false
