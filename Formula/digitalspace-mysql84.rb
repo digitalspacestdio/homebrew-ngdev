@@ -4,6 +4,11 @@ class DigitalspaceMysql84 < Formula
   version "8.4"
   revision 107
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql84"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "38dd8674793ed86a630975c745740d26949fada2e0a6a3f9bf32de28693c0fda"
+  end
+
   depends_on "mysql-client"
   depends_on 'digitalspace-mysql@8.4'
 

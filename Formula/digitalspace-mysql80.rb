@@ -6,9 +6,7 @@ class DigitalspaceMysql80 < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql80"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "2e5f655d053cdbcfb9a5638d671d9d0f74ecafd3d0987956655569a6d5d6ec19"
-    sha256 cellar: :any_skip_relocation, monterey:       "4c692e1b08f75b89ddf7c0e99d68937fe0eeaa9d27377c94dd31b3b034a157b4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "79858c65c80c8e4816814be5e554f36c2bfe46c7ef1a51e497876489713bf586"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "9c2945f60aa127597eeaca382a15a496612bdea926bf00915ab61fcf411fd9c7"
   end
 
   depends_on "mysql-client"
