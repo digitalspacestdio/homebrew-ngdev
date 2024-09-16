@@ -3,13 +3,13 @@ require 'etc'
 class DigitalspaceOpenresty < Formula
   desc "Scalable Web Platform by Extending NGINX with Lua"
   homepage "https://openresty.org"
-  revision 106
+  revision 107
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-openresty"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "82fec2b52197823dec1a2a4075811687f364e00cf4615af0b9b7cea1019bd6b2"
-    sha256 cellar: :any_skip_relocation, monterey:       "898b3af4c7035a4def951270c22cc5dd86b2c6a37a83aa15671e7e9b8a228603"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "df4fe84e00567dff27a9199dafd88e0f46171e922c239c472b85707337d208ee"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-openresty"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4ac3fa0ef760afeb499b581fe7c60a3ab3ce1c3d021fd3f866071ff576da070f"
+    sha256 cellar: :any_skip_relocation, monterey:       "04446a173affd822b76bfa5e950ea9c4ea856004be317396149040b96d75d081"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "600149c5d2670fbc590aff809426d8e01f32941096fe74f6ba946cb6aaa793d7"
   end
 
   VERSION = "1.21.4.2".freeze

@@ -2,13 +2,13 @@ class DigitalspaceRedis < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.2"
-  revision 106
+  revision 107
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-redis"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "65e3dff05b64eec902985ca307821ae13d6a7a69c46916e6740dd6e81ae8dad8"
-    sha256 cellar: :any_skip_relocation, monterey:       "2c218cc00d2b3e9079c8890a72b8a1adb3a535331e08b46d28dd5bbda60a3511"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "72db5592333499b4a4c8a199a354b1d657c08b029c24e8e8f24c7d6fe046e845"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-redis"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "f4b3d5542cfe6c3186ec459294826c179615021c4f9a947053e936837cd9e035"
+    sha256 cellar: :any_skip_relocation, monterey:       "7eef998d8e9f6072be24b338b787dd2f5757d4e280134bfe3b928e3bffaab131"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a2a789b2941976c1763297c0d8fa2eeb1df3814825b81b1617255dee53e93cf5"
   end
 
   depends_on 'redis'

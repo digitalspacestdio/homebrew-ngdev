@@ -8,13 +8,13 @@ class DigitalspaceSupervisor < Formula
   license "BSD-3-Clause-Modification"
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
 
-  revision 106
+  revision 107
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-supervisor"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "9a0b6d6e3b5290b50c0e222113a46fa9db60cbcd2abf0ebae51c645cb84e07c3"
-    sha256 cellar: :any_skip_relocation, monterey:       "5e9c3b2f699864b9db6b08113b3dc36bcd847dc800ba5b9bdc0d5eec9679fd99"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dfc8d3305af4dc055f6de4d636010e2a01cdcdcec887a397d442be93e1cc69d4"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-supervisor"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "42b69048832ee0c8bd23c0c749d3d7d7082d5c20a1c0d129ebd20919fdf0dc36"
+    sha256 cellar: :any_skip_relocation, monterey:       "2d06681470336b1e78093e4361fcf0a14cc19c9685ab1962b7558a4d672cf59f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0751738c66f4c8bf2ec4b5c9a943044ecafa40169a13c896ef030637ddda5a76"
   end
 
   depends_on "python@3.11"

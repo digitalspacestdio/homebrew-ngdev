@@ -2,13 +2,13 @@ class DigitalspaceMysql57 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "5.7"
-  revision 106
+  revision 107
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-mysql57"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "19a9982330c1b16eba5598be91d1caa159c410152f9b0441ae479242f434b314"
-    sha256 cellar: :any_skip_relocation, monterey:       "d777a7cb2137aca43a7fae2219a2215c2fed88861f9209d9376ad06c3de46fa2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "cd88a1b09bedf0322b983d72924bd6a487ac87f10ddf2c21f6b70dfe07a0f8d3"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql57"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "b1370b8bb73fcde15e45f9a1e43f06db15ab2f450a574c8d9a97cba832d49587"
+    sha256 cellar: :any_skip_relocation, monterey:       "668138c0481871b8cc8e7166575bdc5fa0c17e8d0d7fda1bdff74f01e631002f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6431e9b2aa42669cceed54d61264870530086603a7b39ab2e9f3c3229bc059d1"
   end
 
   depends_on 'digitalspace-mysql@5.7'
@@ -26,11 +26,11 @@ class DigitalspaceMysql57 < Formula
   end
 
   def mysql_etc_dir
-    etc / "mysql" / "5.7"
+    etc / "digitalspace-mysql" / "5.7"
   end
 
   def mysql_data_dir
-    var / "lib" / "mysql" / "5.7"
+    var / "lib" / "digitalspace-mysql" / "5.7"
   end
 
   def mysql_tmp_dir
@@ -38,7 +38,7 @@ class DigitalspaceMysql57 < Formula
   end
 
   def mysql_log_dir
-    var / "log" / "mysql" / "5.7"
+    var / "log" / "digitalspace-mysql" / "5.7"
   end
 
   def mysql_mydumper_script

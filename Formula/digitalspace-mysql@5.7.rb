@@ -4,13 +4,13 @@ class DigitalspaceMysqlAT57 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-5.7/mysql-boost-5.7.44.tar.gz"
   sha256 "b8fe262c4679cb7bbc379a3f1addc723844db168628ce2acf78d33906849e491"
   license "GPL-2.0-only"
-  revision 106
+  revision 107
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-mysql@5.7"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "65b228de22d72f40d266a8876251c62c92c3813d3f6076ae3a9d1d3fbe7a089b"
-    sha256 cellar: :any_skip_relocation, monterey:       "4a9a14dba218d7ace14e74fedd849e8c7612d43c1e802781b8b2285cd170ed2e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8e17a75dc6d582fe9bb47b641f0c5feee756cf476ebd334f4dd9af8b99ecc604"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql@5.7"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "424315e0d87efd7a78868640ac5cfe12d237680730ebd5f1764a91d471895cbd"
+    sha256 cellar: :any_skip_relocation, monterey:       "13b712e28230ab4e1d0c341ea05f9f9182404864604764305cc163ce7d7e6078"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "bb88a23fd52e2e2c937e59208120d818ebd728e6831b52fdfc04abf328913867"
   end
 
   keg_only :versioned_formula
@@ -43,15 +43,15 @@ class DigitalspaceMysqlAT57 < Formula
   end
 
   def mysql_data_dir
-    var / "lib" / "mysql" / "5.7"
+    var / "lib" / "digitalspace-mysql" / "5.7"
   end
 
   def mysql_etc_dir
-    etc / "mysql" / "5.7"
+    etc / "digitalspace-mysql" / "5.7"
   end
 
   def mysql_log_dir
-    var / "log" / "mysql" / "5.7"
+    var / "log" / "digitalspace-mysql" / "5.7"
   end
 
   def mysql_tmp_dir

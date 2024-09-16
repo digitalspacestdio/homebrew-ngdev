@@ -4,7 +4,7 @@ class DigitalspaceMysqlAT80 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-boost-8.0.39.tar.gz"
   sha256 "93208da9814116d81a384eae42120fd6c2ed507f1696064c510bc36047050241"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
-  revision 106
+  revision 107
 
   livecheck do
     url "https://dev.mysql.com/downloads/mysql/8.0.html?tpl=files&os=src&version=8.0"
@@ -12,10 +12,10 @@ class DigitalspaceMysqlAT80 < Formula
   end
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/digitalspace-mysql@8.0"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "5e9cb41a842f12e7f39443fd5548e1a278c3569f961eea1b7b5eca2ebce4ea42"
-    sha256 cellar: :any_skip_relocation, monterey:       "ff992e23e29653b09e3ddd58e01005ed077169db1b8764975ca4b1b756ab1fa0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "361bb5486d07528d25d89908bb070e7aaf9839f3a6d1b196b06b86590619f63f"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql@8.0"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "0138d34322d7cea08a6b9a1fb947efb3b593d1584ec912bed56870a7d66c058c"
+    sha256 cellar: :any_skip_relocation, monterey:       "fc78e33fee37bc16afc0a5c12fa77ae5ec5930722eb0357e89ed1b0be11bbafe"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "02eeed3b6e6254133e3836aab222c0a23afc799af885cdb078db381bc835286b"
   end
 
   keg_only :versioned_formula
@@ -66,15 +66,15 @@ class DigitalspaceMysqlAT80 < Formula
   end
 
   def mysql_data_dir
-    var / "lib" / "mysql" / "8.0"
+    var / "lib" / "digitalspace-mysql" / "8.0"
   end
 
   def mysql_etc_dir
-    etc / "mysql" / "8.0"
+    etc / "digitalspace-mysql" / "8.0"
   end
 
   def mysql_log_dir
-    var / "log" / "mysql" / "8.0"
+    var / "log" / "digitalspace-mysql" / "8.0"
   end
 
   def mysql_tmp_dir

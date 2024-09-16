@@ -15,7 +15,7 @@ ARGS=${@:-$(brew search "${TAP_NAME}" | grep "${TAP_NAME}")}
 REBUILD=${REBUILD:-''}
 
 export FORMULAS_MD5=${FORMULAS_MD5:-$(echo "$ARGS" | md5sum | awk '{ print $1 }')}
-
+export HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-$(brew --prefix)}
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
@@ -30,21 +30,24 @@ do
     FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
     if [[ -n "$FORMULAS" ]]; then
         for FORMULA in $FORMULAS; do
+            find "${HOMEBREW_PREFIX}/etc" -maxdepth 1 -name "${FORMULA//"$TAP_NAME_PREFIX"/}*" -exec rm -v -rf {} \; || true
             if [[ -n $REBUILD ]]; then
-                brew uninstall --force --ignore-dependencies $FORMULA $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}")
+                brew list | grep '^'${FORMULA//"$TAP_NAME_PREFIX"/}'$' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'brew uninstall --force --ignore-dependencies {} || true'
+                brew deps --full --direct $FORMULA | grep "${TAP_NAME}" | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'brew uninstall --force --ignore-dependencies {} || true'
                 rm -rf ${HOME}/.bottles/$FORMULA.bottle
             fi
             for DEP in $(brew deps --full --direct $FORMULA | grep "${TAP_NAME}"); do
                 if ! grep "$DEP$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp > /dev/null; then
                     echo -n -e "\033[33m==> Building dependency bottle \033[0m"
                     echo -e "$DEP \033[33mfor\033[0m $FORMULA"
-                    $0 $DEP
+                    REBUILD='' $0 $DEP
                 fi
             done
         done
     fi
     
     for FORMULA in $FORMULAS; do
+
         if ! [[ -d ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle ]] || ! grep "$FORMULA$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp; then
             echo -e "\033[33m==> Creating bottles for $FORMULA ...\033[0m"
             rm -rf ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle
@@ -68,11 +71,12 @@ do
             echo "==> Building bottles for $FORMULA ..."
             [[ "true" == $(brew info --json=v1 $FORMULA | jq '.[0].installed[0].built_as_bottle') ]] || {
                 echo "==> Removing previously installed formula $FORMULA ..."
-                brew uninstall --force --ignore-dependencies $FORMULA
+                brew list | grep '^'${FORMULA//"$TAP_NAME_PREFIX"/}'$' && xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'brew uninstall --force --ignore-dependencies {} || true'
             }
 
+            FORMULA_REVISION=$(brew info --json=v1 $FORMULA | jq '.[0].revision')
             brew install --quiet --build-bottle $FORMULA 2>&1
-            brew bottle --skip-relocation --no-rebuild --root-url $BASE_ROOT_URL'/'${FORMULA//"$TAP_NAME_PREFIX"/} --json $FORMULA
+            brew bottle --skip-relocation --no-rebuild --root-url ${BASE_ROOT_URL}/${FORMULA_REVISION}/${FORMULA//"$TAP_NAME_PREFIX"/} --json $FORMULA
             ls | grep ${FORMULA//"$TAP_NAME_PREFIX"/}'.*--.*.gz$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
             ls | grep ${FORMULA//"$TAP_NAME_PREFIX"/}'.*--.*.json$' | awk -F'--' '{ print $0 " " $1 "-" $2 }' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'mv {}'
             cd $(brew tap-info --json "${TAP_NAME}" | jq -r '.[].path')
