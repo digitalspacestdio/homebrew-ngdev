@@ -57,7 +57,7 @@ class DigitalspacePostgresql15 < Formula
   def postgresql_client_script
     <<~EOS
     #!/bin/sh
-    exec #{bin}/psql -U $USER -d $USER --host=#{postgresql_listen_address} --port=#{postgresql_listen_port} "$@"
+    exec #{bin}/psql -U postgres -d postgres --host=#{postgresql_listen_address} --port=#{postgresql_listen_port} "$@"
     EOS
   rescue StandardError
       nil
@@ -145,7 +145,7 @@ class DigitalspacePostgresql15 < Formula
     # Don't initialize database, it clashes when testing other PostgreSQL versions.
     return if ENV["HOMEBREW_GITHUB_ACTIONS"]
 
-    system bin/"initdb", "-U", ENV['USER'], "--locale=C", "-E", "UTF-8", postgresql_datadir unless pg_version_exists?
+    system bin/"initdb", "-U", "postgres", "--locale=C", "-E", "UTF-8", postgresql_datadir unless pg_version_exists?
 
     supervisor_config =<<~EOS
       [program:postgresql15]
