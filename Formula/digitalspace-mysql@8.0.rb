@@ -13,7 +13,7 @@ class DigitalspaceMysqlAT80 < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql@8.0"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "0138d34322d7cea08a6b9a1fb947efb3b593d1584ec912bed56870a7d66c058c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "02eeed3b6e6254133e3836aab222c0a23afc799af885cdb078db381bc835286b"
   end
 
   keg_only :versioned_formula

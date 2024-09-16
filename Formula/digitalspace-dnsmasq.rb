@@ -13,7 +13,7 @@ class DigitalspaceDnsmasq < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-dnsmasq"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "abb829c6f13dad5c26601e62503bfb6133c990ce8a733d6cd6239c7f8efc11c1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "a3f85b870c9538bc93132718715742117805a252dfc5df023e58953a3b155232"
   end
 
   depends_on "pkg-config" => :build

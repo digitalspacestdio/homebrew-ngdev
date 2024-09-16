@@ -6,7 +6,7 @@ class DigitalspaceWebpConvert < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-webp-convert"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "a9f432a97cb9cd8d23cc74914f5704d1c148368edd528ddad5f3b8a2d7f22c54"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "9fe04a17530a5129a2551bfb900d6a8e677c06c5215bc369d25eb51781b70eb3"
   end
 
   depends_on 'webp'
