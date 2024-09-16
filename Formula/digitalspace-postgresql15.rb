@@ -164,9 +164,6 @@ class DigitalspacePostgresql15 < Formula
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"postgresql15.ini").delete if (etc/"digitalspace-supervisor.d"/"postgresql15.ini").exist?
     (etc/"digitalspace-supervisor.d"/"postgresql15.ini").write(supervisor_config)
-
-    (buildpath / "bin" / "psql15").write(postgresql_client_script)
-    (buildpath / "bin" / "psql15").chmod(0755)
   end
 
   def postgresql_datadir
