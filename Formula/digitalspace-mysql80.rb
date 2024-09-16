@@ -290,7 +290,7 @@ class DigitalspaceMysql80 < Formula
     pid-file           = #{var}/run/mysqld80.pid
     socket             = #{var}/run/mysqld80.sock
     port               = #{mysql_listen_port}
-    basedir            = #{mysql_base_dir}
+    basedir            = #{Formula["digitalspace-mysql@8.0"].opt_prefix}
     datadir            = #{mysql_data_dir}
     tmpdir             = #{mysql_tmp_dir}
     lc-messages-dir    = #{mysql_base_dir}/share/mysql

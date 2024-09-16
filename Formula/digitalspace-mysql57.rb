@@ -286,7 +286,7 @@ class DigitalspaceMysql57 < Formula
     pid-file           = #{var}/run/mysqld57.pid
     socket             = #{var}/run/mysqld57.sock
     port               = #{mysql_listen_port}
-    basedir            = #{mysql_base_dir}
+    basedir            = #{Formula["digitalspace-mysql@5.7"].opt_prefix}
     datadir            = #{mysql_data_dir}
     tmpdir             = #{mysql_tmp_dir}
     lc-messages-dir    = #{mysql_base_dir}/share/mysql
