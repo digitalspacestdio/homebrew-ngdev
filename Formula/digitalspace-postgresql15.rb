@@ -57,7 +57,7 @@ class DigitalspacePostgresql15 < Formula
   def postgresql_client_script
     <<~EOS
     #!/bin/sh
-    exec #{bin}/psql -U postgres --host=#{postgresql_listen_address} --port=#{postgresql_listen_port} "$@"
+    exec #{bin}/psql -U $USER -d $USER --host=#{postgresql_listen_address} --port=#{postgresql_listen_port} "$@"
     EOS
   rescue StandardError
       nil
@@ -164,6 +164,9 @@ class DigitalspacePostgresql15 < Formula
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"postgresql15.ini").delete if (etc/"digitalspace-supervisor.d"/"postgresql15.ini").exist?
     (etc/"digitalspace-supervisor.d"/"postgresql15.ini").write(supervisor_config)
+
+    (buildpath / "bin" / "psql15").write(postgresql_client_script)
+    (buildpath / "bin" / "psql15").chmod(0755)
   end
 
   def postgresql_datadir
