@@ -1,7 +1,7 @@
 class DigitalspaceMysql80 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  version "5.7"
+  version "8.0"
   revision 107
 
   bottle do
@@ -11,6 +11,7 @@ class DigitalspaceMysql80 < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:   "79858c65c80c8e4816814be5e554f36c2bfe46c7ef1a51e497876489713bf586"
   end
 
+  depends_on "mysql-client"
   depends_on 'digitalspace-mysql@8.0'
 
   def mysql_listen_address

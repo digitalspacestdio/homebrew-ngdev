@@ -11,6 +11,7 @@ class DigitalspaceMysql57 < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:   "6431e9b2aa42669cceed54d61264870530086603a7b39ab2e9f3c3229bc059d1"
   end
 
+  depends_on "mysql-client"
   depends_on 'digitalspace-mysql@5.7'
 
   def mysql_listen_address

@@ -4,6 +4,7 @@ class DigitalspaceMysql84 < Formula
   version "8.4"
   revision 107
 
+  depends_on "mysql-client"
   depends_on 'digitalspace-mysql@8.4'
 
   def mysql_listen_address
@@ -277,6 +278,7 @@ class DigitalspaceMysql84 < Formula
     disable_log_bin
     binlog_expire_logs_seconds = 3600
     explicit_defaults_for_timestamp = 1
+    restrict_fk_on_non_standard_key = OFF
 
     user               = #{ENV['USER']}
     pid-file           = #{var}/run/mysqld84.pid
