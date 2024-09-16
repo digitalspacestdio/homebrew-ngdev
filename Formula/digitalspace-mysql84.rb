@@ -349,9 +349,9 @@ class DigitalspaceMysql84 < Formula
     (buildpath / "bin" / "mydumper81").chmod(0755)
     bin.install "bin/mydumper81"
 
-    (buildpath / "bin" / "mysql81").write(mysql_client_script)
-    (buildpath / "bin" / "mysql81").chmod(0755)
-    bin.install "bin/mysql81"
+    (buildpath / "bin" / "mysql84").write(mysql_client_script)
+    (buildpath / "bin" / "mysql84").chmod(0755)
+    bin.install "bin/mysql84"
   end
 
   def post_install
@@ -365,12 +365,12 @@ class DigitalspaceMysql84 < Formula
     end
 
     supervisor_config =<<~EOS
-      [program:mysql81]
+      [program:mysql84]
       command=#{Formula["digitalspace-mysql@8.4"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf
       directory=#{opt_prefix}
-      stdout_logfile=#{var}/log/digitalspace-supervisor-mysql81.log
+      stdout_logfile=#{var}/log/digitalspace-supervisor-mysql84.log
       stdout_logfile_maxbytes=1MB
-      stderr_logfile=#{var}/log/digitalspace-supervisor-mysql81.err
+      stderr_logfile=#{var}/log/digitalspace-supervisor-mysql84.err
       stderr_logfile_maxbytes=1MB
       user=#{ENV['USER']}
       autorestart=true
@@ -378,8 +378,8 @@ class DigitalspaceMysql84 < Formula
     EOS
 
     (etc/"digitalspace-supervisor.d").mkpath
-    (etc/"digitalspace-supervisor.d"/"mysql81.ini").delete if (etc/"digitalspace-supervisor.d"/"mysql81.ini").exist?
-    (etc/"digitalspace-supervisor.d"/"mysql81.ini").write(supervisor_config) unless (etc/"digitalspace-supervisor.d"/"mysql81.ini").exist?
+    (etc/"digitalspace-supervisor.d"/"mysql84.ini").delete if (etc/"digitalspace-supervisor.d"/"mysql84.ini").exist?
+    (etc/"digitalspace-supervisor.d"/"mysql84.ini").write(supervisor_config) unless (etc/"digitalspace-supervisor.d"/"mysql84.ini").exist?
   end
 
   service do
@@ -387,7 +387,7 @@ class DigitalspaceMysql84 < Formula
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false
-    log_path var/"log/digitalspace-service-mysql81.log"
-    error_log_path var/"log/digitalspace-service-mysql81.log"
+    log_path var/"log/digitalspace-service-mysql84.log"
+    error_log_path var/"log/digitalspace-service-mysql84.log"
   end
 end
