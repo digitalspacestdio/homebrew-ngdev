@@ -359,7 +359,7 @@ class DigitalspaceMysql84 < Formula
 
     if !mysql_data_dir.exist?
       mysql_data_dir.mkpath
-      system("#{Formula["digitalspace-mysql@8.4"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{mysql_base_dir} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
+      system("#{Formula["digitalspace-mysql@8.4"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{Formula["digitalspace-mysql@8.4"].opt_prefix} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
     end
 
     supervisor_config =<<~EOS
