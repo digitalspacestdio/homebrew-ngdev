@@ -17,6 +17,14 @@ class DigitalspaceNginx < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:   "c12edc2841f91685973efcd3aadb93e720bb55aaa9f733ec28db57d05607d8f4"
   end
 
+  def nginx_listen_address
+    ENV["HOMEBREW_NGDEV_NGINX_LISTEN_ADDRESS"] || "127.0.0.1"
+  end
+
+  def nginx_listen_port
+    ENV["HOMEBREW_NGDEV_NGINX_LISTEN_PORT"] || "1984"
+  end
+
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
 
   depends_on "gd" if build.with?("image-filter")
@@ -463,7 +471,7 @@ end
 def nginx_local_config
   <<~EOS
     server {
-      listen 127.0.0.1:1984;
+      listen #{nginx_listen_address}:#{nginx_listen_port};
       port_in_redirect off;
 
       server_name ~^(?<project_name>.+?)\\.+(?<pool>.+?)(\\..+)*$;
@@ -518,11 +526,10 @@ end
       Dir.chdir(origin_dir)
     end
 
-    # Changes default port to 8080
     inreplace "conf/nginx.conf" do |s|
       s.gsub! "http {", "http {\n    lua_package_path '#{Formula["digitalspace-openresty"].opt_prefix}/lualib/?.lua;;';"
       
-      s.gsub! "listen       80;", "listen       1984;"
+      s.gsub! "listen       80;", "listen       #{nginx_listen_address}:#{nginx_listen_port};"
       s.gsub! "    #}\n\n}", "    #}\n    include conf.d/*;\n    include servers/*;\n    include servers_custom/*;\n}"
 
       s.gsub! "http {", "http {\n access_log #{var}/log/digitalspace-nginx/access_json.log access_json;"
@@ -724,7 +731,7 @@ end
     s = <<~EOS
       Docroot is: #{home.strip}/www
 
-      The default port has been set in #{etc}/digitalspace-nginx/nginx.conf to 1984 so that
+      The default port has been set in #{etc}/digitalspace-nginx/nginx.conf to #{nginx_listen_port} so that
       nginx can run without sudo.
 
       nginx will load all files in #{etc}/digitalspace-nginx/servers/.
@@ -764,7 +771,7 @@ end
         uwsgi_temp_path #{testpath}/uwsgi_temp;
 
         server {
-          listen 1984;
+          listen #{nginx_listen_address}:#{nginx_listen_port};
           root #{testpath};
           access_log #{testpath}/access.log;
           error_log #{testpath}/error.log;
