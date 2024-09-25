@@ -7,6 +7,7 @@ class DigitalspaceOpenresty < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-openresty"
+    sha256 cellar: :any_skip_relocation, ventura:      "12e41ffef57f46356cd58b593b0743796c9b569780767681e100d6dd4cd9662e"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "17a15193d767f2b30bbcb3e6c84ef7c90451abada66a7edfddf5aad4aeeadefd"
   end
 
