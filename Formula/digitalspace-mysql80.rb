@@ -14,7 +14,7 @@ class DigitalspaceMysql80 < Formula
   end
 
   depends_on "mysql-client"
-  depends_on mysql_formula
+  depends_on "digitalspace-mysql@8.0"
 
   def mysql_listen_address
     ENV["HOMEBREW_NGDEV_MYSQL57_LISTEN_ADDRESS"] || "127.0.0.1"
