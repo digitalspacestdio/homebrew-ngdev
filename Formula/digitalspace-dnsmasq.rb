@@ -13,6 +13,7 @@ class DigitalspaceDnsmasq < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-dnsmasq"
+    sha256 cellar: :any_skip_relocation, ventura:      "9bb29073b18ed536665dbcc52a3ac5b75401e04024f79eceea7686160c9fac27"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "1770945d38b7fad5abfb3b92d3902e7b61b40023969a93f71f6d3ad660c3ea2d"
   end
 
