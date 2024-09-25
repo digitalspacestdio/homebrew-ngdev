@@ -484,6 +484,17 @@ rescue StandardError
 end
 
   def install
+    if Hardware::CPU.intel?
+      ENV.append "CFLAGS", "-march=ivybridge"
+      ENV.append "CFLAGS", "-msse4.2"
+
+      ENV.append "CXXFLAGS", "-march=ivybridge"
+      ENV.append "CXXFLAGS", "-msse4.2"
+    end
+
+    ENV.append "CFLAGS", "-O2"
+    ENV.append "CXXFLAGS", "-O2"
+
     if build.with?("http-flood-detector-module") && build.without?("status")
       odie "http-flood-detector-nginx-module: Stub Status module is required --with-status"
     end

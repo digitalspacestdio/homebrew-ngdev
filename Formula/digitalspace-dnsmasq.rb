@@ -128,6 +128,17 @@ class DigitalspaceDnsmasq < Formula
       s.change_make_var! "LDFLAGS", ENV.ldflags || ""
     end
 
+    if Hardware::CPU.intel?
+      ENV.append "CFLAGS", "-march=ivybridge"
+      ENV.append "CFLAGS", "-msse4.2"
+
+      ENV.append "CXXFLAGS", "-march=ivybridge"
+      ENV.append "CXXFLAGS", "-msse4.2"
+    end
+
+    ENV.append "CFLAGS", "-O2"
+    ENV.append "CXXFLAGS", "-O2"
+
     system "make", "install", "PREFIX=#{prefix}"
 
     mv sbin/"dnsmasq", sbin/"digitalspace-dnsmasq"
