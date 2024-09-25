@@ -354,19 +354,20 @@ class DigitalspaceMysql84 < Formula
       nil
   end
 
-  def mysqld_configure_port_script
+  def post_install_script
     <<~EOS
     #!/bin/sh
-    USED_BY_CONFIG=$(find "#{etc}/digitalspace-mysql/" -not -path "#{mysql_etc_dir}" -name my.cnf -exec grep port {} \; 2>/dev/null | grep -o '[0-9]\+' | sort | uniq);
-    PORT={mysql_listen_port}
-    while [ $PORT -le 65535 ] && echo "${USED_BY_CONFIG}" | grep -q -v $PORT && lsof -t -i tcp:$PORT > /dev/null
+    set -x
+    USED_BY_CONFIG=$(find "#{etc}/digitalspace-mysql/" -not -path "#{mysql_etc_dir}/*" -name my.cnf -exec grep port {} \\; 2>/dev/null | grep -o '[0-9]\\+' | sort | uniq);
+    PORT=#{mysql_listen_port}
+    while [ $PORT -le 65535 ] && ( echo "${USED_BY_CONFIG}" | grep -q $PORT || lsof -t -i tcp:$PORT ) > /dev/null
       do
         PORT=$((PORT+1));
       done;
-    if [[ "$OSTYPE" != "darwin"* ]]; then
-      sed -i '' -e 's~\(port.*=\).*~\1 '$PORT'~g' #{mysql_etc_dir}/my.cnf
+    if [ "$OSTYPE" != "darwin"* ]; then
+      sed -i -e 's~\\(port.*=\\).*~\\1 '$PORT'~g' #{mysql_etc_dir}/my.cnf
     else
-      sed -i -e 's~\(port.*=\).*~\1 '$PORT'~g' #{mysql_etc_dir}/my.cnf
+      sed -i '' -e 's~\\(port.*=\\).*~\\1 '$PORT'~g' #{mysql_etc_dir}/my.cnf
     fi;
     EOS
   rescue StandardError
