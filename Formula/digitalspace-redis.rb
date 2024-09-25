@@ -6,6 +6,7 @@ class DigitalspaceRedis < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-redis"
+    sha256 cellar: :any_skip_relocation, ventura:      "5e4aa3cf415e028045709130fd793f6c3d08e8ac0dcef571f01b4651fab79247"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "c13c2bc26cadde603d7e5ffaf8cb818f27927f63b01de422a26850ac4ea79ee0"
   end
 
