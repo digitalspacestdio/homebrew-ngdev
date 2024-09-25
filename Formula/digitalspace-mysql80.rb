@@ -11,15 +11,19 @@ class DigitalspaceMysql80 < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:   "9c2945f60aa127597eeaca382a15a496612bdea926bf00915ab61fcf411fd9c7"
   end
 
+  def mysql_formula
+    "digitalspace-mysql@8.0"
+  end
+
   depends_on "mysql-client"
-  depends_on 'digitalspace-mysql@8.0'
+  depends_on "digitalspace-mysql@8.0"
 
   def mysql_listen_address
-    "127.0.0.1"
+    ENV["HOMEBREW_NGDEV_MYSQL57_LISTEN_ADDRESS"] || "127.0.0.1"
   end
 
   def mysql_listen_port
-    "3306"
+    ENV["HOMEBREW_NGDEV_MYSQL57_LISTEN_PORT"] || "3306"
   end
 
   def mysql_base_dir
@@ -53,8 +57,8 @@ class DigitalspaceMysql80 < Formula
     POSITIONAL=()
     MYSQL_IGNORE_TABLE_DATA_LIKE=()
     MYSQL_IGNORE_TABLE_LIKE=()
-    MYSQL_CLI=$(which mysql)
-    MYSQLDUMP_CLI=$(which mysqldump)
+    MYSQL_CLI=$(which #{Formula["digitalspace-mysql80"].opt_bin}/mysql80)
+    MYSQLDUMP_CLI=$(which #{Formula["digitalspace-mysql80"].opt_bin}/mysqldump80)
     INCLUDE_SCHEMA=1
     INCLUDE_TRIGGERS=1
     INCLUDE_DATA=1
@@ -271,11 +275,12 @@ class DigitalspaceMysql80 < Formula
   def mysql_config
     <<~EOS
     [client]
+    host               = #{mysql_listen_address}
     port               = #{mysql_listen_port}
     socket             = #{var}/run/mysqld80.sock
 
     [mysqld_safe]
-    bind-address       = 127.0.0.1
+    bind-address       = #{mysql_listen_address}
     pid-file           = #{var}/run/mysqld80.pid
     socket             = #{var}/run/mysqld80.sock
     port               = #{mysql_listen_port}
@@ -291,7 +296,7 @@ class DigitalspaceMysql80 < Formula
     pid-file           = #{var}/run/mysqld80.pid
     socket             = #{var}/run/mysqld80.sock
     port               = #{mysql_listen_port}
-    basedir            = #{Formula["digitalspace-mysql@8.0"].opt_prefix}
+    basedir            = #{Formula[mysql_formula].opt_prefix}
     datadir            = #{mysql_data_dir}
     tmpdir             = #{mysql_tmp_dir}
     lc-messages-dir    = #{mysql_base_dir}/share/mysql
@@ -346,7 +351,27 @@ class DigitalspaceMysql80 < Formula
   def mysql_client_script
     <<~EOS
     #!/bin/sh
-    exec #{Formula["digitalspace-mysql@8.0"].opt_bin}/mysql --defaults-file=#{mysql_etc_dir}/my.cnf --host #{mysql_listen_address} --port #{mysql_listen_port} --user root "$@"
+    exec #{Formula[mysql_formula].opt_bin}/mysql --defaults-file=#{mysql_etc_dir}/my.cnf --user root "$@"
+    EOS
+  rescue StandardError
+      nil
+  end
+
+  def post_install_script
+    <<~EOS
+    #!/bin/sh
+    set -x
+    USED_BY_CONFIG=$(find "#{etc}/digitalspace-mysql/" -not -path "#{mysql_etc_dir}/*" -name my.cnf -exec grep port {} \\; 2>/dev/null | grep -o '[0-9]\\+' | sort | uniq);
+    PORT=#{mysql_listen_port}
+    while [ $PORT -le 65535 ] && ( echo "${USED_BY_CONFIG}" | grep -q $PORT || lsof -t -i tcp:$PORT ) > /dev/null
+      do
+        PORT=$((PORT+1));
+      done;
+    if [ "$OSTYPE" != "darwin"* ]; then
+      sed -i -e 's~\\(port.*=\\).*~\\1 '$PORT'~g' #{mysql_etc_dir}/my.cnf
+    else
+      sed -i '' -e 's~\\(port.*=\\).*~\\1 '$PORT'~g' #{mysql_etc_dir}/my.cnf
+    fi;
     EOS
   rescue StandardError
       nil
@@ -365,16 +390,24 @@ class DigitalspaceMysql80 < Formula
   def post_install
     mysql_etc_dir.mkpath
     mysql_log_dir.mkpath
-    (mysql_etc_dir / "my.cnf").write(mysql_config) unless (mysql_etc_dir / "my.cnf").exist?
+
+    (opt_bin / "post_install_script").delete if (opt_bin / "post_install_script").exist?
+    (opt_bin / "post_install_script").write(post_install_script)
+    (opt_bin / "post_install_script").chmod(0755)
+
+    if !(mysql_etc_dir / "my.cnf").exist?
+      (mysql_etc_dir / "my.cnf").write(mysql_config)
+      system("#{opt_bin}/post_install_script")
+    end
 
     if !mysql_data_dir.exist?
       mysql_data_dir.mkpath
-      system("#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{Formula["digitalspace-mysql@8.0"].opt_prefix} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
+      system("#{Formula[mysql_formula].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{Formula[mysql_formula].opt_prefix} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
     end
 
     supervisor_config =<<~EOS
       [program:mysql80]
-      command=#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf
+      command=#{Formula[mysql_formula].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-mysql80.log
       stdout_logfile_maxbytes=1MB
@@ -391,7 +424,7 @@ class DigitalspaceMysql80 < Formula
   end
 
   service do
-    run ["#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld", "--defaults-file=#{etc}/digitalspace-mysql/8.0/my.cnf"]
+    run ["#{Formula[mysql_formula].opt_bin}/mysqld", "--defaults-file=#{etc}/digitalspace-mysql/8.0/my.cnf"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false
