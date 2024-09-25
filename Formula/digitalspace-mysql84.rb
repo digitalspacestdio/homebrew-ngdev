@@ -420,7 +420,7 @@ class DigitalspaceMysql84 < Formula
   end
 
   service do
-    run ["#{Formula[mysql_formula].opt_bin}/mysqld", "--defaults-file=#{etc}/digitalspace-mysql/8.4/my.cnf"]
+    run ["#{Formula["digitalspace-mysql@8.4"].opt_bin}/mysqld", "--defaults-file=#{etc}/digitalspace-mysql/8.4/my.cnf"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false
