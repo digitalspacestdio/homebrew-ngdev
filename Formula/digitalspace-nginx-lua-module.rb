@@ -4,7 +4,7 @@ class DigitalspaceNginxLuaModule < Formula
   url "https://github.com/openresty/lua-nginx-module/archive/v0.10.25.tar.gz"
   sha256 "bc764db42830aeaf74755754b900253c233ad57498debe7a441cee2c6f4b07c2"
   head "https://github.com/openresty/lua-nginx-module.git", branch: "master"
-  revision 107
+  revision 109
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-nginx-lua-module"

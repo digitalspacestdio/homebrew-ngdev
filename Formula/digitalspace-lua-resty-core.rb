@@ -4,7 +4,7 @@ class DigitalspaceLuaRestyCore < Formula
   url "https://github.com/openresty/lua-resty-core/archive/refs/tags/v0.1.27.tar.gz"
   sha256 "39baab9e2b31cc48cecf896cea40ef6e80559054fd8a6e440cc804a858ea84d4"
   head "https://github.com/openresty/lua-resty-core.git", branch: "master"
-  revision 107
+  revision 109
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-lua-resty-core"

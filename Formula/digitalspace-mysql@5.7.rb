@@ -4,7 +4,7 @@ class DigitalspaceMysqlAT57 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-5.7/mysql-boost-5.7.44.tar.gz"
   sha256 "b8fe262c4679cb7bbc379a3f1addc723844db168628ce2acf78d33906849e491"
   license "GPL-2.0-only"
-  revision 107
+  revision 109
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql@5.7"
@@ -35,7 +35,7 @@ class DigitalspaceMysqlAT57 < Formula
   end
 
   def mysql_listen_port
-    "3357"
+    "3306"
   end
 
   def mysql_base_dir

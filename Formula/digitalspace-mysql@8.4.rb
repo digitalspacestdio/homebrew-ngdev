@@ -4,7 +4,7 @@ class DigitalspaceMysqlAT84 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.2.tar.gz"
   sha256 "5657a78dc86bf0bf2227e0b05f8de5a2c447a816a112ffa26fa70083bcbe9814"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
-  revision 107
+  revision 109
 
   livecheck do
     url "https://dev.mysql.com/downloads/mysql/8.4.html?tpl=files&os=src&version=8.4"
@@ -53,7 +53,7 @@ class DigitalspaceMysqlAT84 < Formula
   end
 
   def mysql_listen_port
-    "3357"
+    "3306"
   end
 
   def mysql_base_dir

@@ -2,7 +2,7 @@ class DigitalspaceMysql80 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "8.0"
-  revision 107
+  revision 109
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql80"
@@ -19,11 +19,11 @@ class DigitalspaceMysql80 < Formula
   depends_on "digitalspace-mysql@8.0"
 
   def mysql_listen_address
-    ENV["HOMEBREW_NGDEV_MYSQL57_LISTEN_ADDRESS"] || "127.0.0.1"
+    ENV["HOMEBREW_NGDEV_MYSQL80_LISTEN_ADDRESS"] || "127.0.0.1"
   end
 
   def mysql_listen_port
-    ENV["HOMEBREW_NGDEV_MYSQL57_LISTEN_PORT"] || "3306"
+    ENV["HOMEBREW_NGDEV_MYSQL80_LISTEN_PORT"] || "3306"
   end
 
   def mysql_base_dir
