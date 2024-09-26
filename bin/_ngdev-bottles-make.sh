@@ -30,7 +30,8 @@ do
     FORMULAS=$(brew search "${TAP_NAME}" | grep "${TAP_NAME}" | grep "\($ARG\|$ARG@[0-9]\+\)\$" | sort)
     if [[ -n "$FORMULAS" ]]; then
         for FORMULA in $FORMULAS; do
-            find "${HOMEBREW_PREFIX}/etc" -maxdepth 1 -name "${${FORMULA%@*}//"$TAP_NAME_PREFIX"/}*" -exec rm -v -rf {} \; || true
+            FORMULA_BASENAME=${FORMULA%@*}
+            find "${HOMEBREW_PREFIX}/etc" -maxdepth 1 -name "${FORMULA_BASENAME//"$TAP_NAME_PREFIX"/}*" -exec rm -v -rf {} \; || true
             if [[ -n $REBUILD ]]; then
                 brew list | grep '^'${FORMULA//"$TAP_NAME_PREFIX"/}'$' | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'brew uninstall --force --ignore-dependencies {} || true'
                 brew deps --full --direct $FORMULA | grep "${TAP_NAME}" | xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'brew uninstall --force --ignore-dependencies {} || true'
