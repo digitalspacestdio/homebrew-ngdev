@@ -112,6 +112,9 @@ class DigitalspaceMysqlAT84 < Formula
     ENV.append "CFLAGS", "-O2"
     ENV.append "CXXFLAGS", "-O2"
 
+    ENV.prepend "LDFLAGS", "-L#{Formula["protobuf@28.2"].opt_lib}"
+    ENV.prepend "CXXFLAGS", "-I#{Formula["protobuf@28.2"].opt_include}"
+
     # -DINSTALL_* are relative to `CMAKE_INSTALL_PREFIX` (`prefix`)
     args = %W[
       -DCOMPILATION_COMMENT=Homebrew

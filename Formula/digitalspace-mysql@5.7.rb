@@ -17,8 +17,7 @@ class DigitalspaceMysqlAT57 < Formula
   depends_on "cmake" => :build
   depends_on "libevent"
   depends_on "lz4"
-  depends_on "openssl@1.1"
-  depends_on "protobuf@28.2"
+  depends_on "openssl111w"
 
   uses_from_macos "curl"
   uses_from_macos "cyrus-sasl"
@@ -167,7 +166,6 @@ class DigitalspaceMysqlAT57 < Formula
       -DMYSQL_DATADIR=#{mysql_data_dir}
       -DSYSCONFDIR=#{mysql_etc_dir}
       -DWITH_BOOST=boost
-      -DWITH_EDITLINE=system
       -DWITH_SSL=yes
       -DWITH_NUMA=OFF
       -DWITH_UNIT_TESTS=OFF
