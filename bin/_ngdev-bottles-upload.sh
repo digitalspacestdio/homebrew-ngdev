@@ -106,12 +106,12 @@ do
                         s3cmd put "$jsonfile" "s3://$S3_BASE_PATH/$mergedfile"
                         brew bottle --skip-relocation --no-rebuild --merge --write --no-commit --json "$jsonfile"
                     } || exit 1
+                    cd $(brew tap-info --json digitalspacestdio/ngdev | jq -r '.[].path' | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
+                    git add .
+                    git commit -m "bottle ${FORMULA//"$TAP_NAME_PREFIX"/} ${OSTYPE}"
                 fi
             done
         done
     fi
 done
 
-cd $(brew tap-info --json digitalspacestdio/ngdev | jq -r '.[].path' | perl -pe 's/\+/\ /g;' -e 's/%(..)/chr(hex($1))/eg;')
-git add .
-git commit -m "bottles update"
