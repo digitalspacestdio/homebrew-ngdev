@@ -2,13 +2,12 @@ class DigitalspaceLocalCa < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.1"
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-local-ca"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "89df2a394344c42f4205f51a05dbaa7fea28937a70211518ae081330fc0bd680"
-    sha256 cellar: :any_skip_relocation, monterey:       "a58e8690f9b1a5741d08c12904d2e8d5778121985e9946d5a82ef064b0a4dc41"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d99f0b80b310f6485139c578e7fa7db370af17d5ae75675c7685856ceb20c95f"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-local-ca"
+    sha256 cellar: :any_skip_relocation, ventura:      "1b5325144fe5fb43aeffe9b0349df1232477386ea6472237686003b6eb093f5b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "632a9805af384e88c720f7c76a9265cc4baf01dcbb7b6b7d2efef70b77e5c52a"
   end
 
   depends_on 'openssl'

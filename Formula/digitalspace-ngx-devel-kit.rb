@@ -4,13 +4,12 @@ class DigitalspaceNgxDevelKit < Formula
   url "https://github.com/simpl/ngx_devel_kit/archive/v0.3.2.tar.gz"
   sha256 "aa961eafb8317e0eb8da37eb6e2c9ff42267edd18b56947384e719b85188f58b"
   head "https://github.com/simpl/ngx_devel_kit.git", branch: "master"
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-ngx-devel-kit"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "f51acc932e9d0ad9a6f9a8f91b30c80ab3dc9317858729db24dae861923de6c5"
-    sha256 cellar: :any_skip_relocation, monterey:       "18564e35b53698efb03228a0ce0deb7e2a6d73102aeab93f06776f8b15d62665"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dd5e1f9e70fa5008ac5be00643a3f6c59f43e07ae7bd3f98173174bb0b6594e5"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-ngx-devel-kit"
+    sha256 cellar: :any_skip_relocation, ventura:      "b7ee89e7bc8c89e53343ca1f5b682f76abd710502fabc2e584052effa567f0df"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "79997aee24ed3710cac2c9e7c9a8f70db7543fd3486fc65b45f482a4e2367753"
   end
   
   def install

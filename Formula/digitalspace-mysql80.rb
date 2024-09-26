@@ -2,11 +2,12 @@ class DigitalspaceMysql80 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "8.0"
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql80"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "9c2945f60aa127597eeaca382a15a496612bdea926bf00915ab61fcf411fd9c7"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mysql80"
+    sha256 cellar: :any_skip_relocation, ventura:      "9b8600b2937b0bcb0cadba1fd95c2e5c351a9f5eb484de05d5b53e36a9c97c46"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "946a84005981c94faace3eb60023511d9b80f98e470247c8eed1ab33faea53ae"
   end
 
   def mysql_formula
@@ -17,11 +18,11 @@ class DigitalspaceMysql80 < Formula
   depends_on "digitalspace-mysql@8.0"
 
   def mysql_listen_address
-    ENV["HOMEBREW_NGDEV_MYSQL57_LISTEN_ADDRESS"] || "127.0.0.1"
+    ENV["HOMEBREW_NGDEV_MYSQL80_LISTEN_ADDRESS"] || "127.0.0.1"
   end
 
   def mysql_listen_port
-    ENV["HOMEBREW_NGDEV_MYSQL57_LISTEN_PORT"] || "3306"
+    ENV["HOMEBREW_NGDEV_MYSQL80_LISTEN_PORT"] || "3306"
   end
 
   def mysql_base_dir
@@ -422,7 +423,7 @@ class DigitalspaceMysql80 < Formula
   end
 
   service do
-    run ["#{Formula[mysql_formula].opt_bin}/mysqld", "--defaults-file=#{etc}/digitalspace-mysql/8.0/my.cnf"]
+    run ["#{Formula["digitalspace-mysql@8.0"].opt_bin}/mysqld", "--defaults-file=#{etc}/digitalspace-mysql/8.0/my.cnf"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false

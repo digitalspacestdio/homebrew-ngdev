@@ -4,13 +4,12 @@ class DigitalspaceMysqlAT57 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-5.7/mysql-boost-5.7.44.tar.gz"
   sha256 "b8fe262c4679cb7bbc379a3f1addc723844db168628ce2acf78d33906849e491"
   license "GPL-2.0-only"
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql@5.7"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "424315e0d87efd7a78868640ac5cfe12d237680730ebd5f1764a91d471895cbd"
-    sha256 cellar: :any_skip_relocation, monterey:       "13b712e28230ab4e1d0c341ea05f9f9182404864604764305cc163ce7d7e6078"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "bb88a23fd52e2e2c937e59208120d818ebd728e6831b52fdfc04abf328913867"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mysql@5.7"
+    sha256 cellar: :any_skip_relocation, ventura:      "64349a1d0fb408e9cfbf865669949c2945d3eea9c1573b1e8fa558e176b81ee8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "883746471e6ec2ecc8a2c2b9fec24ef66cd2118259841b826e39ec430d0e3fb1"
   end
 
   keg_only :versioned_formula
@@ -35,7 +34,7 @@ class DigitalspaceMysqlAT57 < Formula
   end
 
   def mysql_listen_port
-    "3357"
+    "3306"
   end
 
   def mysql_base_dir
@@ -139,6 +138,17 @@ class DigitalspaceMysqlAT57 < Formula
       # a shared object; recompile with -fPIC
       ENV.append_to_cflags "-fPIC"
     end
+
+    if Hardware::CPU.intel?
+      ENV.append "CFLAGS", "-march=ivybridge"
+      ENV.append "CFLAGS", "-msse4.2"
+
+      ENV.append "CXXFLAGS", "-march=ivybridge"
+      ENV.append "CXXFLAGS", "-msse4.2"
+    end
+
+    ENV.append "CFLAGS", "-O2"
+    ENV.append "CXXFLAGS", "-O2"
 
     # Fixes loading of VERSION file; used in conjunction with patch
     File.rename "VERSION", "MYSQL_VERSION"

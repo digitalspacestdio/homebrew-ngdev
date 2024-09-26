@@ -8,11 +8,12 @@ class DigitalspaceSupervisor < Formula
   license "BSD-3-Clause-Modification"
   head "https://github.com/Supervisor/supervisor.git", branch: "master"
 
-  revision 108
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/108/digitalspace-supervisor"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "3b744c403019874a02d517ca10bb7186b501719d1e2a58a97d3784ab25f8132f"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-supervisor"
+    sha256 cellar: :any_skip_relocation, ventura:      "a798c0754da8a38d7b1a795b5ea3b5bc43a06984f511b0a7697e913b63584618"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "5a07ff180acfb9a329e079c9a22abf257cfdf429a05371985cb4db9b1405e5c7"
   end
 
   depends_on "python@3.11"

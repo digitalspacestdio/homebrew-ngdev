@@ -3,13 +3,12 @@ require 'etc'
 class DigitalspaceOpenresty < Formula
   desc "Scalable Web Platform by Extending NGINX with Lua"
   homepage "https://openresty.org"
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-openresty"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "4ac3fa0ef760afeb499b581fe7c60a3ab3ce1c3d021fd3f866071ff576da070f"
-    sha256 cellar: :any_skip_relocation, monterey:       "04446a173affd822b76bfa5e950ea9c4ea856004be317396149040b96d75d081"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "600149c5d2670fbc590aff809426d8e01f32941096fe74f6ba946cb6aaa793d7"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-openresty"
+    sha256 cellar: :any_skip_relocation, ventura:      "12e41ffef57f46356cd58b593b0743796c9b569780767681e100d6dd4cd9662e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "17a15193d767f2b30bbcb3e6c84ef7c90451abada66a7edfddf5aad4aeeadefd"
   end
 
   VERSION = "1.21.4.2".freeze
@@ -33,6 +32,17 @@ class DigitalspaceOpenresty < Formula
   skip_clean "luajit"
 
   def install
+    if Hardware::CPU.intel?
+      ENV.append "CFLAGS", "-march=ivybridge"
+      ENV.append "CFLAGS", "-msse4.2"
+
+      ENV.append "CXXFLAGS", "-march=ivybridge"
+      ENV.append "CXXFLAGS", "-msse4.2"
+    end
+
+    ENV.append "CFLAGS", "-O2"
+    ENV.append "CXXFLAGS", "-O2"
+
     # Configure
     cc_opt = "-I#{HOMEBREW_PREFIX}/include -I#{Formula["pcre"].opt_include} -I#{Formula["digitalspace-openresty-openssl111"].opt_include}"
     ld_opt = "-L#{HOMEBREW_PREFIX}/lib -L#{Formula["pcre"].opt_lib} -L#{Formula["digitalspace-openresty-openssl111"].opt_lib}"

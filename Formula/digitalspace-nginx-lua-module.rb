@@ -4,13 +4,12 @@ class DigitalspaceNginxLuaModule < Formula
   url "https://github.com/openresty/lua-nginx-module/archive/v0.10.25.tar.gz"
   sha256 "bc764db42830aeaf74755754b900253c233ad57498debe7a441cee2c6f4b07c2"
   head "https://github.com/openresty/lua-nginx-module.git", branch: "master"
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-nginx-lua-module"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "507ee87e1c2e68afdc8ad403f4c9754bd43cc22eddde20eec7a1382ed24e10de"
-    sha256 cellar: :any_skip_relocation, monterey:       "91a5aca48b79fc2bb88d12a43bed5cd0ffd9f71947cfcd9d07735a6b1b622061"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ed199fb78e52e139dfa2bdd99ae51acf6829e1b1a58f0d56f99a360c2f877724"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-nginx-lua-module"
+    sha256 cellar: :any_skip_relocation, ventura:      "a2b0ab53d8601f3b52ce6baff5d22d5c721fac13cedaf1be91691fd7501e6301"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "3483362e836fbd86c1585dc4bea9ab0939821436241f7ae037405ebfc3c76080"
   end
 
   depends_on "luajit-openresty"

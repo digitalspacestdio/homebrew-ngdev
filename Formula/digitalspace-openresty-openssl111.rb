@@ -1,13 +1,12 @@
 class DigitalspaceOpenrestyOpenssl111 < Formula
   desc "This OpenSSL 1.1.1 library build is specifically for OpenResty uses"
   homepage "https://www.openssl.org/"
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-openresty-openssl111"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "ddea374ace9db02ac0764bd70d1d2b74c5701e5babe1716f6780bca1a9caa838"
-    sha256 cellar: :any_skip_relocation, monterey:       "379ec5eace15e81d36b858cba64ccc52739ff34554c9560fa4b652b9156458d4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "bbf30cda3bfd1108bff520c23601f4bd437b854e1cc9e78b210b2177c84032e7"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-openresty-openssl111"
+    sha256 cellar: :any_skip_relocation, ventura:      "b4493c299b8c60e9f25f92f5e9225727781c79c8108ebd7c7a69bca2a3ffa147"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "b06004d49932d13035eda66d5f8b2feda6800bc37dd30db91f83ccff010277c0"
   end
 
   VERSION = "1.1.1n".freeze

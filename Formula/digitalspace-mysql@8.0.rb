@@ -4,7 +4,7 @@ class DigitalspaceMysqlAT80 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-boost-8.0.39.tar.gz"
   sha256 "93208da9814116d81a384eae42120fd6c2ed507f1696064c510bc36047050241"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
-  revision 107
+  revision 109
 
   livecheck do
     url "https://dev.mysql.com/downloads/mysql/8.0.html?tpl=files&os=src&version=8.0"
@@ -12,10 +12,9 @@ class DigitalspaceMysqlAT80 < Formula
   end
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql@8.0"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "0138d34322d7cea08a6b9a1fb947efb3b593d1584ec912bed56870a7d66c058c"
-    sha256 cellar: :any_skip_relocation, monterey:       "fc78e33fee37bc16afc0a5c12fa77ae5ec5930722eb0357e89ed1b0be11bbafe"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "02eeed3b6e6254133e3836aab222c0a23afc799af885cdb078db381bc835286b"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mysql@8.0"
+    sha256 cellar: :any_skip_relocation, ventura:      "51f048b073ec2fe7738cd855d85b03f607e51e86af2dac310be0d3799e7e98c6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "e952d352d5f02d0d1036357a0b2ca47b62adde87393948f75b77f5a6e60040de"
   end
 
   keg_only :versioned_formula
@@ -58,7 +57,7 @@ class DigitalspaceMysqlAT80 < Formula
   end
 
   def mysql_listen_port
-    "3357"
+    "3306"
   end
 
   def mysql_base_dir
@@ -99,6 +98,17 @@ class DigitalspaceMysqlAT80 < Formula
         s.gsub! ' INCLUDE REGEX "${HOMEBREW_HOME}.*")', ' INCLUDE REGEX "libabsl.*")'
       end
     end
+
+    if Hardware::CPU.intel?
+      ENV.append "CFLAGS", "-march=ivybridge"
+      ENV.append "CFLAGS", "-msse4.2"
+
+      ENV.append "CXXFLAGS", "-march=ivybridge"
+      ENV.append "CXXFLAGS", "-msse4.2"
+    end
+
+    ENV.append "CFLAGS", "-O2"
+    ENV.append "CXXFLAGS", "-O2"
 
     # -DINSTALL_* are relative to `CMAKE_INSTALL_PREFIX` (`prefix`)
     args = %W[

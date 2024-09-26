@@ -2,13 +2,12 @@ class DigitalspaceMailhog < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.1"
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mailhog"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "c450e94dec94815176004d57b0d135ed8f9e8a446070504e6d58a658e7c6abe8"
-    sha256 cellar: :any_skip_relocation, monterey:       "e07db4d849b372ff55a4aad795ec95903a1b30d309f45009516c89e437d9eab9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0b484eefbf576bd139deb7985c82a32d011853e46f7657c399442349d63cc75c"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mailhog"
+    sha256 cellar: :any_skip_relocation, ventura:      "9a8d4e798128c0ce74b80f83c98db345d939dc7eb8f2302eb0a2a91797d21f33"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "71e03767d68d26d7d55b106301a2b0b1205aeddf930d0fb96f12625bad09369e"
   end
 
   depends_on "mailhog"

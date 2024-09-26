@@ -4,7 +4,7 @@ class DigitalspaceDnsmasq < Formula
   url "https://thekelleys.org.uk/dnsmasq/dnsmasq-2.89.tar.gz"
   sha256 "8651373d000cae23776256e83dcaa6723dee72c06a39362700344e0c12c4e7e4"
   license any_of: ["GPL-2.0-only", "GPL-3.0-only"]
-  revision 107
+  revision 109
 
   livecheck do
     url "https://thekelleys.org.uk/dnsmasq/"
@@ -12,10 +12,9 @@ class DigitalspaceDnsmasq < Formula
   end
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-dnsmasq"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "abb829c6f13dad5c26601e62503bfb6133c990ce8a733d6cd6239c7f8efc11c1"
-    sha256 cellar: :any_skip_relocation, monterey:       "719804bb738070454340e1d5dc2afe66dc1d9b0cf4b1654484702c6ea3f4fdd6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a3f85b870c9538bc93132718715742117805a252dfc5df023e58953a3b155232"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-dnsmasq"
+    sha256 cellar: :any_skip_relocation, ventura:      "9bb29073b18ed536665dbcc52a3ac5b75401e04024f79eceea7686160c9fac27"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "1770945d38b7fad5abfb3b92d3902e7b61b40023969a93f71f6d3ad660c3ea2d"
   end
 
   depends_on "pkg-config" => :build
@@ -127,6 +126,17 @@ class DigitalspaceDnsmasq < Formula
       s.change_make_var! "CFLAGS", ENV.cflags || ""
       s.change_make_var! "LDFLAGS", ENV.ldflags || ""
     end
+
+    if Hardware::CPU.intel?
+      ENV.append "CFLAGS", "-march=ivybridge"
+      ENV.append "CFLAGS", "-msse4.2"
+
+      ENV.append "CXXFLAGS", "-march=ivybridge"
+      ENV.append "CXXFLAGS", "-msse4.2"
+    end
+
+    ENV.append "CFLAGS", "-O2"
+    ENV.append "CXXFLAGS", "-O2"
 
     system "make", "install", "PREFIX=#{prefix}"
 

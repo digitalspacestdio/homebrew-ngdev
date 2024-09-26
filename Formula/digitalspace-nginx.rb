@@ -8,13 +8,12 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-nginx"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "398f0729caf359db2879f4951b1a3dee2fe7e52f91ef8a0271d03a89f8eef9d8"
-    sha256 cellar: :any_skip_relocation, monterey:       "5c92062cd099c719af76679a0d5c632ee8539916ff89b22789a9f5f407435d35"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c12edc2841f91685973efcd3aadb93e720bb55aaa9f733ec28db57d05607d8f4"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-nginx"
+    sha256 cellar: :any_skip_relocation, ventura:      "a56824b5dcfbcfcef6cbef0e2acc0124dd0f244e07f7194a1e6aaa577fb2f6fe"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "347d38eb36de22dbc1082cefdfd6b4a871922215a6eb80b2af8672b9d95054be"
   end
 
   def nginx_listen_address
@@ -484,6 +483,17 @@ rescue StandardError
 end
 
   def install
+    if Hardware::CPU.intel?
+      ENV.append "CFLAGS", "-march=ivybridge"
+      ENV.append "CFLAGS", "-msse4.2"
+
+      ENV.append "CXXFLAGS", "-march=ivybridge"
+      ENV.append "CXXFLAGS", "-msse4.2"
+    end
+
+    ENV.append "CFLAGS", "-O2"
+    ENV.append "CXXFLAGS", "-O2"
+
     if build.with?("http-flood-detector-module") && build.without?("status")
       odie "http-flood-detector-nginx-module: Stub Status module is required --with-status"
     end

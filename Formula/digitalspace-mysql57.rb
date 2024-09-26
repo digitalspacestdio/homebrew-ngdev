@@ -2,13 +2,12 @@ class DigitalspaceMysql57 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "5.7"
-  revision 107
+  revision 109
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/107/digitalspace-mysql57"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "b1370b8bb73fcde15e45f9a1e43f06db15ab2f450a574c8d9a97cba832d49587"
-    sha256 cellar: :any_skip_relocation, monterey:       "668138c0481871b8cc8e7166575bdc5fa0c17e8d0d7fda1bdff74f01e631002f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6431e9b2aa42669cceed54d61264870530086603a7b39ab2e9f3c3229bc059d1"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mysql57"
+    sha256 cellar: :any_skip_relocation, ventura:      "fa1438e90a6a4ee005331ae2b030ee373f0598553a93011a2eb3d0451b476d58"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "bc59d171a2696abefef85c7ac469470e5a38202061a60754d5d6af56af06e485"
   end
 
   def mysql_formula
@@ -420,7 +419,7 @@ class DigitalspaceMysql57 < Formula
   end
 
   service do
-    run ["#{Formula[mysql_formula].opt_bin}/mysqld", "--defaults-file=#{etc}/digitalspace-mysql/5.7/my.cnf"]
+    run ["#{Formula["digitalspace-mysql@5.7"].opt_bin}/mysqld", "--defaults-file=#{etc}/digitalspace-mysql/5.7/my.cnf"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root false

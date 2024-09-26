@@ -4,11 +4,17 @@ class DigitalspaceMysqlAT84 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.2.tar.gz"
   sha256 "5657a78dc86bf0bf2227e0b05f8de5a2c447a816a112ffa26fa70083bcbe9814"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
-  revision 107
+  revision 109
 
   livecheck do
     url "https://dev.mysql.com/downloads/mysql/8.4.html?tpl=files&os=src&version=8.4"
     regex(/href=.*?mysql[._-](?:boost[._-])?v?(8\.4(?:\.\d+)*)\.t/i)
+  end
+
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mysql@8.4"
+    sha256 cellar: :any_skip_relocation, ventura:      "6cdf3f5770d6a69dd2b01992fd2809f7ad676df48045385c449e237507429d92"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "a1ffd0f963b5864ed633677141b051acea69dff5cd2272c11e1d9eec947d9991"
   end
 
   keg_only :versioned_formula
@@ -53,7 +59,7 @@ class DigitalspaceMysqlAT84 < Formula
   end
 
   def mysql_listen_port
-    "3357"
+    "3306"
   end
 
   def mysql_base_dir
@@ -94,6 +100,17 @@ class DigitalspaceMysqlAT84 < Formula
         s.gsub! ' INCLUDE REGEX "${HOMEBREW_HOME}.*")', ' INCLUDE REGEX "libabsl.*")'
       end
     end
+
+    if Hardware::CPU.intel?
+      ENV.append "CFLAGS", "-march=ivybridge"
+      ENV.append "CFLAGS", "-msse4.2"
+
+      ENV.append "CXXFLAGS", "-march=ivybridge"
+      ENV.append "CXXFLAGS", "-msse4.2"
+    end
+
+    ENV.append "CFLAGS", "-O2"
+    ENV.append "CXXFLAGS", "-O2"
 
     # -DINSTALL_* are relative to `CMAKE_INSTALL_PREFIX` (`prefix`)
     args = %W[
