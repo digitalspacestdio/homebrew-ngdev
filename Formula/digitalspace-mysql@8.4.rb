@@ -27,7 +27,7 @@ class DigitalspaceMysqlAT84 < Formula
   depends_on "libfido2"
   depends_on "lz4"
   depends_on "openssl@3"
-  depends_on "protobuf"
+  depends_on "protobuf@28.2"
   depends_on "zlib" # Zlib 1.2.13+
   depends_on "zstd"
 

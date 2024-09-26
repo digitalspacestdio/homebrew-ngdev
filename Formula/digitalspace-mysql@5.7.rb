@@ -18,7 +18,7 @@ class DigitalspaceMysqlAT57 < Formula
   depends_on "libevent"
   depends_on "lz4"
   depends_on "openssl@1.1"
-  depends_on "protobuf"
+  depends_on "protobuf@28.2"
 
   uses_from_macos "curl"
   uses_from_macos "cyrus-sasl"
