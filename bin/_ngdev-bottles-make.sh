@@ -50,7 +50,7 @@ do
     for FORMULA in $FORMULAS; do
 
         if ! [[ -d ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle ]] || ! grep -q "$FORMULA$" /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp; then
-            echo -e "\033[33m==> Creating bottles for $FORMULA ...\033[0m"
+            echo -e "\033[33m==> Creating bottle for $FORMULA ...\033[0m"
             rm -rf ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle
             mkdir -p ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle
             cd ${HOME}/.bottles/${FORMULA//"$TAP_NAME_PREFIX"/}.bottle
@@ -85,6 +85,8 @@ do
             ${DIR}/_ngdev-bottles-upload.sh ${FORMULA//"$TAP_NAME_PREFIX"/}
 
             echo $FORMULA >> /tmp/.${TAP_SUBDIR}_bottles_created_${FORMULAS_MD5}.tmp
+        else
+            echo -e "\033[33m==> ALready created bottle for $FORMULA ...\033[0m"
         fi
     done
 done
