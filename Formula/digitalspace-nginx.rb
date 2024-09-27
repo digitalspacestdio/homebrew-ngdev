@@ -11,9 +11,8 @@ class DigitalspaceNginx < Formula
   revision 110
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-nginx"
-    sha256 cellar: :any_skip_relocation, ventura:      "a56824b5dcfbcfcef6cbef0e2acc0124dd0f244e07f7194a1e6aaa577fb2f6fe"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "347d38eb36de22dbc1082cefdfd6b4a871922215a6eb80b2af8672b9d95054be"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-nginx"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "cabcc61fe6ccaa2b6de57e10d85d7d85e2d6c8e0adbaeeb634776f40bccd043a"
   end
 
   def nginx_listen_address
