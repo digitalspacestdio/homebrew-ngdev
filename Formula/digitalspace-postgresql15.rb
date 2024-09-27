@@ -4,7 +4,7 @@ class DigitalspacePostgresql15 < Formula
   url "https://ftp.postgresql.org/pub/source/v15.8/postgresql-15.8.tar.bz2"
   sha256 "4403515f9a69eeb3efebc98f30b8c696122bfdf895e92b3b23f5b8e769edcb6a"
   license "PostgreSQL"
-  revision 109
+  revision 110
 
   livecheck do
     url "https://ftp.postgresql.org/pub/source/"
@@ -19,7 +19,7 @@ class DigitalspacePostgresql15 < Formula
 
   depends_on "pkg-config" => :build
   depends_on "gettext"
-  depends_on "icu4c"
+  depends_on "icu4c@74.2"
 
   # GSSAPI provided by Kerberos.framework crashes when forked.
   # See https://github.com/Homebrew/homebrew-core/issues/47494.

@@ -3,7 +3,7 @@ require 'etc'
 class DigitalspaceOpenresty < Formula
   desc "Scalable Web Platform by Extending NGINX with Lua"
   homepage "https://openresty.org"
-  revision 109
+  revision 110
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-openresty"

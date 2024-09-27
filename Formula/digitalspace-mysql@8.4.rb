@@ -4,7 +4,7 @@ class DigitalspaceMysqlAT84 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.2.tar.gz"
   sha256 "5657a78dc86bf0bf2227e0b05f8de5a2c447a816a112ffa26fa70083bcbe9814"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
-  revision 109
+  revision 110
 
   livecheck do
     url "https://dev.mysql.com/downloads/mysql/8.4.html?tpl=files&os=src&version=8.4"
@@ -24,7 +24,7 @@ class DigitalspaceMysqlAT84 < Formula
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "abseil"
-  depends_on "icu4c"
+  depends_on "icu4c@74.2"
   depends_on "libfido2"
   depends_on "lz4"
   depends_on "openssl@3"

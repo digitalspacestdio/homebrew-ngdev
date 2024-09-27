@@ -8,7 +8,7 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 109
+  revision 110
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-nginx"
@@ -27,7 +27,7 @@ class DigitalspaceNginx < Formula
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
 
   depends_on "gd" if build.with?("image-filter")
-  depends_on "icu4c" if build.with?("xsltproc-module")
+  depends_on "icu4c@74.2" if build.with?("xsltproc-module")
   depends_on "libxml2" if build.with?("xsltproc-module") ||
                           build.with?("xslt") ||
                           build.with?("dav-ext-module")
@@ -559,7 +559,7 @@ end
     end
 
     if build.with?("xsltproc-module")
-      icu = Formula["icu4c"]
+      icu = Formula["icu4c@74.2"]
       cc_opt += " -I#{icu.opt_include}"
       ld_opt += " -L#{icu.opt_lib}"
     end

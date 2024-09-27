@@ -4,7 +4,7 @@ class DigitalspaceNgxDevelKit < Formula
   url "https://github.com/simpl/ngx_devel_kit/archive/v0.3.2.tar.gz"
   sha256 "aa961eafb8317e0eb8da37eb6e2c9ff42267edd18b56947384e719b85188f58b"
   head "https://github.com/simpl/ngx_devel_kit.git", branch: "master"
-  revision 109
+  revision 110
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-ngx-devel-kit"
