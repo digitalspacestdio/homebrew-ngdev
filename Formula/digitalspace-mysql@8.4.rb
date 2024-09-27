@@ -26,7 +26,7 @@ class DigitalspaceMysqlAT84 < Formula
   depends_on "libfido2"
   depends_on "lz4"
   depends_on "openssl@3"
-  depends_on "protobuf@28.2"
+  #depends_on "protobuf"
   depends_on "zlib" # Zlib 1.2.13+
   depends_on "zstd"
 
@@ -111,9 +111,6 @@ class DigitalspaceMysqlAT84 < Formula
     ENV.append "CFLAGS", "-O2"
     ENV.append "CXXFLAGS", "-O2"
 
-    ENV.prepend "LDFLAGS", "-L#{Formula["protobuf@28.2"].opt_lib}"
-    ENV.prepend "CXXFLAGS", "-I#{Formula["protobuf@28.2"].opt_include}"
-
     # -DINSTALL_* are relative to `CMAKE_INSTALL_PREFIX` (`prefix`)
     args = %W[
       -DCOMPILATION_COMMENT=Homebrew
@@ -129,10 +126,10 @@ class DigitalspaceMysqlAT84 < Formula
       -DWITH_BOOST=boost
       -DWITH_EDITLINE=system
       -DWITH_FIDO=system
-      -DWITH_ICU=system
+      -DWITH_ICU=bundled
       -DWITH_LIBEVENT=system
       -DWITH_LZ4=system
-      -DWITH_PROTOBUF=system
+      -DWITH_PROTOBUF=bundled
       -DWITH_SSL=system
       -DWITH_ZLIB=system
       -DWITH_ZSTD=system
