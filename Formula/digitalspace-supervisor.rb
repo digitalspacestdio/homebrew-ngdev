@@ -13,7 +13,7 @@ class DigitalspaceSupervisor < Formula
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-supervisor"
     sha256 cellar: :any_skip_relocation, ventura:      "3c9e845585bc9682baa44bfc05a350fb6c0993d381d0256847f57b76ba0792ca"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "78206d7af05837deee9e1483b8892b5778ad4ceb3ee60e3cb8c011f107bf4569"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "e22e6302d3136240051d3ed1d39a3f00e018add5a8d768d4437afab612a3b44f"
   end
 
   depends_on "python@3.11"
