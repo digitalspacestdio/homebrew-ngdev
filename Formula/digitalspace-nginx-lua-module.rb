@@ -8,6 +8,7 @@ class DigitalspaceNginxLuaModule < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-nginx-lua-module"
+    sha256 cellar: :any_skip_relocation, ventura:      "62d81039e8eb07f56ad004d04712217fa87276b7c9807e53ef726f4b81581e7f"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "b1672f94f5413ea2a419065bf9fc32abdc1a2de3d7ab3a6029f6ff917964c356"
   end
 
