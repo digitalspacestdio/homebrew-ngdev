@@ -6,8 +6,9 @@ class DigitalspaceLocalCa < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-local-ca"
-    sha256 cellar: :any_skip_relocation, ventura:      "422a788643a6738e12d04d5591213c9151a7c43c209a27899402f55030f39cf3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "a2b67e93b7674adda3d6e3d9645dd168d22e184950d9f5399418c1aff07fa571"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "b2e37b9ebd3b50d13e868b0e7483d804d177b7fd2ac829e25ae15a26edce5aaf"
+    sha256 cellar: :any_skip_relocation, ventura:       "422a788643a6738e12d04d5591213c9151a7c43c209a27899402f55030f39cf3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a2b67e93b7674adda3d6e3d9645dd168d22e184950d9f5399418c1aff07fa571"
   end
 
   depends_on 'openssl'
