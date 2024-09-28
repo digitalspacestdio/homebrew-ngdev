@@ -4,12 +4,13 @@ class DigitalspaceTraefik < Formula
   url "https://github.com/traefik/traefik/releases/download/v2.11.8/traefik-v2.11.8.src.tar.gz"
   sha256 "e95c47584ee9bd041215de0fcf3627215a4ef48a1cca06fdb638132428521fa2"
   license "MIT"
-  revision 109
+  revision 110
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-traefik"
-    sha256 cellar: :any_skip_relocation, ventura:      "8b506a90bf19cec3c5e0324010790cffa54197ca29d0cbd93d1850cd274e237a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "a987c379d001db45633684a3465e8d2a1c452beef238f2023157c5e303c2cb91"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-traefik"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "89ece157a3b6f320f4013f5907a71528a02ff395b6662da438f4b69322cab841"
+    sha256 cellar: :any_skip_relocation, ventura:       "901050096336132255aa889ff47b7b2dc4495bc56ddc3858259d40c97d6b30c3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "fc32b261b67fe3397babe57f0191fe87406ae95033a4948769fe92b6bbbe98cb"
   end
 
   depends_on "digitalspace-local-ca"

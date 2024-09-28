@@ -2,12 +2,13 @@ class DigitalspaceGitSsh < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.2.1"
-  revision 109
+  revision 110
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-git-ssh"
-    sha256 cellar: :any_skip_relocation, ventura:      "966e792fc690679a7c80795b6c3253185aeed7dd079c56f9cd92dbeb78468b6c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "08799b25090a7a08f2b99e48f3b4c8bef54a24c4560a00eb14c150a32410d30c"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-git-ssh"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "f3b1d5c1560ddbd1dad645911bf32a99d526ee3eea39817b7b86d86b26ce618a"
+    sha256 cellar: :any_skip_relocation, ventura:       "f196b316505b53c9e08f5077f4746564661dc6a4695d8850cdd85a763a2ae8ce"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f678f2174f3237d28c9f17aca9e6dc54f3ed68212b2ef9afc8befc7c936a6226"
   end
 
   def git_ssh_gen_script

@@ -4,7 +4,7 @@ class DigitalspacePostgresql15 < Formula
   url "https://ftp.postgresql.org/pub/source/v15.8/postgresql-15.8.tar.bz2"
   sha256 "4403515f9a69eeb3efebc98f30b8c696122bfdf895e92b3b23f5b8e769edcb6a"
   license "PostgreSQL"
-  revision 109
+  revision 110
 
   livecheck do
     url "https://ftp.postgresql.org/pub/source/"
@@ -12,14 +12,15 @@ class DigitalspacePostgresql15 < Formula
   end
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-postgresql15"
-    sha256 cellar: :any_skip_relocation, ventura:      "73155683056211cfa047cd77b927c83465eab94fc4f30a95252cb93d1b6d837f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "43ff6b04b6ae4b624babcb508c61ac845d0b43cdbc37885eae48d4ac7879bb45"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-postgresql15"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "e0b9b414a60c3de182c5781ff0d9fa17bc0c30caa33fa6a3016b03e4e7733b2f"
+    sha256 cellar: :any_skip_relocation, ventura:       "f285f0d597549f6f6df92263074fa05b87a4bf59394870fe00146245f5b90203"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "47a7022e2adfba8805670e29adc1364eb6a496752a73fc69977b4e9938593be1"
   end
 
   depends_on "pkg-config" => :build
   depends_on "gettext"
-  depends_on "icu4c"
+  depends_on "digitalspacestdio/common/icu4c@74.2"
 
   # GSSAPI provided by Kerberos.framework crashes when forked.
   # See https://github.com/Homebrew/homebrew-core/issues/47494.

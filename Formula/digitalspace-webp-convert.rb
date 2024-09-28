@@ -2,12 +2,13 @@ class DigitalspaceWebpConvert < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.10"
-  revision 109
+  revision 110
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-webp-convert"
-    sha256 cellar: :any_skip_relocation, ventura:      "6ead6e4865bd2579b4d1d40eba356f71126ab4bee1b564d585a2b9f3926c1523"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "b52a82ebf9967512afb94dabd3fcaa276922c58cbd9e591c8c761fad546629d7"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-webp-convert"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "2b5ed7c5641447ee322183c8361d8bc973bc481a1a20394023214b649034dc5c"
+    sha256 cellar: :any_skip_relocation, ventura:       "f940fd3b852714280105a66046e0dda9d86aea9a3a3589fbbba3cadb539510f6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d3131a63493c1e63b74eb338a4d9bc1f864815f851fbb7b7b6b3675a3c81e699"
   end
 
   depends_on 'webp'

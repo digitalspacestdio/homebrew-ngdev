@@ -4,7 +4,7 @@ class DigitalspaceMysqlAT84 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.2.tar.gz"
   sha256 "5657a78dc86bf0bf2227e0b05f8de5a2c447a816a112ffa26fa70083bcbe9814"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
-  revision 109
+  revision 110
 
   livecheck do
     url "https://dev.mysql.com/downloads/mysql/8.4.html?tpl=files&os=src&version=8.4"
@@ -12,9 +12,10 @@ class DigitalspaceMysqlAT84 < Formula
   end
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mysql@8.4"
-    sha256 cellar: :any_skip_relocation, ventura:      "6cdf3f5770d6a69dd2b01992fd2809f7ad676df48045385c449e237507429d92"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "a1ffd0f963b5864ed633677141b051acea69dff5cd2272c11e1d9eec947d9991"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-mysql@8.4"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "edca40713a67dc5df25e695e08b6065ace15dbc3ff52ba750ec86389000548bc"
+    sha256 cellar: :any_skip_relocation, ventura:       "ec1d5133ac5a13e642615b5ab5f004dc891a36dbd6065ccc0891fbf6fe74b877"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "915a574e07a826c5715dda77893e3f3d80b5232b588a025494371489b06d1f1c"
   end
 
   keg_only :versioned_formula
@@ -23,11 +24,11 @@ class DigitalspaceMysqlAT84 < Formula
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "abseil"
-  depends_on "icu4c"
+  depends_on "digitalspacestdio/common/icu4c@74.2"
   depends_on "libfido2"
   depends_on "lz4"
   depends_on "openssl@3"
-  depends_on "protobuf"
+  #depends_on "protobuf"
   depends_on "zlib" # Zlib 1.2.13+
   depends_on "zstd"
 
@@ -130,7 +131,7 @@ class DigitalspaceMysqlAT84 < Formula
       -DWITH_ICU=system
       -DWITH_LIBEVENT=system
       -DWITH_LZ4=system
-      -DWITH_PROTOBUF=system
+      -DWITH_PROTOBUF=bundled
       -DWITH_SSL=system
       -DWITH_ZLIB=system
       -DWITH_ZSTD=system
@@ -221,4 +222,3 @@ class DigitalspaceMysqlAT84 < Formula
     system bin/"mysqladmin", "--port=#{port}", "--user=root", "--password=", "shutdown"
   end
 end
-

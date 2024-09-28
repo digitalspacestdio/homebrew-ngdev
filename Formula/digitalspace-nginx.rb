@@ -8,12 +8,13 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 109
+  revision 110
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-nginx"
-    sha256 cellar: :any_skip_relocation, ventura:      "a56824b5dcfbcfcef6cbef0e2acc0124dd0f244e07f7194a1e6aaa577fb2f6fe"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "347d38eb36de22dbc1082cefdfd6b4a871922215a6eb80b2af8672b9d95054be"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-nginx"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "8e88be4bb9a02317d0781c3c21ca0d483a9722ae06c75caa49ac6a1e42dbd892"
+    sha256 cellar: :any_skip_relocation, ventura:       "34f3a4b6eeb2265f1bf93c3bb23edf7c92cfef2af5bedc60245bc264a3ce4230"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "364c452cc29fd7b02986a573e332107b5620f7daf66c74e38c0229b6c6cab95b"
   end
 
   def nginx_listen_address
@@ -27,7 +28,7 @@ class DigitalspaceNginx < Formula
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
 
   depends_on "gd" if build.with?("image-filter")
-  depends_on "icu4c" if build.with?("xsltproc-module")
+  depends_on "icu4c@74.2" if build.with?("xsltproc-module")
   depends_on "libxml2" if build.with?("xsltproc-module") ||
                           build.with?("xslt") ||
                           build.with?("dav-ext-module")
@@ -559,7 +560,7 @@ end
     end
 
     if build.with?("xsltproc-module")
-      icu = Formula["icu4c"]
+      icu = Formula["icu4c@74.2"]
       cc_opt += " -I#{icu.opt_include}"
       ld_opt += " -L#{icu.opt_lib}"
     end

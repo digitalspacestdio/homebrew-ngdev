@@ -2,12 +2,13 @@ class DigitalspaceMysql84 < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "8.4"
-  revision 109
+  revision 110
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mysql84"
-    sha256 cellar: :any_skip_relocation, ventura:      "c92c25e7dcb5d550b798776ecce13ae7347ac714daad3ea233856d152a75c4d8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "dfa61c45d579ad6c95b747f53ea2665dc66162f9c7fe8a1ff7607602d164a364"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-mysql84"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "26b16ff17ea11d02dc21f7e11705704487bcaa4b814300cceefe14a59ae47537"
+    sha256 cellar: :any_skip_relocation, ventura:       "ba655e8739fde803be4110ea21d4e8c37ebb1c606cb7fd0a04f479c8904be9e0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7ca261f77052e4dd1941061a18c4fa13247e29bf8d157d581b9fbdc8c4dd2bc9"
   end
 
   def mysql_formula
@@ -398,10 +399,6 @@ class DigitalspaceMysql84 < Formula
       system("#{opt_bin}/post_install_script")
     end
 
-    if !mysql_data_dir.exist?
-      mysql_data_dir.mkpath
-      system("#{Formula[mysql_formula].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{Formula[mysql_formula].opt_prefix} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
-    end
     supervisor_config =<<~EOS
       [program:mysql84]
       command=#{Formula[mysql_formula].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf
@@ -418,6 +415,11 @@ class DigitalspaceMysql84 < Formula
     (etc/"digitalspace-supervisor.d").mkpath
     (etc/"digitalspace-supervisor.d"/"mysql84.ini").delete if (etc/"digitalspace-supervisor.d"/"mysql84.ini").exist?
     (etc/"digitalspace-supervisor.d"/"mysql84.ini").write(supervisor_config) unless (etc/"digitalspace-supervisor.d"/"mysql84.ini").exist?
+
+    if !mysql_data_dir.exist?
+      mysql_data_dir.mkpath
+      system("#{Formula[mysql_formula].opt_bin}/mysqld --defaults-file=#{mysql_etc_dir}/my.cnf --basedir=#{Formula[mysql_formula].opt_prefix} --datadir=#{mysql_data_dir} --lc-messages-dir=#{mysql_base_dir}/share/mysql --initialize-insecure")
+    end
   end
 
   service do

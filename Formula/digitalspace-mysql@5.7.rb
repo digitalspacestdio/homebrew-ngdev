@@ -4,12 +4,13 @@ class DigitalspaceMysqlAT57 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-5.7/mysql-boost-5.7.44.tar.gz"
   sha256 "b8fe262c4679cb7bbc379a3f1addc723844db168628ce2acf78d33906849e491"
   license "GPL-2.0-only"
-  revision 109
+  revision 110
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mysql@5.7"
-    sha256 cellar: :any_skip_relocation, ventura:      "64349a1d0fb408e9cfbf865669949c2945d3eea9c1573b1e8fa558e176b81ee8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "883746471e6ec2ecc8a2c2b9fec24ef66cd2118259841b826e39ec430d0e3fb1"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-mysql@5.7"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "a9b913692687d63dac0fe54f550faeaf3f889f8b0d6d7e74ebb6a83beb128053"
+    sha256 cellar: :any_skip_relocation, ventura:       "76391c3cc15010b288b858e3409305b23d3681dec83b4d306f611cc1a0fcd811"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ea5d4593d3bf783e64c9fe490d6093afd17c6b9860ed8696d2f333a99d62b436"
   end
 
   keg_only :versioned_formula
@@ -17,8 +18,7 @@ class DigitalspaceMysqlAT57 < Formula
   depends_on "cmake" => :build
   depends_on "libevent"
   depends_on "lz4"
-  depends_on "openssl@1.1"
-  depends_on "protobuf"
+  depends_on "openssl111w"
 
   uses_from_macos "curl"
   uses_from_macos "cyrus-sasl"
@@ -167,7 +167,6 @@ class DigitalspaceMysqlAT57 < Formula
       -DMYSQL_DATADIR=#{mysql_data_dir}
       -DSYSCONFDIR=#{mysql_etc_dir}
       -DWITH_BOOST=boost
-      -DWITH_EDITLINE=system
       -DWITH_SSL=yes
       -DWITH_NUMA=OFF
       -DWITH_UNIT_TESTS=OFF

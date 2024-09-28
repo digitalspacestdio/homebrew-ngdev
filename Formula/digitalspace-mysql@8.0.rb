@@ -4,7 +4,7 @@ class DigitalspaceMysqlAT80 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-boost-8.0.39.tar.gz"
   sha256 "93208da9814116d81a384eae42120fd6c2ed507f1696064c510bc36047050241"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
-  revision 109
+  revision 110
 
   livecheck do
     url "https://dev.mysql.com/downloads/mysql/8.0.html?tpl=files&os=src&version=8.0"
@@ -12,9 +12,10 @@ class DigitalspaceMysqlAT80 < Formula
   end
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-mysql@8.0"
-    sha256 cellar: :any_skip_relocation, ventura:      "51f048b073ec2fe7738cd855d85b03f607e51e86af2dac310be0d3799e7e98c6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "e952d352d5f02d0d1036357a0b2ca47b62adde87393948f75b77f5a6e60040de"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-mysql@8.0"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "e9c396c6117c1ec1c90e8e504dd39ddaa1e1acddf14f13df0c4ff217370c607b"
+    sha256 cellar: :any_skip_relocation, ventura:       "183c283a58917cf25b68d50e09a54797c24ed956421bba4ee488dbd610c79767"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "fb610a1622f9cb73d773c8e04113ccf35117b1e2220ff6d592cad9c207b55305"
   end
 
   keg_only :versioned_formula
@@ -23,12 +24,12 @@ class DigitalspaceMysqlAT80 < Formula
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "abseil"
-  depends_on "icu4c"
+  depends_on "digitalspacestdio/common/icu4c@74.2"
   depends_on "libevent"
   depends_on "libfido2"
   depends_on "lz4"
   depends_on "openssl@3.0"
-  depends_on "protobuf"
+  #depends_on "protobuf@28.2"
   depends_on "zlib" # Zlib 1.2.13+
   depends_on "zstd"
 
@@ -128,7 +129,7 @@ class DigitalspaceMysqlAT80 < Formula
       -DWITH_ICU=system
       -DWITH_LIBEVENT=system
       -DWITH_LZ4=system
-      -DWITH_PROTOBUF=system
+      -DWITH_PROTOBUF=bundled
       -DWITH_SSL=system
       -DWITH_ZLIB=system
       -DWITH_ZSTD=system

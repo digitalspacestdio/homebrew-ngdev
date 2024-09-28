@@ -4,7 +4,7 @@ class DigitalspaceDnsmasq < Formula
   url "https://thekelleys.org.uk/dnsmasq/dnsmasq-2.89.tar.gz"
   sha256 "8651373d000cae23776256e83dcaa6723dee72c06a39362700344e0c12c4e7e4"
   license any_of: ["GPL-2.0-only", "GPL-3.0-only"]
-  revision 109
+  revision 110
 
   livecheck do
     url "https://thekelleys.org.uk/dnsmasq/"
@@ -12,9 +12,10 @@ class DigitalspaceDnsmasq < Formula
   end
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/109/digitalspace-dnsmasq"
-    sha256 cellar: :any_skip_relocation, ventura:      "9bb29073b18ed536665dbcc52a3ac5b75401e04024f79eceea7686160c9fac27"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "1770945d38b7fad5abfb3b92d3902e7b61b40023969a93f71f6d3ad660c3ea2d"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-dnsmasq"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "893550ad0a72fbe2fbfdb19ddf6f795bc948800a0161a9f7b22f78638baefe4e"
+    sha256 cellar: :any_skip_relocation, ventura:       "0feacd6339aaf9418b17dc20df671c233dc82d17f88bd0f4b5d53a7237bf0dff"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4305c206540cfe97bef960b8c59d1032dddd9b4a47509dd45961c94f08be8af9"
   end
 
   depends_on "pkg-config" => :build
