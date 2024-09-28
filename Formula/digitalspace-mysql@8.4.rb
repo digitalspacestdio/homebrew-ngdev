@@ -126,7 +126,7 @@ class DigitalspaceMysqlAT84 < Formula
       -DWITH_BOOST=boost
       -DWITH_EDITLINE=system
       -DWITH_FIDO=system
-      -DWITH_ICU=bundled
+      -DWITH_ICU=system
       -DWITH_LIBEVENT=system
       -DWITH_LZ4=system
       -DWITH_PROTOBUF=bundled
@@ -220,4 +220,3 @@ class DigitalspaceMysqlAT84 < Formula
     system bin/"mysqladmin", "--port=#{port}", "--user=root", "--password=", "shutdown"
   end
 end
-
