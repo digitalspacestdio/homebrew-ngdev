@@ -9,7 +9,7 @@ class DigitalspaceLuaRestyCore < Formula
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-lua-resty-core"
     sha256 cellar: :any_skip_relocation, ventura:      "269b5e4530988563a6d8d2b3a925195e74abfcdae2692baeae65b98c27c7d420"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "49ee326c70ea96ad4ec47d8eaa50e6a63739eee1fc8ef5163da56bfb3eac3093"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "49bdfa5b86ec20dc8cf6786ea70807045b99195e789e352c610b400b437fb5b4"
   end
 
   def install
