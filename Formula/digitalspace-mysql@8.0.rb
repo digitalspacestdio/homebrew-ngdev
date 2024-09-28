@@ -23,7 +23,7 @@ class DigitalspaceMysqlAT80 < Formula
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "abseil"
-  depends_on "icu4c@74.2"
+  depends_on "digitalspacestdio/common/icu4c@74.2"
   depends_on "libevent"
   depends_on "libfido2"
   depends_on "lz4"

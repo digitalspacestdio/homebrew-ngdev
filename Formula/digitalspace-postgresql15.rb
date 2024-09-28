@@ -18,7 +18,7 @@ class DigitalspacePostgresql15 < Formula
 
   depends_on "pkg-config" => :build
   depends_on "gettext"
-  depends_on "icu4c@74.2"
+  depends_on "digitalspacestdio/common/icu4c@74.2"
 
   # GSSAPI provided by Kerberos.framework crashes when forked.
   # See https://github.com/Homebrew/homebrew-core/issues/47494.
