@@ -43,11 +43,17 @@ brew tap digitalspacestdio/php
 brew install digitalspace-supervisor digitalspace-nginx digitalspace-traefik digitalspace-dnsmasq digitalspace-allutils
 ```
 
-### 3. Install needed PHP versions
-You need to install at least one
+### 3. Install PHP
+The latest release version
 ```bash
-brew install php84-common php74-common php56-common
+brew install php-common
 ```
+
+Optionally install additional versions
+```bash
+brew install php81-common php74-common php56-common
+```
+
 > select any of version you need just by changing the name to `phpXX-common`, where XX is the first two numbers of the php version without dots
 > available versions: `8.4`, `8.3`, `8.2`, `8.1`, `8.0`, `7.4`, `7.3`, `7.2`, `7.1`, `7.0`, `5.6`
 
