@@ -14,14 +14,13 @@ class DigitalspaceAllutils < Formula
   depends_on "coreutils"
   depends_on "moreutils"
   depends_on "gettext"
-  depends_on "htop"
   depends_on "jq"
   depends_on "pv"
   depends_on "jenv"
-  depends_on "vim"
   depends_on "watch"
-  depends_on "flock"
-  
+  on_macos do
+    depends_on "flock"
+  end
 
   def install
     (buildpath / "keepme.txt").write("")
