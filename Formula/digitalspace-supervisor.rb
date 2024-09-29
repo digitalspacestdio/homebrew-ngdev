@@ -15,6 +15,7 @@ class DigitalspaceSupervisor < Formula
     sha256 cellar: :any_skip_relocation, arm64_ventura: "40dbb1c83e2ca7fb5f0e3d969b66dc11d5732b0e17e6adb41e414ab6afd0edda"
     sha256 cellar: :any_skip_relocation, ventura:       "3c9e845585bc9682baa44bfc05a350fb6c0993d381d0256847f57b76ba0792ca"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "e22e6302d3136240051d3ed1d39a3f00e018add5a8d768d4437afab612a3b44f"
+    sha256 cellar: :any_skip_relocation, aarch64_linux: "864af522f81544def0245e8fdfb27694a7fc00aaffe33bca87cbfde9f33af83a"
   end
 
   depends_on "python@3.11"
