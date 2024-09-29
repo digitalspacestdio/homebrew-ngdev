@@ -11,6 +11,7 @@ class DigitalspaceNgxDevelKit < Formula
     sha256 cellar: :any_skip_relocation, arm64_ventura: "12192199123b9623410f650f55ece0a8aa50104f0507a3a87f2a83e03f75939e"
     sha256 cellar: :any_skip_relocation, ventura:       "0a9e99a7169db3603ed073881b91be21963cac56027f910078668b427bfa5602"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "140ae046a073804967639938263a0ac6a7597a3d904c1380ff8ac532b0ce3b87"
+    sha256 cellar: :any_skip_relocation, aarch64_linux: "8272609aeafcd4386b9fb682ca8dd2d5a5321fe9b91797c52e25843e04942612"
   end
   
   def install
