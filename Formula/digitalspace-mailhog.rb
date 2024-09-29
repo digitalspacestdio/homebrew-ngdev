@@ -9,6 +9,7 @@ class DigitalspaceMailhog < Formula
     sha256 cellar: :any_skip_relocation, arm64_ventura: "3a9d03a3868059f719e6bd44e25044a790285724de469d2c6325fa2f8e82389d"
     sha256 cellar: :any_skip_relocation, ventura:       "a17c01c4250737bc4b1ce8628486a35eaaeb3a4eb6db9f6ea90c75329bb0e701"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "053c063b0e1512a107a144631f87afde7b3e2333cc7b33c4bcac9cdca8e7cadb"
+    sha256 cellar: :any_skip_relocation, aarch64_linux: "fb4c12f1f1cc0bd3d13eaadc87eff08f4000afae9da29ffa74a2ddb081990afb"
   end
 
   depends_on "mailhog"
