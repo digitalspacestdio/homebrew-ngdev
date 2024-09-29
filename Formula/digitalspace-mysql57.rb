@@ -9,6 +9,7 @@ class DigitalspaceMysql57 < Formula
     sha256 cellar: :any_skip_relocation, arm64_ventura: "f6d9e18163fcf729bbc1a446b96c2c5c7b121a742b4128f6b891d01e069ea4b8"
     sha256 cellar: :any_skip_relocation, ventura:       "ca6dfb930a687b9218aba4947abcdf871afe20cc56b657dca6ae1a04c8ca8bd1"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "f42791d3b324db5ff66f6f356aee0dafc9b47f0a372886d1499759d94621c6d1"
+    sha256 cellar: :any_skip_relocation, aarch64_linux: "b900d103576dd7deba22cd415f4a87ac2892a01d6110bb0c143f5f511abb122e"
   end
 
   def mysql_formula

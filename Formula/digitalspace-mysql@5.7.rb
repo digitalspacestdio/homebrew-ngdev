@@ -11,6 +11,7 @@ class DigitalspaceMysqlAT57 < Formula
     sha256 cellar: :any_skip_relocation, arm64_ventura: "a9b913692687d63dac0fe54f550faeaf3f889f8b0d6d7e74ebb6a83beb128053"
     sha256 cellar: :any_skip_relocation, ventura:       "76391c3cc15010b288b858e3409305b23d3681dec83b4d306f611cc1a0fcd811"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "ea5d4593d3bf783e64c9fe490d6093afd17c6b9860ed8696d2f333a99d62b436"
+    sha256 cellar: :any_skip_relocation, aarch64_linux: "fca3c8564944ed69f4144c914c2d2e491781d3179a3b111394a81671304d970b"
   end
 
   keg_only :versioned_formula

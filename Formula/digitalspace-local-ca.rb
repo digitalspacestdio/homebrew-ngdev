@@ -9,6 +9,7 @@ class DigitalspaceLocalCa < Formula
     sha256 cellar: :any_skip_relocation, arm64_ventura: "b2e37b9ebd3b50d13e868b0e7483d804d177b7fd2ac829e25ae15a26edce5aaf"
     sha256 cellar: :any_skip_relocation, ventura:       "422a788643a6738e12d04d5591213c9151a7c43c209a27899402f55030f39cf3"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "a2b67e93b7674adda3d6e3d9645dd168d22e184950d9f5399418c1aff07fa571"
+    sha256 cellar: :any_skip_relocation, aarch64_linux: "87c6aa3966704c8b7ec0bc1d7b590e754369375bda516c937b016bc777a1d174"
   end
 
   depends_on 'openssl'

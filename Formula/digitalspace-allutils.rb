@@ -9,6 +9,7 @@ class DigitalspaceAllutils < Formula
     sha256 cellar: :any_skip_relocation, arm64_ventura: "90ad1251ca7dfefad1b1d25b78613d22ea0a5a8d6e978dc39ab9cd1f5f62647b"
     sha256 cellar: :any_skip_relocation, ventura:       "a477976003591e00b79a10a870c10d4cb601e0083173d8ed5065604cd8eaf4f1"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "e458f84c020af4b70ff63f4a6593f8f503ead595d6caa152a1c0e7ad54af7f7a"
+    sha256 cellar: :any_skip_relocation, aarch64_linux: "6a2024d67594c9bc5165c04d3acaf54d9d10f16895204a6e668d6599eebd016b"
   end
 
   depends_on "coreutils"
