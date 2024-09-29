@@ -72,6 +72,10 @@ class DigitalspacePostgresql15 < Formula
       ENV.append "CXXFLAGS", "-msse4.2"
     end
 
+    if Hardware::CPU.arm? && OS.linux?
+      ENV.append "USE_SLICING_BY_8_CRC32C", "1"
+    end
+
     ENV.append "CFLAGS", "-O2"
     ENV.append "CXXFLAGS", "-O2"
 
