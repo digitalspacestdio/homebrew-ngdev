@@ -16,6 +16,7 @@ class DigitalspaceDnsmasq < Formula
     sha256 cellar: :any_skip_relocation, arm64_ventura: "893550ad0a72fbe2fbfdb19ddf6f795bc948800a0161a9f7b22f78638baefe4e"
     sha256 cellar: :any_skip_relocation, ventura:       "0feacd6339aaf9418b17dc20df671c233dc82d17f88bd0f4b5d53a7237bf0dff"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "4305c206540cfe97bef960b8c59d1032dddd9b4a47509dd45961c94f08be8af9"
+    sha256 cellar: :any_skip_relocation, aarch64_linux: "d7740414631cd019cfe8114b573c422056e7136dbf7608aca029e169f92f0a59"
   end
 
   depends_on "pkg-config" => :build
