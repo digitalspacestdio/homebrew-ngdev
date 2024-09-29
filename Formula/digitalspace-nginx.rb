@@ -29,7 +29,7 @@ class DigitalspaceNginx < Formula
   option "with-homebrew-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
 
   depends_on "gd" if build.with?("image-filter")
-  depends_on "icu4c@74.2" if build.with?("xsltproc-module")
+  depends_on "digitalspacestdio/common/icu4c@74.2" if build.with?("xsltproc-module")
   depends_on "libxml2" if build.with?("xsltproc-module") ||
                           build.with?("xslt") ||
                           build.with?("dav-ext-module")
@@ -561,7 +561,7 @@ end
     end
 
     if build.with?("xsltproc-module")
-      icu = Formula["icu4c@74.2"]
+      icu = Formula["digitalspacestdio/common/icu4c@74.2"]
       cc_opt += " -I#{icu.opt_include}"
       ld_opt += " -L#{icu.opt_lib}"
     end
