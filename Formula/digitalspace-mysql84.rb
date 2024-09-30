@@ -28,7 +28,7 @@ class DigitalspaceMysql84 < Formula
   end
 
   def mysql_base_dir
-    opt_prefix
+    Formula[mysql_formula].opt_prefix
   end
 
   def mysql_etc_dir
