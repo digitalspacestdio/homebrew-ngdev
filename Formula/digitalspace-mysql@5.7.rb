@@ -19,7 +19,7 @@ class DigitalspaceMysqlAT57 < Formula
   depends_on "cmake" => :build
   depends_on "libevent"
   depends_on "lz4"
-  depends_on "openssl111w"
+  depends_on "digitalspacestdio/common/openssl111w"
 
   uses_from_macos "curl"
   uses_from_macos "cyrus-sasl"
