@@ -8,7 +8,7 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 110
+  revision 111
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-nginx"
@@ -151,7 +151,7 @@ class DigitalspaceNginx < Formula
   if build.with?("homebrew-libressl")
     depends_on "libressl"
   else
-    depends_on "openssl@1.1"
+    depends_on "openssl@3"
   end
 
   # HTTP2 (backward compatibility for spdy)
@@ -556,8 +556,8 @@ end
       cc_opt += " -I#{Formula["libressl"].include}"
       ld_opt += " -L#{Formula["libressl"].lib}"
     else
-      cc_opt += " -I#{Formula["openssl@1.1"].include}"
-      ld_opt += " -L#{Formula["openssl@1.1"].lib}"
+      cc_opt += " -I#{Formula["openssl@3"].include}"
+      ld_opt += " -L#{Formula["openssl@3"].lib}"
     end
 
     if build.with?("xsltproc-module")

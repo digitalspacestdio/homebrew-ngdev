@@ -3,7 +3,7 @@ require 'etc'
 class DigitalspaceOpenresty < Formula
   desc "Scalable Web Platform by Extending NGINX with Lua"
   homepage "https://openresty.org"
-  revision 110
+  revision 111
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-openresty"
@@ -23,8 +23,7 @@ class DigitalspaceOpenresty < Formula
   option "with-iconv", "Compile with ngx_http_iconv_module"
   option "with-slice", "Compile with ngx_http_slice_module"
 
-  depends_on "geoip"
-  depends_on "digitalspace-openresty-openssl111"
+  depends_on "openssl@3"
   depends_on "pcre"
   depends_on "postgresql" => :optional
 
@@ -46,8 +45,8 @@ class DigitalspaceOpenresty < Formula
     ENV.append "CXXFLAGS", "-O2"
 
     # Configure
-    cc_opt = "-I#{HOMEBREW_PREFIX}/include -I#{Formula["pcre"].opt_include} -I#{Formula["digitalspace-openresty-openssl111"].opt_include}"
-    ld_opt = "-L#{HOMEBREW_PREFIX}/lib -L#{Formula["pcre"].opt_lib} -L#{Formula["digitalspace-openresty-openssl111"].opt_lib}"
+    cc_opt = "-I#{HOMEBREW_PREFIX}/include -I#{Formula["pcre"].opt_include} -I#{Formula["openssl@3"].opt_include}"
+    ld_opt = "-L#{HOMEBREW_PREFIX}/lib -L#{Formula["pcre"].opt_lib} -L#{Formula["openssl@3"].opt_lib}"
 
     args = %W[
       -j#{Etc.nprocessors}
@@ -77,7 +76,6 @@ class DigitalspaceOpenresty < Formula
       --with-http_auth_request_module
       --with-http_secure_link_module
       --with-http_random_index_module
-      --with-http_geoip_module
       --with-http_gzip_static_module
       --with-http_sub_module
       --with-http_dav_module
