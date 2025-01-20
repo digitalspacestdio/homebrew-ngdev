@@ -6,11 +6,8 @@ class DigitalspaceOpenresty < Formula
   revision 111
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-openresty"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "13a2bc53f6935198b9d1f53a7691c7313a0e2cb7b96ada24ebd72e3a5239d457"
-    sha256 cellar: :any_skip_relocation, ventura:       "86a28fe9c96fa83ec84193a55d22828d061ddfd16aa82a7e27f9798306d57ceb"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d90b7b6dc9ff4cbff881f95074d4a6a70ad02c781ec250bb5b1a497c44dbb052"
-    sha256 cellar: :any_skip_relocation, aarch64_linux: "74a5706daec939b8d8deca9289920e9d84f38c98eee5cec5ac77ba4e59808f41"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-openresty"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "921153bdf439ddbdae108e76ea99fdb53d5a56db16bd6a2c09e667644e42dd77"
   end
 
   VERSION = "1.21.4.2".freeze
