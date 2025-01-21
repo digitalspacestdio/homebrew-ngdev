@@ -12,11 +12,8 @@ class DigitalspacePostgresql15 < Formula
   end
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-postgresql15"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "e0b9b414a60c3de182c5781ff0d9fa17bc0c30caa33fa6a3016b03e4e7733b2f"
-    sha256 cellar: :any_skip_relocation, ventura:       "f285f0d597549f6f6df92263074fa05b87a4bf59394870fe00146245f5b90203"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "47a7022e2adfba8805670e29adc1364eb6a496752a73fc69977b4e9938593be1"
-    sha256 cellar: :any_skip_relocation, aarch64_linux: "091ac57a6e3ded45b5dabf69f064da56c49ac1137b7ac8d329ef946d36cfc38b"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-postgresql15"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "a0ede06188a67d5aac83b3053d04f35e8dc4142f3a2f36aa68da19ceeca2a823"
   end
 
   depends_on "pkg-config" => :build
