@@ -72,7 +72,7 @@ do
             echo "==> Building bottles for $FORMULA ..."
             [[ "true" == $(brew info --json=v1 $FORMULA | jq '.[0].installed[0].built_as_bottle') ]] || {
                 echo "==> Removing previously installed formula $FORMULA ..."
-                brew list | grep '^'${FORMULA//"$TAP_NAME_PREFIX"/}'$' && xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} bash -c 'brew uninstall --force --ignore-dependencies {} || true'
+                brew list | grep '^'${FORMULA//"$TAP_NAME_PREFIX"/}'$' && xargs $(if [[ "$OSTYPE" != "darwin"* ]]; then printf -- '--no-run-if-empty'; fi;) -I{} brew uninstall --force --ignore-dependencies {}
             }
 
             FORMULA_REVISION=$(brew info --json=v1 $FORMULA | jq '.[0].revision')
