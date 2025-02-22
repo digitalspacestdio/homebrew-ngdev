@@ -36,6 +36,7 @@ class DigitalspaceNginx < Formula
   depends_on "libzip" if build.with?("unzip")
   depends_on "luajit-openresty"
   depends_on "pcre"
+  depends_on "pcre2"
   depends_on "valgrind" if build.with?("no-pool-nginx")
   depends_on "gd" => :optional
   depends_on "geoip" => :optional
