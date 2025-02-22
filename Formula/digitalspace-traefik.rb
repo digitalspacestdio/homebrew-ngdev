@@ -132,6 +132,8 @@ class DigitalspaceTraefik < Formula
         ]
     
       [http.middlewares.gzip.compress]
+      [http.middlewares.remove-x-forwarded-for.headers.customRequestHeaders]
+        X-Forwarded-For = ""
     EOS
   end
 
