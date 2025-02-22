@@ -43,6 +43,6 @@ class DigitalspaceOpensearch < Formula
     EOS
 
     (etc/"digitalspace-supervisor.d").mkpath
-    (etc/"digitalspace-supervisor.d"/"opensearch.ini").write(supervisor_config) unless (etc/"digitalspace-supervisor.d"/"opensearch.ini").exist?
+    (etc/"digitalspace-supervisor.d"/"opensearch.ini").write(supervisor_config)
   end
 end
