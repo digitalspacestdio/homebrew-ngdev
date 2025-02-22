@@ -29,7 +29,7 @@ class DigitalspaceOpensearch < Formula
   def post_install
     supervisor_config =<<~EOS
       [program:opensearch]
-      command=#{Formula["opensearch"].opt_bin}/digitalspace-opensearch-service
+      command=#{Formula["digitalspace-opensearch"].opt_bin}/digitalspace-opensearch-service
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-opensearch.log
       stdout_logfile_maxbytes=1MB

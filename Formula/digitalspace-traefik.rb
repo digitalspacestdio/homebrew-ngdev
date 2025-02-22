@@ -224,18 +224,13 @@ class DigitalspaceTraefik < Formula
     ]
     system "go", "generate"
     system "go", "build", *std_go_args(ldflags:, output: bin/"traefik"), "./cmd/traefik"
-
-    (buildpath / "bin" / "digitalspace-traefik-service").write(service_wrapper_script)
-    (buildpath / "bin" / "digitalspace-traefik-service").chmod(0755)
-    
-    bin.install "bin/digitalspace-traefik-service"
     mv bin/"traefik", bin/"digitalspace-traefik"
   end
 
   def supervisor_config
     <<~EOS
       [program:traefik]
-      command=#{opt_bin}/digitalspace-traefik-service
+      command=#{etc}/digitalspace-traefik/service.sh
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-traefik.log
       stdout_logfile_maxbytes=1MB
@@ -250,8 +245,11 @@ class DigitalspaceTraefik < Formula
 
   def post_install
     certs = etc / "digitalspace-traefik" / "certs"
-    
     (etc/"digitalspace-traefik").mkpath
+    
+    (etc/"digitalspace-traefik"/"service.sh").write(service_wrapper_script)
+    (etc/"digitalspace-traefik"/"service.sh").chmod(0755)
+
     (etc/"digitalspace-traefik"/"conf.d").mkpath
     (etc/"digitalspace-traefik"/"traefik.toml").delete if (etc/"digitalspace-traefik"/"traefik.toml").exist?
     (etc/"digitalspace-traefik"/"traefik.toml").write(traefik_main_config)
@@ -279,7 +277,7 @@ class DigitalspaceTraefik < Formula
   # step_path = `#{Formula["step"].opt_bin}/step path --base`
 
   service do
-    run ["#{opt_bin}/digitalspace-traefik", "--configfile=#{etc}/digitalspace-traefik/traefik.toml"]
+    run ["#{etc}/digitalspace-traefik/service.sh"]
     working_dir HOMEBREW_PREFIX
     keep_alive true
     require_root true
