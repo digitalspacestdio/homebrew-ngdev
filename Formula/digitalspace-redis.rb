@@ -36,7 +36,7 @@ class DigitalspaceRedis < Formula
   def post_install
     supervisor_config =<<~EOS
       [program:redis]
-      command=#{Formula["redis"].opt_bin}/digitalspace-redis-server
+      command=#{Formula["digitalspace-redis"].opt_bin}/digitalspace-redis-server
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-redis.log
       stdout_logfile_maxbytes=1MB
