@@ -62,6 +62,10 @@ brew install php81-common php74-common php56-common
 brew install composer@2
 ```
 ### 7. Install Databases (optional)
+PostgreSQL 15
+```bash
+brew install digitalspace-redis
+```
 
 PostgreSQL 15
 ```bash
