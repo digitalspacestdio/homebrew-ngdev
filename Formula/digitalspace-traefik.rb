@@ -204,6 +204,19 @@ class DigitalspaceTraefik < Formula
       nil
   end
 
+  def service_wrapper_script
+    <<~EOS
+    #!/bin/sh
+    if [ -f #{etc}/digitalspace-traefik/traefik.override.toml ]; then
+      exec #{Formula["digitalspace-traefik"].opt_bin}/digitalspace-traefik --configfile=#{etc}/digitalspace-traefik/traefik.override.toml
+    fi
+    
+    exec #{Formula["digitalspace-traefik"].opt_bin}/digitalspace-traefik --configfile=#{etc}/digitalspace-traefik/traefik.toml
+    EOS
+  rescue StandardError
+      nil
+  end
+
   def install
     ldflags = %W[
       -s -w
@@ -212,13 +225,17 @@ class DigitalspaceTraefik < Formula
     system "go", "generate"
     system "go", "build", *std_go_args(ldflags:, output: bin/"traefik"), "./cmd/traefik"
 
+    (buildpath / "bin" / "digitalspace-traefik-service").write(service_wrapper_script)
+    (buildpath / "bin" / "digitalspace-traefik-service").chmod(0755)
+    
+    bin.install "bin/digitalspace-traefik-service"
     mv bin/"traefik", bin/"digitalspace-traefik"
   end
 
   def supervisor_config
     <<~EOS
       [program:traefik]
-      command=#{opt_bin}/digitalspace-traefik --configfile=#{etc}/digitalspace-traefik/traefik.toml
+      command=#{opt_bin}/digitalspace-traefik-service
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-traefik.log
       stdout_logfile_maxbytes=1MB
