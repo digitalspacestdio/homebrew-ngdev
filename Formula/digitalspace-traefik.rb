@@ -142,6 +142,7 @@ class DigitalspaceTraefik < Formula
     [[tls.certificates]]
       certFile = "#{etc}/openssl/localCA/certs/dev.local.crt"
       keyFile = "#{etc}/openssl/localCA/private/dev.local.key"
+
     [[tls.certificates]]
       certFile = "#{etc}/openssl/localCA/certs/dev.com.crt"
       keyFile = "#{etc}/openssl/localCA/private/dev.com.key"
@@ -156,9 +157,7 @@ class DigitalspaceTraefik < Formula
         priority = 100
         service = "digitalspace-nginx"
         entryPoints = ["default"]
-        #tls = true
-        #[http.routers.dev_com.tls]
-        #certResolver = "default"
+        middlewares = ["remove-x-forwarded-for"]
         [[http.routers.dev_com.tls.domains]]
         main = "*.dev.com"
 
@@ -167,9 +166,7 @@ class DigitalspaceTraefik < Formula
         priority = 110
         service = "digitalspace-nginx"
         entryPoints = ["default"]
-        [http.routers.loc_com.tls]
-        #tls = true
-        #certResolver = "default"
+        middlewares = ["remove-x-forwarded-for"]
         [[http.routers.loc_com.tls.domains]]
         main = "*.loc.com"
 
@@ -179,9 +176,7 @@ class DigitalspaceTraefik < Formula
         priority = 120
         service = "digitalspace-nginx"
         entryPoints = ["default"]
-        #tls = true
-        #[http.routers.dev_local.tls]
-        #certResolver = "default"
+        middlewares = ["remove-x-forwarded-for"]
         [[http.routers.dev_local.tls.domains]]
         main = "*.dev.local"
 
