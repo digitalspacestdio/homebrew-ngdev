@@ -8,7 +8,8 @@ class DigitalspaceTraefik < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-traefik"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "91f2d4590736050e00950125c3dea0e7e32fa3c1fb79f668f6454d62e3c2f55f"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "e05fedc94182e3a8f50a3783c1705eeef7b38a1d065c2a59263e48bf5fbf6b31"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "91f2d4590736050e00950125c3dea0e7e32fa3c1fb79f668f6454d62e3c2f55f"
   end
 
   depends_on "digitalspace-local-ca"
