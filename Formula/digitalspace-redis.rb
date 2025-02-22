@@ -48,6 +48,7 @@ class DigitalspaceRedis < Formula
     EOS
 
     (etc/"digitalspace-supervisor.d").mkpath
+    (etc/"digitalspace-supervisor.d"/"redis.ini").delete if (etc/"digitalspace-supervisor.d"/"redis.ini").exist?
     (etc/"digitalspace-supervisor.d"/"redis.ini").write(supervisor_config)
   end
 end
