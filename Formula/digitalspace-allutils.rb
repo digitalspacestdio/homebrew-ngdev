@@ -2,14 +2,13 @@ class DigitalspaceAllutils < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.1"
-  revision 110
+  revision 111
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-allutils"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "90ad1251ca7dfefad1b1d25b78613d22ea0a5a8d6e978dc39ab9cd1f5f62647b"
-    sha256 cellar: :any_skip_relocation, ventura:       "a477976003591e00b79a10a870c10d4cb601e0083173d8ed5065604cd8eaf4f1"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e458f84c020af4b70ff63f4a6593f8f503ead595d6caa152a1c0e7ad54af7f7a"
-    sha256 cellar: :any_skip_relocation, aarch64_linux: "6a2024d67594c9bc5165c04d3acaf54d9d10f16895204a6e668d6599eebd016b"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-allutils"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "5c42b62930ab843a24f1baa46943748e835161c0da31690fd18f026f368a5ce6"
+    sha256 cellar: :any_skip_relocation, ventura:       "ba12f06b7d9ac9fb723e753cf3031883b108ffdd18f0106029107e3fbd2390ec"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "fbbf3163ae147e6a5bc3c612047b99be496d049d88c3432088abc12c4d4e8ba8"
   end
 
   depends_on "coreutils"

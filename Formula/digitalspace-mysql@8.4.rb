@@ -4,7 +4,7 @@ class DigitalspaceMysqlAT84 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.2.tar.gz"
   sha256 "5657a78dc86bf0bf2227e0b05f8de5a2c447a816a112ffa26fa70083bcbe9814"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
-  revision 110
+  revision 111
 
   livecheck do
     url "https://dev.mysql.com/downloads/mysql/8.4.html?tpl=files&os=src&version=8.4"
@@ -12,11 +12,10 @@ class DigitalspaceMysqlAT84 < Formula
   end
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-mysql@8.4"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "edca40713a67dc5df25e695e08b6065ace15dbc3ff52ba750ec86389000548bc"
-    sha256 cellar: :any_skip_relocation, ventura:       "ec1d5133ac5a13e642615b5ab5f004dc891a36dbd6065ccc0891fbf6fe74b877"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "915a574e07a826c5715dda77893e3f3d80b5232b588a025494371489b06d1f1c"
-    sha256 cellar: :any_skip_relocation, aarch64_linux: "34526e32dac828e8f7c97e285b93351f88da7f3414f2524a67dd4f9022411051"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-mysql@8.4"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "8a42e4ac84ec7883c990a7f0044c3bb6ac0ed7208c59473780b069151d28e92c"
+    sha256 cellar: :any_skip_relocation, ventura:       "ab14fd7686c5babfee4e15655bba8f5ce6fa1d180feb77451201deea40647491"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2ef1a8a4be920aab6944464aa77913bc575e384e50c9149af97ed445ec812647"
   end
 
   keg_only :versioned_formula

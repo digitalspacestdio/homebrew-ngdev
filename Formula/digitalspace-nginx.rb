@@ -8,14 +8,13 @@ class DigitalspaceNginx < Formula
   sha256 "64c5b975ca287939e828303fa857d22f142b251f17808dfe41733512d9cded86"
   license "BSD-2-Clause"
   head "http://hg.nginx.org/nginx/", using: :hg
-  revision 110
+  revision 111
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-nginx"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "8e88be4bb9a02317d0781c3c21ca0d483a9722ae06c75caa49ac6a1e42dbd892"
-    sha256 cellar: :any_skip_relocation, ventura:       "34f3a4b6eeb2265f1bf93c3bb23edf7c92cfef2af5bedc60245bc264a3ce4230"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "364c452cc29fd7b02986a573e332107b5620f7daf66c74e38c0229b6c6cab95b"
-    sha256 cellar: :any_skip_relocation, aarch64_linux: "7d0bcc36e281731ece6021b3f3eb535498009483f096620669a8776fb843a0ff"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-nginx"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "bbba8807d5eacac25d4a71ae7aeddc6383c659627a1f580cac5aff7e686b8d9b"
+    sha256 cellar: :any_skip_relocation, ventura:       "b7aa45edfb2a80277e9ad37dfa1c366ba5dc532fdd7c83e52765010f74a26274"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "91111c79c2fd073446b237ec3d5b67683e16cd3d0c753c97faafc268650ec968"
   end
 
   def nginx_listen_address
@@ -38,6 +37,7 @@ class DigitalspaceNginx < Formula
   depends_on "libzip" if build.with?("unzip")
   depends_on "luajit-openresty"
   depends_on "pcre"
+  depends_on "pcre2"
   depends_on "valgrind" if build.with?("no-pool-nginx")
   depends_on "gd" => :optional
   depends_on "geoip" => :optional
@@ -151,7 +151,7 @@ class DigitalspaceNginx < Formula
   if build.with?("homebrew-libressl")
     depends_on "libressl"
   else
-    depends_on "openssl@1.1"
+    depends_on "openssl@3"
   end
 
   # HTTP2 (backward compatibility for spdy)
@@ -556,8 +556,8 @@ end
       cc_opt += " -I#{Formula["libressl"].include}"
       ld_opt += " -L#{Formula["libressl"].lib}"
     else
-      cc_opt += " -I#{Formula["openssl@1.1"].include}"
-      ld_opt += " -L#{Formula["openssl@1.1"].lib}"
+      cc_opt += " -I#{Formula["openssl@3"].include}"
+      ld_opt += " -L#{Formula["openssl@3"].lib}"
     end
 
     if build.with?("xsltproc-module")
@@ -672,7 +672,7 @@ end
     dst = var/"www"
 
     if dst.exist?
-      html.rmtree
+      html.rm_r
       dst.mkpath
     else
       dst.dirname.mkpath

@@ -4,14 +4,13 @@ class DigitalspaceTraefik < Formula
   url "https://github.com/traefik/traefik/releases/download/v2.11.8/traefik-v2.11.8.src.tar.gz"
   sha256 "e95c47584ee9bd041215de0fcf3627215a4ef48a1cca06fdb638132428521fa2"
   license "MIT"
-  revision 110
+  revision 111
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-traefik"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "89ece157a3b6f320f4013f5907a71528a02ff395b6662da438f4b69322cab841"
-    sha256 cellar: :any_skip_relocation, ventura:       "901050096336132255aa889ff47b7b2dc4495bc56ddc3858259d40c97d6b30c3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "fc32b261b67fe3397babe57f0191fe87406ae95033a4948769fe92b6bbbe98cb"
-    sha256 cellar: :any_skip_relocation, aarch64_linux: "3a4c8dc78e73c1f4b0392d7bcc1de6f85d9ff36869c7eed9d90e88b5399ef827"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-traefik"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "e05fedc94182e3a8f50a3783c1705eeef7b38a1d065c2a59263e48bf5fbf6b31"
+    sha256 cellar: :any_skip_relocation, ventura:       "179be9392e56af6b950c22f1375c9e71209d687d2266ad896f165bc5494b7dec"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "91f2d4590736050e00950125c3dea0e7e32fa3c1fb79f668f6454d62e3c2f55f"
   end
 
   depends_on "digitalspace-local-ca"

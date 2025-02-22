@@ -4,14 +4,13 @@ class DigitalspaceMysqlAT57 < Formula
   url "https://cdn.mysql.com/Downloads/MySQL-5.7/mysql-boost-5.7.44.tar.gz"
   sha256 "b8fe262c4679cb7bbc379a3f1addc723844db168628ce2acf78d33906849e491"
   license "GPL-2.0-only"
-  revision 110
+  revision 111
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-mysql@5.7"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "a9b913692687d63dac0fe54f550faeaf3f889f8b0d6d7e74ebb6a83beb128053"
-    sha256 cellar: :any_skip_relocation, ventura:       "76391c3cc15010b288b858e3409305b23d3681dec83b4d306f611cc1a0fcd811"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ea5d4593d3bf783e64c9fe490d6093afd17c6b9860ed8696d2f333a99d62b436"
-    sha256 cellar: :any_skip_relocation, aarch64_linux: "fca3c8564944ed69f4144c914c2d2e491781d3179a3b111394a81671304d970b"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-mysql@5.7"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "c68217e6f2593e67921998a7519787844dcf2dd383e9a0cbac9b1a55d7af811b"
+    sha256 cellar: :any_skip_relocation, ventura:       "b75eebadaa012c8d6bf07c15fef3e8167d6061ba9fb7d317e8ff57f6019eae59"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "de41fefa4e5191a6df4b615073c41730fb2f8a4ac9cb2c3b74ed36760835d95b"
   end
 
   keg_only :versioned_formula

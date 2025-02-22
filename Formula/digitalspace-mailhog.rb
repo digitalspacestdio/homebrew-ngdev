@@ -2,14 +2,13 @@ class DigitalspaceMailhog < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.1"
-  revision 110
+  revision 111
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/110/digitalspace-mailhog"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "3a9d03a3868059f719e6bd44e25044a790285724de469d2c6325fa2f8e82389d"
-    sha256 cellar: :any_skip_relocation, ventura:       "a17c01c4250737bc4b1ce8628486a35eaaeb3a4eb6db9f6ea90c75329bb0e701"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "053c063b0e1512a107a144631f87afde7b3e2333cc7b33c4bcac9cdca8e7cadb"
-    sha256 cellar: :any_skip_relocation, aarch64_linux: "fb4c12f1f1cc0bd3d13eaadc87eff08f4000afae9da29ffa74a2ddb081990afb"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-mailhog"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "2004e8db5c37e386c15010d98977660e2248e473585be6f1b7ec0d7ec59ebdb5"
+    sha256 cellar: :any_skip_relocation, ventura:       "2eb8f134f6761d54fd34cc231f07ba79a7dd08ad447ba3ac341a86d83a525861"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7d6994196a39a4aafefbd2a25eb1733c0e07856ed5a56c3d737bf4fd907f918b"
   end
 
   depends_on "mailhog"
