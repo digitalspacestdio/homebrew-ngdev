@@ -672,7 +672,7 @@ end
     dst = var/"www"
 
     if dst.exist?
-      html.rm_r
+      rm_rf(html)
       dst.mkpath
     else
       dst.dirname.mkpath
