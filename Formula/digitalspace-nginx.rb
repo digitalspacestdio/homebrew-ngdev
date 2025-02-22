@@ -459,7 +459,7 @@ class DigitalspaceNginx < Formula
           fastcgi_param                   MAGE_IS_DEVELOPER_MODE true;
           fastcgi_param                   SERVER_NAME $host;
           fastcgi_param                   HTTPS $fcgi_https;
-          fastcgi_hide_header X-Forwarded-For;
+          fastcgi_param                   HTTP_X_FORWARDED_FOR $http_empty;
       }
       EOS
 rescue StandardError
