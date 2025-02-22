@@ -13,17 +13,14 @@ class DigitalspaceRedis < Formula
 
   depends_on 'redis'
 
-  def redis_listen_address
-    "127.0.0.1"
-  end
-
-  def redis_listen_port
-    "6379"
-  end
-  def redis_wrapper_script
+  def service_wrapper_script
     <<~EOS
     #!/bin/sh
-    exec #{Formula["redis"].opt_bin}/redis-server "$@"
+    if [ -f #{etc}/redis.override.conf ]; then
+      exec #{Formula["redis"].opt_bin}/redis-server #{etc}/redis.override.conf "$@"
+    fi
+
+    exec #{Formula["redis"].opt_bin}/redis-server #{etc}/redis.conf "$@"
     EOS
   rescue StandardError
       nil
@@ -31,7 +28,7 @@ class DigitalspaceRedis < Formula
 
 
   def install
-    (buildpath / "bin" / "digitalspace-redis-server").write(redis_wrapper_script)
+    (buildpath / "bin" / "digitalspace-redis-server").write(service_wrapper_script)
     (buildpath / "bin" / "digitalspace-redis-server").chmod(0755)
     bin.install "bin/digitalspace-redis-server"
   end
@@ -39,7 +36,7 @@ class DigitalspaceRedis < Formula
   def post_install
     supervisor_config =<<~EOS
       [program:redis]
-      command=#{Formula["redis"].opt_bin}/redis-server #{etc}/redis.conf
+      command=#{Formula["redis"].opt_bin}/digitalspace-redis-server
       directory=#{opt_prefix}
       stdout_logfile=#{var}/log/digitalspace-supervisor-redis.log
       stdout_logfile_maxbytes=1MB
