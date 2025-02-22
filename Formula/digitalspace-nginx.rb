@@ -688,6 +688,7 @@ end
     # for such cases
     sbin.install_symlink bin/"digitalspace-nginx" if rack.subdirs.any? { |d| d.join("sbin").directory? }
 
+    (nginx_dev_config_path).delete if (nginx_dev_config_path).exist?
     nginx_dev_config_path.write(nginx_dev_config) unless File.exist?(nginx_dev_config_path)
     nginx_document_root_config_path.write(nginx_dev_document_root_config) unless File.exist?(nginx_document_root_config_path)
     nginx_local_config_path.write(nginx_local_config) unless File.exist?(nginx_local_config_path)
