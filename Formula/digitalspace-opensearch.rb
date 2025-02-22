@@ -4,6 +4,11 @@ class DigitalspaceOpensearch < Formula
   version "0.0.1"
   revision 111
 
+  bottle do
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-opensearch"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "d184512bbd4213399c9b5e36f0d3cad28959700306a597176f36b99871a13d78"
+  end
+
   depends_on 'opensearch'
 
   def service_wrapper_script
