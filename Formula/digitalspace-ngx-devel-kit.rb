@@ -8,7 +8,8 @@ class DigitalspaceNgxDevelKit < Formula
 
   bottle do
     root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-ngx-devel-kit"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "13ae141e7f0d23e9ac6980aa18f5b291b46bf5479c51945b092aa3fdba515484"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "c0271798be7888ec8de029d262bc2be7334a3b6ec348c98bbb55dfa6516cbb8e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "13ae141e7f0d23e9ac6980aa18f5b291b46bf5479c51945b092aa3fdba515484"
   end
   
   def install
