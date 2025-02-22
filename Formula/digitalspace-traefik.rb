@@ -246,7 +246,7 @@ class DigitalspaceTraefik < Formula
   def post_install
     certs = etc / "digitalspace-traefik" / "certs"
     (etc/"digitalspace-traefik").mkpath
-    
+    (etc/"digitalspace-traefik"/"service.sh").delete if (etc/"digitalspace-traefik"/"service.sh").exist?
     (etc/"digitalspace-traefik"/"service.sh").write(service_wrapper_script)
     (etc/"digitalspace-traefik"/"service.sh").chmod(0755)
 
