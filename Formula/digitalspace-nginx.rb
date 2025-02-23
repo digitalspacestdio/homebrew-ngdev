@@ -477,7 +477,7 @@ def nginx_local_config
 
       server_name ~^(?<project_name>.+?)\.+(?<pool>.+?)(\..+)*$;
 
-      include /home/linuxbrew/.linuxbrew/etc/digitalspace-nginx/dev.conf;
+      include #{etc}/digitalspace-nginx/dev.conf;
     }
 
     server {
