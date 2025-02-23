@@ -472,12 +472,22 @@ end
 def nginx_local_config
   <<~EOS
     server {
-      listen #{nginx_listen_address}:#{nginx_listen_port};
+      listen 127.0.0.1:1983;
       port_in_redirect off;
 
-      server_name ~^(?<project_name>.+?)\\.+(?<pool>.+?)(\\..+)*$;
-      
-      include #{etc}/digitalspace-nginx/dev.conf;
+      server_name ~^(?<project_name>.+?)\.+(?<pool>.+?)(\..+)*$;
+
+      include /home/linuxbrew/.linuxbrew/etc/digitalspace-nginx/dev.conf;
+    }
+
+    server {
+      listen #{nginx_listen_address}:#{nginx_listen_port};
+      location / { 
+        proxy_pass http://127.0.0.1:1983;
+        proxy_pass_request_headers on;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For "";
+      }
     }
     EOS
 rescue StandardError
@@ -690,7 +700,9 @@ end
     (nginx_dev_config_path).delete if (nginx_dev_config_path).exist?
     nginx_dev_config_path.write(nginx_dev_config) unless File.exist?(nginx_dev_config_path)
     nginx_document_root_config_path.write(nginx_dev_document_root_config) unless File.exist?(nginx_document_root_config_path)
-    nginx_local_config_path.write(nginx_local_config) unless File.exist?(nginx_local_config_path)
+
+    (nginx_local_config_path).delete if (nginx_local_config_path).exist?
+    nginx_local_config_path.write(nginx_local_config)
 
     default_php_version = `$(brew list 2>/dev/null | grep -o 'php[0-9]\\{2,\\}$' | sort | tail -1) --version 2>/dev/null | grep -o '^PHP \\d\\+.\\d\\+.\\d\\+' 2>/dev/null | grep -o '\\d\\+.\\d\\+' 2>/dev/null | awk -F. '{ print $1"."$2 }'`
     if OS.mac?
