@@ -474,7 +474,6 @@ def nginx_local_config
     server {
       listen 127.0.0.1:1983;
       port_in_redirect off;
-
       server_name ~^(?<project_name>.+?)\\.+(?<pool>.+?)(\\..+)*$;
 
       include #{etc}/digitalspace-nginx/dev.conf;
@@ -482,6 +481,8 @@ def nginx_local_config
 
     server {
       listen #{nginx_listen_address}:#{nginx_listen_port};
+      server_name ~^(?<project_name>.+?)\\.+(?<pool>.+?)(\\..+)*$;
+
       location / { 
         proxy_pass http://127.0.0.1:1983;
         proxy_pass_request_headers on;
