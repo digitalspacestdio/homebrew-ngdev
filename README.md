@@ -101,6 +101,14 @@ sudo dpkg-reconfigure ca-certificates
 
 # Update
 sudo update-ca-certificates
+
+# Update NSS Storage (required for Chrome Browser)
+sudo apt install libnss3-tools
+
+certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n "Local Development" -i $(brew --prefix)/etc/openssl/localCA/root_ca.crt
+
+# Check NSS Storage
+certutil -d sql:$HOME/.pki/nssdb -L
 ```
 
 #### Fedora Linux / Windows WSL
