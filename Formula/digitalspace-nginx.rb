@@ -471,6 +471,9 @@ end
 
 def nginx_local_config
   <<~EOS
+    proxy_buffer_size   256k;
+    proxy_buffers   4 512k;
+    proxy_busy_buffers_size   512k;
     server {
       listen 127.0.0.1:1983;
       port_in_redirect off;
