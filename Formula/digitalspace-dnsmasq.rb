@@ -207,8 +207,8 @@ class DigitalspaceDnsmasq < Formula
     (etc/"digitalspace-dnsmasq.d/dhcpc").mkpath
 
     (etc/"digitalspace-dnsmasq.d").mkpath
-    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/docker.local/127.0.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").exist?
+    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/dev.local/127.0.0.1")
 
     (etc/"digitalspace-dnsmasq.d").mkpath
     (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").exist?
