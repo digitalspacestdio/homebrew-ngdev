@@ -30,6 +30,7 @@ class DigitalspaceDnsmasq < Formula
         echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev.com
         echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/loc.com
         echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev.local
+        echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/docker.local
         sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
         sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
         exit 0
@@ -38,6 +39,7 @@ class DigitalspaceDnsmasq < Formula
       echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.com
       echo "nameserver 127.0.0.1" | tee /etc/resolver/loc.com
       echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.local
+      echo "nameserver 127.0.0.1" | tee /etc/resolver/docker.local
       cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
       launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
       EOS
@@ -57,6 +59,7 @@ class DigitalspaceDnsmasq < Formula
         sudo rm /etc/resolver/dev.com
         sudo rm /etc/resolver/loc.com
         sudo rm /etc/resolver/dev.local
+        sudo rm /etc/resolver/docker.local
         sudo chown -R  #{ENV['USER']} #{prefix}
         exit 0
       fi
@@ -66,6 +69,7 @@ class DigitalspaceDnsmasq < Formula
       rm /etc/resolver/dev.com
       rm /etc/resolver/loc.com
       rm /etc/resolver/dev.local
+      rm /etc/resolver/docker.local
       chown -R  #{ENV['USER']} #{prefix}
       EOS
   rescue StandardError
@@ -203,8 +207,12 @@ class DigitalspaceDnsmasq < Formula
     (etc/"digitalspace-dnsmasq.d/dhcpc").mkpath
 
     (etc/"digitalspace-dnsmasq.d").mkpath
-    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/dev.local/127.0.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").exist?
+    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/docker.local/127.0.0.1")
+
+    (etc/"digitalspace-dnsmasq.d").mkpath
+    (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").exist?
+    (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").write("address=/docker.local/127.0.0.1")
 
     (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").exist?
     (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").write("address=/dev.com/127.0.0.1")
