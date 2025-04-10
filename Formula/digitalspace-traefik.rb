@@ -71,6 +71,9 @@ class DigitalspaceTraefik < Formula
 
   def traefik_docker_config
     <<~EOS
+    #[[tls.certificates]]
+    #  certFile = "#{etc}/openssl/localCA/certs/docker.local.crt"
+    #  keyFile = "#{etc}/openssl/localCA/private/docker.local.key"
     #[providers.docker]
     #   exposedByDefault = false
     EOS
@@ -251,7 +254,7 @@ class DigitalspaceTraefik < Formula
     (etc/"digitalspace-traefik"/"traefik.toml").delete if (etc/"digitalspace-traefik"/"traefik.toml").exist?
     (etc/"digitalspace-traefik"/"traefik.toml").write(traefik_main_config)
 
-    (etc/"digitalspace-traefik"/"conf.d"/"docker.toml").write(traefik_docker_config) if !(etc/"digitalspace-traefik"/"conf.d"/"dashboard.toml").exist?
+    (etc/"digitalspace-traefik"/"conf.d"/"docker.toml").write(traefik_docker_config) if !(etc/"digitalspace-traefik"/"conf.d"/"docker.toml").exist?
 
     (etc/"digitalspace-traefik"/"conf.d"/"dashboard.toml").delete if (etc/"digitalspace-traefik"/"conf.d"/"dashboard.toml").exist?
     (etc/"digitalspace-traefik"/"conf.d"/"dashboard.toml").write(traefik_dashboard_config)
@@ -266,9 +269,11 @@ class DigitalspaceTraefik < Formula
     (etc/"digitalspace-supervisor.d"/"traefik.ini").delete if (etc/"digitalspace-supervisor.d"/"traefik.ini").exist?
     (etc/"digitalspace-supervisor.d"/"traefik.ini").write(supervisor_config)
 
+    system("local-ca-crtgen docker.local") unless File.exist?(etc / "openssl" / "localCA" / "certs" / "docker.local.crt")
     system("local-ca-crtgen dev.local") unless File.exist?(etc / "openssl" / "localCA" / "certs" / "dev.local.crt")
     system("local-ca-crtgen dev.com") unless File.exist?(etc / "openssl" / "localCA" / "certs" / "dev.com.crt")
     system("local-ca-crtgen loc.com") unless File.exist?(etc / "openssl" / "localCA" / "certs" / "loc.com.crt")
+    
   end
 
   # step_path = `#{Formula["step"].opt_bin}/step path --base`
