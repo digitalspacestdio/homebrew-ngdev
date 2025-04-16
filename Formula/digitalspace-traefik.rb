@@ -64,6 +64,8 @@ class DigitalspaceTraefik < Formula
       [providers.file]
         directory = "#{etc}/digitalspace-traefik/conf.d/"
         watch = true
+      #[providers.docker]
+      #   exposedByDefault = false
       EOS
   rescue StandardError
       nil
@@ -74,8 +76,21 @@ class DigitalspaceTraefik < Formula
     #[[tls.certificates]]
     #  certFile = "#{etc}/openssl/localCA/certs/docker.local.crt"
     #  keyFile = "#{etc}/openssl/localCA/private/docker.local.key"
-    #[providers.docker]
-    #   exposedByDefault = false
+    #[http.routers]
+    #[http.routers.docker_local]
+    #rule = "HostRegexp(`{subdomain:[a-z0-9-_]+}.docker.local`, `{subsubdomain:[a-z0-9-_]+}.{subdomain:[a-z0-9-_]+}.docker.local`)"
+    #priority = 100
+    #service = "docker-local"
+    #entryPoints = ["default"]
+    #[[http.routers.docker_local.tls.domains]]
+    #main = "*.docker.local"
+    #sans = "docker.local"
+
+    #[http.services]
+    #[http.services.docker-local]
+    #  [http.services.docker-local.loadBalancer]
+    #    [[http.services.docker-local.loadBalancer.servers]]
+    #      url = "http://127.0.0.1:1884"
     EOS
   rescue StandardError
     nil
@@ -156,7 +171,7 @@ class DigitalspaceTraefik < Formula
 
     [http.routers]
       [http.routers.dev_com]
-        rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.dev.com`, `{subsubdomain:[a-z0-9-]+}.{subdomain:[a-z0-9-]+}.dev.com`)"
+        rule = "HostRegexp(`{subdomain:[a-z0-9-_]+}.dev.com`, `{subsubdomain:[a-z0-9-_]+}.{subdomain:[a-z0-9-_]+}.dev.com`)"
         priority = 100
         service = "digitalspace-nginx"
         entryPoints = ["default"]
@@ -165,7 +180,7 @@ class DigitalspaceTraefik < Formula
         main = "*.dev.com"
 
       [http.routers.loc_com]
-        rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.loc.com`, `{subsubdomain:[a-z0-9-]+}.{subdomain:[a-z0-9-]+}.loc.com`)"
+        rule = "HostRegexp(`{subdomain:[a-z0-9-_]+}.loc.com`, `{subsubdomain:[a-z0-9-_]+}.{subdomain:[a-z0-9-_]+}.loc.com`)"
         priority = 110
         service = "digitalspace-nginx"
         entryPoints = ["default"]
@@ -175,7 +190,7 @@ class DigitalspaceTraefik < Formula
 
 
       [http.routers.dev_local]
-        rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.dev.local`, `{subsubdomain:[a-z0-9-]+}.{subdomain:[a-z0-9-]+}.dev.local`)"
+        rule = "HostRegexp(`{subdomain:[a-z0-9-_]+}.dev.local`, `{subsubdomain:[a-z0-9-_]+}.{subdomain:[a-z0-9-_]+}.dev.local`)"
         priority = 120
         service = "digitalspace-nginx"
         entryPoints = ["default"]
