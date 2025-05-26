@@ -25,7 +25,7 @@ class DigitalspaceDnsmasq < Formula
       #!/bin/bash
       
       PLIST_PATH="/Library/LaunchDaemons/local.lo0.alias.plist"
-      ALIAS_IP="127.0.1.1"
+      ALIAS_IP="172.53.0.1"
 
       echo "Creating launchd plist at $PLIST_PATH..."
 
@@ -76,7 +76,7 @@ class DigitalspaceDnsmasq < Formula
       set -e
 
       PLIST_PATH="/Library/LaunchDaemons/local.lo0.alias.plist"
-      ALIAS_IP="127.0.1.1"
+      ALIAS_IP="172.53.0.1"
 
       echo "Unloading launchd plist if loaded..."
       if sudo launchctl list | grep -q local.lo0.alias; then
@@ -108,20 +108,20 @@ class DigitalspaceDnsmasq < Formula
       set -x
       if [[ $(id -u ${USER}) != 0 ]]; then
         sudo mkdir -p /etc/resolver
-        echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/dev.com
-        echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/loc.com
-        echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/dev.local
-        echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/docker.local
+        echo "nameserver 172.53.0.1" | sudo tee /etc/resolver/dev.com
+        echo "nameserver 172.53.0.1" | sudo tee /etc/resolver/loc.com
+        echo "nameserver 172.53.0.1" | sudo tee /etc/resolver/dev.local
+        echo "nameserver 172.53.0.1" | sudo tee /etc/resolver/docker.local
         sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
         sudo #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-start
         sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
         exit 0
       fi
       mkdir -p /etc/resolver
-      echo "nameserver 127.0.1.1" | tee /etc/resolver/dev.com
-      echo "nameserver 127.0.1.1" | tee /etc/resolver/loc.com
-      echo "nameserver 127.0.1.1" | tee /etc/resolver/dev.local
-      echo "nameserver 127.0.1.1" | tee /etc/resolver/docker.local
+      echo "nameserver 172.53.0.1" | tee /etc/resolver/dev.com
+      echo "nameserver 172.53.0.1" | tee /etc/resolver/loc.com
+      echo "nameserver 172.53.0.1" | tee /etc/resolver/dev.local
+      echo "nameserver 172.53.0.1" | tee /etc/resolver/docker.local
       cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
 
       #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-start
@@ -173,7 +173,7 @@ class DigitalspaceDnsmasq < Formula
             sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
           fi
 
-          sudo sed -i 's/[#\\n]DNS=./DNS=127.0.1.1/g' /etc/systemd/resolved.conf
+          sudo sed -i 's/[#\\n]DNS=./DNS=172.53.0.1/g' /etc/systemd/resolved.conf
           sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
           sudo systemctl daemon-reload
           sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
@@ -187,7 +187,7 @@ class DigitalspaceDnsmasq < Formula
           cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
         fi
 
-        sed -i 's/[#\\n]DNS=./DNS=127.0.1.1/g' /etc/systemd/resolved.conf
+        sed -i 's/[#\\n]DNS=./DNS=172.53.0.1/g' /etc/systemd/resolved.conf
         cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
         sudo systemctl daemon-reload
         sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
@@ -271,7 +271,7 @@ class DigitalspaceDnsmasq < Formula
     on_macos do
       begin
           inreplace etc / "digitalspace-dnsmasq.conf" do |s|
-            s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.1.1")
+            s.sub!(/^.*?listen-address=.*$/, "listen-address=172.53.0.1")
           end
 
           bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-lo0-start"
@@ -302,7 +302,7 @@ class DigitalspaceDnsmasq < Formula
     on_linux do
       begin
           inreplace etc / "digitalspace-dnsmasq.conf" do |s|
-            s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.1.1")
+            s.sub!(/^.*?listen-address=.*$/, "listen-address=172.53.0.1")
           end
 
           bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-start"
@@ -327,17 +327,17 @@ class DigitalspaceDnsmasq < Formula
 
     (etc/"digitalspace-dnsmasq.d").mkpath
     (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/dev.local/127.0.1.1")
+    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/dev.local/172.53.0.1")
 
     (etc/"digitalspace-dnsmasq.d").mkpath
     (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").write("address=/docker.local/127.0.1.1")
+    (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").write("address=/docker.local/172.53.0.1")
 
     (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").write("address=/dev.com/127.0.1.1")
+    (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").write("address=/dev.com/172.53.0.1")
 
     (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").write("address=/loc.com/127.0.1.1")
+    (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").write("address=/loc.com/172.53.0.1")
 
     # (etc/"digitalspace-supervisor.d").mkpath
     # (etc/"digitalspace-supervisor.d"/"dnsmasq.ini").delete if (etc/"digitalspace-supervisor.d"/"dnsmasq.ini").exist?
