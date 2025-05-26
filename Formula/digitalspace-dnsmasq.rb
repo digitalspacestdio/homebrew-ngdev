@@ -327,17 +327,17 @@ class DigitalspaceDnsmasq < Formula
 
     (etc/"digitalspace-dnsmasq.d").mkpath
     (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/dev.local/172.53.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/dev.local/127.0.0.1")
 
     (etc/"digitalspace-dnsmasq.d").mkpath
     (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").write("address=/docker.local/172.53.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").write("address=/docker.local/127.0.0.1")
 
     (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").write("address=/dev.com/172.53.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").write("address=/dev.com/127.0.0.1")
 
     (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").write("address=/loc.com/172.53.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").write("address=/loc.com/127.0.0.1")
 
     # (etc/"digitalspace-supervisor.d").mkpath
     # (etc/"digitalspace-supervisor.d"/"dnsmasq.ini").delete if (etc/"digitalspace-supervisor.d"/"dnsmasq.ini").exist?
