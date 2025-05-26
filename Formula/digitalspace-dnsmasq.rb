@@ -25,7 +25,7 @@ class DigitalspaceDnsmasq < Formula
       #!/bin/bash
 
       PLIST_PATH="/Library/LaunchDaemons/local.digidns.bridge.plist"
-      BRIDGE_IF="digidns100"
+      BRIDGE_IF="bridge100"
       BRIDGE_IP="172.53.0.1"
 
       echo "Creating launchd plist at $PLIST_PATH..."
