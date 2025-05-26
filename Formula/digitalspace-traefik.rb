@@ -15,7 +15,7 @@ class DigitalspaceTraefik < Formula
 
   depends_on "digitalspace-local-ca"
   depends_on "go" => :build
-
+  
   def traefik_main_config
     <<~EOS
       [global]
@@ -34,20 +34,6 @@ class DigitalspaceTraefik < Formula
         address = ":443"
       [entryPoints.default.http.tls]
 
-      # [certificatesResolvers]
-      # [certificatesResolvers.default]
-      #   [certificatesResolvers.default.acme]
-      #     caServer = "https://localhost:9480/acme/acme/directory"
-      #     email = "admin"
-      #     storage = "#{etc}/digitalspace-traefik/acme.json"
-      #     certificatesDuration = 24
-      #     tlsChallenge = true
-      # [certificatesResolvers.default.acme.httpChallenge]
-      #   entryPoint = "default"
-      # [certificatesResolvers.default.acme.dnsChallenge]
-      #   provider = "acme-dns"
-      #   resolvers = ["127.0.0.1:53"]
-
       [log]
         level = "DEBUG"
         filePath = "#{var}/log/digitalspace-traefik_traefik.log"
@@ -64,6 +50,7 @@ class DigitalspaceTraefik < Formula
       [providers.file]
         directory = "#{etc}/digitalspace-traefik/conf.d/"
         watch = true
+
       #[providers.docker]
       #   exposedByDefault = false
       EOS
@@ -71,26 +58,44 @@ class DigitalspaceTraefik < Formula
       nil
   end
 
-  def traefik_docker_config
+  def traefik_enable_docker_reverse_proxy
     <<~EOS
-    #[[tls.certificates]]
-    #  certFile = "#{etc}/openssl/localCA/certs/docker.local.crt"
-    #  keyFile = "#{etc}/openssl/localCA/private/docker.local.key"
-    #[http.routers]
-    #[http.routers.docker_local]
-    #rule = "HostRegexp(`{subdomain:[a-z0-9-_]+}.docker.local`, `{subsubdomain:[a-z0-9-_]+}.{subdomain:[a-z0-9-_]+}.docker.local`)"
-    #priority = 100
-    #service = "docker-local"
-    #entryPoints = ["default"]
-    #[[http.routers.docker_local.tls.domains]]
-    #main = "*.docker.local"
-    #sans = "docker.local"
+    #!/bin/bash
+    set -e
 
-    #[http.services]
-    #[http.services.docker-local]
-    #  [http.services.docker-local.loadBalancer]
-    #    [[http.services.docker-local.loadBalancer.servers]]
-    #      url = "http://127.0.0.1:1884"
+    CONFIG_DIR="#{etc}/digitalspace-traefik/conf.d"
+    CONFIG_FILE="#{etc}/digitalspace-traefik/conf.d/docker-reverse-proxy.toml"
+
+    REVERSE_PROXY_SCHEME="${REVERSE_PROXY_SCHEME:-http}"
+    REVERSE_PROXY_HOST="${REVERSE_PROXY_HOST:-127.0.0.1}"
+    REVERSE_PROXY_PORT="${REVERSE_PROXY_PORT:-1984}"
+
+    mkdir -p "$CONFIG_DIR"
+
+    cat <<EOF > "$CONFIG_FILE"
+    [[tls.certificates]]
+      certFile = "#{etc}/openssl/localCA/certs/docker.local.crt"
+      keyFile = "#{etc}/openssl/localCA/private/docker.local.key"
+
+    [http.routers]
+    [http.routers.docker_reverse_proxy]
+    rule = "HostRegexp(\\`{subdomain:[a-z0-9-_]+}.docker.local\\`, \\`{subsubdomain:[a-z0-9-_]+}.{subdomain:[a-z0-9-_]+}.docker.local\\`)"
+    priority = 100
+    service = "docker_reverse_proxy"
+    entryPoints = ["default"]
+    [[http.routers.docker_reverse_proxy.tls.domains]]
+    main = "*.docker.local"
+    sans = "docker.local"
+
+    [http.services]
+    [http.services.docker_reverse_proxy]
+      [http.services.docker_reverse_proxy.loadBalancer]
+        [[http.services.docker_reverse_proxy.loadBalancer.servers]]
+          url = "${REVERSE_PROXY_SCHEME}://${REVERSE_PROXY_HOST}:${REVERSE_PROXY_PORT}"
+    EOF
+
+      echo "Traefik Docker reverse proxy config written to: "
+      echo "$CONFIG_FILE"
     EOS
   rescue StandardError
     nil
@@ -188,7 +193,6 @@ class DigitalspaceTraefik < Formula
         [[http.routers.loc_com.tls.domains]]
         main = "*.loc.com"
 
-
       [http.routers.dev_local]
         rule = "HostRegexp(`{subdomain:[a-z0-9-_]+}.dev.local`, `{subsubdomain:[a-z0-9-_]+}.{subdomain:[a-z0-9-_]+}.dev.local`)"
         priority = 120
@@ -269,7 +273,10 @@ class DigitalspaceTraefik < Formula
     (etc/"digitalspace-traefik"/"traefik.toml").delete if (etc/"digitalspace-traefik"/"traefik.toml").exist?
     (etc/"digitalspace-traefik"/"traefik.toml").write(traefik_main_config)
 
-    (etc/"digitalspace-traefik"/"conf.d"/"docker.toml").write(traefik_docker_config) if !(etc/"digitalspace-traefik"/"conf.d"/"docker.toml").exist?
+    bin_path = HOMEBREW_PREFIX/"bin/digitalspace-traefik-lite-enable-docker-proxy"
+    bin_path.delete if bin_path.exist?
+    bin_path.write(traefik_enable_docker_reverse_proxy)
+    bin_path.chmod 0755
 
     (etc/"digitalspace-traefik"/"conf.d"/"dashboard.toml").delete if (etc/"digitalspace-traefik"/"conf.d"/"dashboard.toml").exist?
     (etc/"digitalspace-traefik"/"conf.d"/"dashboard.toml").write(traefik_dashboard_config)
