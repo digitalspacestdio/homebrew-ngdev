@@ -274,9 +274,14 @@ class DigitalspaceDnsmasq < Formula
             s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.1.1")
           end
 
-          bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-lo0"
+          bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-lo0-start"
           bin_path.delete if bin_path.exist?
           bin_path.write(start_lo0_script_macos)
+          bin_path.chmod 0755
+
+          bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-lo0-stop"
+          bin_path.delete if bin_path.exist?
+          bin_path.write(stop_lo0_script_macos)
           bin_path.chmod 0755
 
           bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-start"
