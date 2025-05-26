@@ -103,7 +103,13 @@ sudo dpkg-reconfigure ca-certificates
 sudo update-ca-certificates
 
 # Update NSS Storage (required for Chrome Browser)
+
+# Install tools
 sudo apt install libnss3-tools
+
+# Create database
+mkdir -p $HOME/.pki/nssdb
+certutil -d $HOME/.pki/nssdb -N
 
 certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n "Local Development" -i $(brew --prefix)/etc/openssl/localCA/root_ca.crt
 
