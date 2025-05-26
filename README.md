@@ -209,4 +209,5 @@ services:
 networks:
   shared:
     name: dc_shared_net
+    external: true
 ````
