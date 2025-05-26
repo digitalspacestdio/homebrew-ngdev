@@ -169,30 +169,35 @@ class DigitalspaceDnsmasq < Formula
         set -e
         
         if [[ $(id -u ${USER}) != 0 ]]; then
+          
+          sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
+          sudo systemctl daemon-reload
+          sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
+
           if [[ -f /etc/systemd/resolved.conf ]] && [[ ! -f /etc/systemd/resolved.conf.backup ]]; then
             sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
           fi
 
           sudo sed -i 's/[#\\n]DNS=./DNS=127.0.1.1/g' /etc/systemd/resolved.conf
-          sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
-          sudo systemctl daemon-reload
-          sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
+          
           if systemctl list-units | grep systemd-resolved.service > /dev/null; then
             sudo systemctl restart systemd-resolved.service
           fi
           exit 0
         fi
         
+        cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
+        systemctl daemon-reload
+        systemctl enable --now homebrew.digitalspace-dnsmasq.service
+        
         if [[ -f /etc/systemd/resolved.conf ]] && [[ ! -f /etc/systemd/resolved.conf.backup ]]; then
           cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
         fi
 
         sed -i 's/[#\\n]DNS=./DNS=127.0.1.1/g' /etc/systemd/resolved.conf
-        cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
-        sudo systemctl daemon-reload
-        sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
+
         if systemctl list-units | grep systemd-resolved.service > /dev/null; then
-          sudo systemctl restart systemd-resolved.service
+          systemctl restart systemd-resolved.service
         fi
         EOS
   rescue StandardError
@@ -202,8 +207,11 @@ class DigitalspaceDnsmasq < Formula
   def stop_script_linux
       <<~EOS
         #!/bin/bash
-        echo "not implemented"
-        exit 1
+        sudo systemctl disable --now homebrew.digitalspace-dnsmasq.service
+        sed -i 's/[#\\n]DNS=./DNS=1.1.1.1/g' /etc/systemd/resolved.conf
+        if systemctl list-units | grep systemd-resolved.service > /dev/null; then
+          systemctl restart systemd-resolved.service
+        fi
         EOS
   rescue StandardError
       nil
