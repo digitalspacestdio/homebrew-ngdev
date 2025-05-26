@@ -314,6 +314,8 @@ class DigitalspaceDnsmasq < Formula
       begin
           inreplace etc / "digitalspace-dnsmasq.conf" do |s|
             s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.1.1")
+            s.sub!(/^.*?no-resolv.*$/, "no-resolv")
+            s.sub!(/^.*?server=.*$/, "server=1.1.1.1")
           end
 
           bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-start"
