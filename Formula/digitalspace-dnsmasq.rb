@@ -182,6 +182,7 @@ class DigitalspaceDnsmasq < Formula
           sudo sed -i 's/^#DNS=.*/DNS=127.0.1.1/' /etc/systemd/resolved.conf
           
           if sudo systemctl list-units | grep systemd-resolved.service > /dev/null; then
+            sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
             sudo systemctl restart systemd-resolved.service
           fi
           exit 0
@@ -198,6 +199,7 @@ class DigitalspaceDnsmasq < Formula
         sed -i 's/^#DNS=.*/DNS=127.0.1.1/' /etc/systemd/resolved.conf
 
         if systemctl list-units | grep systemd-resolved.service > /dev/null; then
+          ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
           systemctl restart systemd-resolved.service
         fi
         EOS
