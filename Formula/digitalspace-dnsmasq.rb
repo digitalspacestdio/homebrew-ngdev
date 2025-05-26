@@ -141,10 +141,10 @@ class DigitalspaceDnsmasq < Formula
         if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist ]]; then
           sudo launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist > /dev/null 2>&1
         fi
-        sudo rm /etc/resolver/dev.com
-        sudo rm /etc/resolver/loc.com
-        sudo rm /etc/resolver/dev.local
-        sudo rm /etc/resolver/docker.local
+        sudo rm -f /etc/resolver/dev.com
+        sudo rm -f /etc/resolver/loc.com
+        sudo rm -f /etc/resolver/dev.local
+        sudo rm -f /etc/resolver/docker.local
         sudo chown -R  #{ENV['USER']} #{prefix}
         sudo #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-stop
         exit 0
@@ -152,10 +152,10 @@ class DigitalspaceDnsmasq < Formula
       if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist ]]; then
         launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist > /dev/null 2>&1
       fi
-      rm /etc/resolver/dev.com
-      rm /etc/resolver/loc.com
-      rm /etc/resolver/dev.local
-      rm /etc/resolver/docker.local
+      rm -f /etc/resolver/dev.com
+      rm -f /etc/resolver/loc.com
+      rm -f /etc/resolver/dev.local
+      rm -f /etc/resolver/docker.local
       #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-stop
       chown -R  #{ENV['USER']} #{prefix}
       EOS
