@@ -211,7 +211,7 @@ class DigitalspaceDnsmasq < Formula
         set -e
         set -x
         sudo systemctl disable --now homebrew.digitalspace-dnsmasq.service
-        sudo sed -i 's/[#\\n]DNS=./DNS=1.1.1.1/g' /etc/systemd/resolved.conf
+        sudo sed -i 's/[#\\n]DNS=./#DNS=/g' /etc/systemd/resolved.conf
         if sudo systemctl list-units | grep systemd-resolved.service > /dev/null; then
           sudo systemctl restart systemd-resolved.service
         fi
