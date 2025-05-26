@@ -179,7 +179,7 @@ class DigitalspaceDnsmasq < Formula
             sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
           fi
 
-          sudo sed -i 's/[#\\n]DNS=./DNS=127.0.1.1/g' /etc/systemd/resolved.conf
+          sudo sed -i 's/^#DNS=.*/DNS=127.0.1.1/' /etc/systemd/resolved.conf
           
           if sudo systemctl list-units | grep systemd-resolved.service > /dev/null; then
             sudo systemctl restart systemd-resolved.service
@@ -195,7 +195,7 @@ class DigitalspaceDnsmasq < Formula
           cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
         fi
 
-        sed -i 's/[#\\n]DNS=./DNS=127.0.1.1/g' /etc/systemd/resolved.conf
+        sed -i 's/^#DNS=.*/DNS=127.0.1.1/' /etc/systemd/resolved.conf
 
         if systemctl list-units | grep systemd-resolved.service > /dev/null; then
           systemctl restart systemd-resolved.service
@@ -211,7 +211,9 @@ class DigitalspaceDnsmasq < Formula
         set -e
         set -x
         sudo systemctl disable --now homebrew.digitalspace-dnsmasq.service
-        sudo sed -i 's/[#\\n]DNS=./#DNS=/g' /etc/systemd/resolved.conf
+        if [[ -f /etc/systemd/resolved.conf.backup ]]; then
+          cp /etc/systemd/resolved.conf.backup /etc/systemd/resolved.conf
+        fi
         if sudo systemctl list-units | grep systemd-resolved.service > /dev/null; then
           sudo systemctl restart systemd-resolved.service
         fi
