@@ -167,6 +167,7 @@ class DigitalspaceDnsmasq < Formula
       <<~EOS
         #!/bin/bash
         set -e
+        set -x
         
         if [[ $(id -u ${USER}) != 0 ]]; then
           
@@ -207,6 +208,8 @@ class DigitalspaceDnsmasq < Formula
   def stop_script_linux
       <<~EOS
         #!/bin/bash
+        set -e
+        set -x
         sudo systemctl disable --now homebrew.digitalspace-dnsmasq.service
         sed -i 's/[#\\n]DNS=./DNS=1.1.1.1/g' /etc/systemd/resolved.conf
         if systemctl list-units | grep systemd-resolved.service > /dev/null; then
