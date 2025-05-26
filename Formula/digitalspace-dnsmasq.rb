@@ -23,9 +23,10 @@ class DigitalspaceDnsmasq < Formula
   def start_lo0_script_macos
     <<~EOS
       #!/bin/bash
-      
-      PLIST_PATH="/Library/LaunchDaemons/local.lo0.alias.plist"
-      ALIAS_IP="172.53.0.1"
+
+      PLIST_PATH="/Library/LaunchDaemons/local.digidns.bridge.plist"
+      BRIDGE_IF="digidns100"
+      BRIDGE_IP="172.53.0.1"
 
       echo "Creating launchd plist at $PLIST_PATH..."
 
@@ -36,15 +37,18 @@ class DigitalspaceDnsmasq < Formula
       <plist version="1.0">
       <dict>
         <key>Label</key>
-        <string>local.lo0.alias</string>
+        <string>local.digidns.bridge</string>
 
         <key>ProgramArguments</key>
         <array>
-          <string>/sbin/ifconfig</string>
-          <string>lo0</string>
-          <string>alias</string>
-          <string>${ALIAS_IP}</string>
-          <string>up</string>
+          <string>/bin/bash</string>
+          <string>-c</string>
+          <string>
+            if ! ifconfig ${BRIDGE_IF} >/dev/null 2>&1; then
+              ifconfig ${BRIDGE_IF} create;
+            fi;
+            ifconfig ${BRIDGE_IF} inet ${BRIDGE_IP} netmask 255.255.255.0 up
+          </string>
         </array>
 
         <key>RunAtLoad</key>
@@ -52,18 +56,20 @@ class DigitalspaceDnsmasq < Formula
       </dict>
       </plist>
       EOF
+
       echo "Setting permissions..."
       sudo chown root:wheel "$PLIST_PATH"
       sudo chmod 644 "$PLIST_PATH"
 
-      echo "Adding alias now..."
-      sudo ifconfig lo0 alias "$ALIAS_IP" up
+      echo "Creating bridge interface now..."
+      sudo ifconfig "$BRIDGE_IF" create || true
+      sudo ifconfig "$BRIDGE_IF" inet "$BRIDGE_IP" netmask 255.255.255.0 up
 
       echo "Loading launchd daemon..."
       sudo launchctl load -w "$PLIST_PATH"
 
-      echo "✅ Done. Current lo0 IPs:"
-      ifconfig lo0 | grep inet
+      echo "✅ Done. Current IPs on $BRIDGE_IF:"
+      ifconfig "$BRIDGE_IF"
       EOS
   rescue StandardError
       nil
@@ -72,30 +78,49 @@ class DigitalspaceDnsmasq < Formula
   def stop_lo0_script_macos
     <<~EOS
       #!/bin/bash
-
       set -e
 
-      PLIST_PATH="/Library/LaunchDaemons/local.lo0.alias.plist"
-      ALIAS_IP="172.53.0.1"
+      PLIST_PATH="/Library/LaunchDaemons/local.digidns.bridge.plist"
+      BRIDGE_IF="bridge100"
+      DNSMASQ_CONF="/usr/local/etc/dnsmasq-digidns.conf"
+      RESOLVER_PATH="/etc/resolver/docker.local"
 
-      echo "Unloading launchd plist if loaded..."
-      if sudo launchctl list | grep -q local.lo0.alias; then
+      echo "🔌 Unloading launchd daemon if loaded..."
+      if sudo launchctl list | grep -q local.digidns.bridge; then
           sudo launchctl unload "$PLIST_PATH" || true
       fi
 
-      echo "Removing alias from lo0..."
-      sudo ifconfig lo0 -alias "$ALIAS_IP" || echo "Alias not found or already removed."
-
-      echo "Deleting launchd plist..."
+      echo "🧹 Removing launchd plist..."
       if [ -f "$PLIST_PATH" ]; then
           sudo rm -f "$PLIST_PATH"
-          echo "Plist deleted."
+          echo "✅ Launchd plist removed."
       else
-          echo "Plist file not found — already removed?"
+          echo "ℹ️  Plist already removed."
       fi
 
-      echo "✅ Cleanup complete. Current lo0 IPs:"
-      ifconfig lo0 | grep inet
+      echo "🧨 Destroying bridge interface if exists..."
+      if ifconfig "$BRIDGE_IF" >/dev/null 2>&1; then
+          sudo ifconfig "$BRIDGE_IF" destroy
+          echo "✅ Interface $BRIDGE_IF destroyed."
+      else
+          echo "ℹ️  Interface $BRIDGE_IF not found."
+      fi
+
+      echo "🗑️  Removing dnsmasq config if exists..."
+      if [ -f "$DNSMASQ_CONF" ]; then
+          sudo rm -f "$DNSMASQ_CONF"
+          echo "✅ dnsmasq config removed."
+      fi
+
+      echo "🧼 Removing resolver config..."
+      if [ -f "$RESOLVER_PATH" ]; then
+          sudo rm -f "$RESOLVER_PATH"
+          echo "✅ Resolver config removed."
+      else
+          echo "ℹ️  Resolver config already removed."
+      fi
+
+      echo "✅ digidns cleanup complete."
       EOS
   rescue StandardError
       nil
