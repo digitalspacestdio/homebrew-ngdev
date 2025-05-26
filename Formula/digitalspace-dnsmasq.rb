@@ -181,7 +181,7 @@ class DigitalspaceDnsmasq < Formula
 
           sudo sed -i 's/[#\\n]DNS=./DNS=127.0.1.1/g' /etc/systemd/resolved.conf
           
-          if systemctl list-units | grep systemd-resolved.service > /dev/null; then
+          if sudo systemctl list-units | grep systemd-resolved.service > /dev/null; then
             sudo systemctl restart systemd-resolved.service
           fi
           exit 0
@@ -211,9 +211,9 @@ class DigitalspaceDnsmasq < Formula
         set -e
         set -x
         sudo systemctl disable --now homebrew.digitalspace-dnsmasq.service
-        sed -i 's/[#\\n]DNS=./DNS=1.1.1.1/g' /etc/systemd/resolved.conf
-        if systemctl list-units | grep systemd-resolved.service > /dev/null; then
-          systemctl restart systemd-resolved.service
+        sudo sed -i 's/[#\\n]DNS=./DNS=1.1.1.1/g' /etc/systemd/resolved.conf
+        if sudo systemctl list-units | grep systemd-resolved.service > /dev/null; then
+          sudo systemctl restart systemd-resolved.service
         fi
         EOS
   rescue StandardError
