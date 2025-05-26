@@ -178,7 +178,7 @@ services:
       - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.default.address=:1884"
+      - "--entrypoints.default.address=:80"
       - "--entrypoints.default.forwardedheaders.trustedips=0.0.0.0/0"
       - "--entryPoints.default.forwardedHeaders.insecure"
     restart: always
@@ -188,7 +188,7 @@ services:
         max-size: "50m"
         max-file: "3"
     ports:
-      - "${TRAEFIK_BIND_ADDRESS:-0.0.0.0}:${TRAEFIK_BIND_PORT:-1884}:1884"
+      - "${TRAEFIK_BIND_ADDRESS:-0.0.0.0}:${TRAEFIK_BIND_PORT:-8880}:80"
     networks:
       - "shared"
     volumes:
