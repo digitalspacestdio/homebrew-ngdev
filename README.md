@@ -155,3 +155,58 @@ echo '<?php phpinfo();' > ~/www/dev/hello/index.php
 
 Open https://hello.dev.local/ in the browser and check the result
 
+# Traefik docker reverse-proxy 
+On macOS if you want to expose docker containers with `*.docker.local` domain by docker labeles you will needed to start second traefik instance inside the docker and proxy requests from local instance.
+
+To create config on the local traefik just run
+```bash
+digitalspace-traefik-enable-docker-proxy
+```
+
+Then you need to start traefik instance inside the docker which will watch for containers and them labels, just use this compose yaml:
+```yml
+# docker-compose.yml
+services:
+  traefik_docker_local:
+    hostname: traefik.docker.local
+    image: traefik:v2.11
+    container_name: traefik_docker_local
+    command:
+      - "--ping=true"
+      - "--log.level=ERROR"
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.default.address=:1884"
+      - "--entrypoints.default.forwardedheaders.trustedips=0.0.0.0/0"
+      - "--entryPoints.default.forwardedHeaders.insecure"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+    ports:
+      - "${TRAEFIK_BIND_ADDRESS:-0.0.0.0}:${TRAEFIK_BIND_PORT:-1884}:1884"
+    networks:
+      - "shared"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.traefik-api.rule: 'PathPrefix(`/traefik/dashboard`) || (PathPrefix(`/api`) && HeadersRegexp(`referer`, `/traefik/dashboard`))'
+      traefik.http.routers.traefik-api.priority: 9000
+      traefik.http.routers.traefik-api.entrypoints: "default"
+      traefik.http.routers.traefik-api.service: "api@internal"
+      traefik.http.routers.traefik-api.middlewares: "traefik-api-stripprefix"
+      traefik.http.middlewares.traefik-api-stripprefix.stripprefix.prefixes: "/traefik"
+    healthcheck:
+      test: traefik healthcheck --ping
+      start_period: 5s
+      interval: 5s
+      retries: 30
+networks:
+  shared:
+    name: dc_shared_net
+````

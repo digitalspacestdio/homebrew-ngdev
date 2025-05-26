@@ -273,7 +273,7 @@ class DigitalspaceTraefik < Formula
     (etc/"digitalspace-traefik"/"traefik.toml").delete if (etc/"digitalspace-traefik"/"traefik.toml").exist?
     (etc/"digitalspace-traefik"/"traefik.toml").write(traefik_main_config)
 
-    bin_path = HOMEBREW_PREFIX/"bin/digitalspace-traefik-lite-enable-docker-proxy"
+    bin_path = HOMEBREW_PREFIX/"bin/digitalspace-traefik-enable-docker-proxy"
     bin_path.delete if bin_path.exist?
     bin_path.write(traefik_enable_docker_reverse_proxy)
     bin_path.chmod 0755
