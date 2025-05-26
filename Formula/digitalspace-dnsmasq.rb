@@ -113,7 +113,7 @@ class DigitalspaceDnsmasq < Formula
         echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/dev.local
         echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/docker.local
         sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
-        sudo #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/digitalspace-dnsmasq-lo0-start
+        sudo #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-start
         sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
         exit 0
       fi
@@ -124,7 +124,7 @@ class DigitalspaceDnsmasq < Formula
       echo "nameserver 127.0.1.1" | tee /etc/resolver/docker.local
       cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
 
-      #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/digitalspace-dnsmasq-lo0-start
+      #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-start
       launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
       
       EOS
@@ -146,7 +146,7 @@ class DigitalspaceDnsmasq < Formula
         sudo rm /etc/resolver/dev.local
         sudo rm /etc/resolver/docker.local
         sudo chown -R  #{ENV['USER']} #{prefix}
-        sudo #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/digitalspace-dnsmasq-lo0-stop
+        sudo #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-stop
         exit 0
       fi
       if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist ]]; then
@@ -156,7 +156,7 @@ class DigitalspaceDnsmasq < Formula
       rm /etc/resolver/loc.com
       rm /etc/resolver/dev.local
       rm /etc/resolver/docker.local
-      #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/digitalspace-dnsmasq-lo0-stop
+      #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-stop
       chown -R  #{ENV['USER']} #{prefix}
       EOS
   rescue StandardError
