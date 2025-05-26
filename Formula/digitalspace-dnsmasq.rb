@@ -20,6 +20,87 @@ class DigitalspaceDnsmasq < Formula
 
   depends_on "pkg-config" => :build
 
+  def start_lo0_script_macos
+    <<~EOS
+      #!/bin/bash
+      
+      PLIST_PATH="/Library/LaunchDaemons/local.lo0.alias.plist"
+      ALIAS_IP="127.0.1.1"
+
+      echo "Creating launchd plist at $PLIST_PATH..."
+
+      sudo tee "$PLIST_PATH" > /dev/null <<EOF
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+        <key>Label</key>
+        <string>local.lo0.alias</string>
+
+        <key>ProgramArguments</key>
+        <array>
+          <string>/sbin/ifconfig</string>
+          <string>lo0</string>
+          <string>alias</string>
+          <string>${ALIAS_IP}</string>
+          <string>up</string>
+        </array>
+
+        <key>RunAtLoad</key>
+        <true/>
+      </dict>
+      </plist>
+      EOF
+      echo "Setting permissions..."
+      sudo chown root:wheel "$PLIST_PATH"
+      sudo chmod 644 "$PLIST_PATH"
+
+      echo "Adding alias now..."
+      sudo ifconfig lo0 alias "$ALIAS_IP" up
+
+      echo "Loading launchd daemon..."
+      sudo launchctl load -w "$PLIST_PATH"
+
+      echo "✅ Done. Current lo0 IPs:"
+      ifconfig lo0 | grep inet
+      EOS
+  rescue StandardError
+      nil
+  end
+
+  def stop_lo0_script_macos
+    <<~EOS
+      #!/bin/bash
+
+      set -e
+
+      PLIST_PATH="/Library/LaunchDaemons/local.lo0.alias.plist"
+      ALIAS_IP="127.0.1.1"
+
+      echo "Unloading launchd plist if loaded..."
+      if sudo launchctl list | grep -q local.lo0.alias; then
+          sudo launchctl unload "$PLIST_PATH" || true
+      fi
+
+      echo "Removing alias from lo0..."
+      sudo ifconfig lo0 -alias "$ALIAS_IP" || echo "Alias not found or already removed."
+
+      echo "Deleting launchd plist..."
+      if [ -f "$PLIST_PATH" ]; then
+          sudo rm -f "$PLIST_PATH"
+          echo "Plist deleted."
+      else
+          echo "Plist file not found — already removed?"
+      fi
+
+      echo "✅ Cleanup complete. Current lo0 IPs:"
+      ifconfig lo0 | grep inet
+      EOS
+  rescue StandardError
+      nil
+  end
+
   def start_script_macos
     <<~EOS
       #!/bin/bash
@@ -27,21 +108,25 @@ class DigitalspaceDnsmasq < Formula
       set -x
       if [[ $(id -u ${USER}) != 0 ]]; then
         sudo mkdir -p /etc/resolver
-        echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev.com
-        echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/loc.com
-        echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev.local
-        echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/docker.local
+        echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/dev.com
+        echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/loc.com
+        echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/dev.local
+        echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/docker.local
         sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+        sudo #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/digitalspace-dnsmasq-lo0-start
         sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
         exit 0
       fi
       mkdir -p /etc/resolver
-      echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.com
-      echo "nameserver 127.0.0.1" | tee /etc/resolver/loc.com
-      echo "nameserver 127.0.0.1" | tee /etc/resolver/dev.local
-      echo "nameserver 127.0.0.1" | tee /etc/resolver/docker.local
+      echo "nameserver 127.0.1.1" | tee /etc/resolver/dev.com
+      echo "nameserver 127.0.1.1" | tee /etc/resolver/loc.com
+      echo "nameserver 127.0.1.1" | tee /etc/resolver/dev.local
+      echo "nameserver 127.0.1.1" | tee /etc/resolver/docker.local
       cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+
+      #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/digitalspace-dnsmasq-lo0-start
       launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+      
       EOS
   rescue StandardError
       nil
@@ -61,6 +146,7 @@ class DigitalspaceDnsmasq < Formula
         sudo rm /etc/resolver/dev.local
         sudo rm /etc/resolver/docker.local
         sudo chown -R  #{ENV['USER']} #{prefix}
+        sudo #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/digitalspace-dnsmasq-lo0-stop
         exit 0
       fi
       if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist ]]; then
@@ -70,6 +156,7 @@ class DigitalspaceDnsmasq < Formula
       rm /etc/resolver/loc.com
       rm /etc/resolver/dev.local
       rm /etc/resolver/docker.local
+      #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/digitalspace-dnsmasq-lo0-stop
       chown -R  #{ENV['USER']} #{prefix}
       EOS
   rescue StandardError
@@ -184,8 +271,13 @@ class DigitalspaceDnsmasq < Formula
     on_macos do
       begin
           inreplace etc / "digitalspace-dnsmasq.conf" do |s|
-            s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.0.1")
+            s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.1.1")
           end
+
+          bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-lo0"
+          bin_path.delete if bin_path.exist?
+          bin_path.write(start_lo0_script_macos)
+          bin_path.chmod 0755
 
           bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-start"
           bin_path.delete if bin_path.exist?
@@ -230,17 +322,17 @@ class DigitalspaceDnsmasq < Formula
 
     (etc/"digitalspace-dnsmasq.d").mkpath
     (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/dev.local/127.0.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.dev.local.conf").write("address=/dev.local/127.0.1.1")
 
     (etc/"digitalspace-dnsmasq.d").mkpath
     (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").write("address=/docker.local/127.0.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.docker.local.conf").write("address=/docker.local/127.0.1.1")
 
     (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").write("address=/dev.com/127.0.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.dev.com.conf").write("address=/dev.com/127.0.1.1")
 
     (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").delete if (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").exist?
-    (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").write("address=/loc.com/127.0.0.1")
+    (etc/"digitalspace-dnsmasq.d/zone.loc.com.conf").write("address=/loc.com/127.0.1.1")
 
     # (etc/"digitalspace-supervisor.d").mkpath
     # (etc/"digitalspace-supervisor.d"/"dnsmasq.ini").delete if (etc/"digitalspace-supervisor.d"/"dnsmasq.ini").exist?
