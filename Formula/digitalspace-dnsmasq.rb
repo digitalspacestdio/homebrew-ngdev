@@ -212,7 +212,7 @@ class DigitalspaceDnsmasq < Formula
         set -x
         sudo systemctl disable --now homebrew.digitalspace-dnsmasq.service
         if [[ -f /etc/systemd/resolved.conf.backup ]]; then
-          cp /etc/systemd/resolved.conf.backup /etc/systemd/resolved.conf
+          sudo cp /etc/systemd/resolved.conf.backup /etc/systemd/resolved.conf
         fi
         if sudo systemctl list-units | grep systemd-resolved.service > /dev/null; then
           sudo systemctl restart systemd-resolved.service
