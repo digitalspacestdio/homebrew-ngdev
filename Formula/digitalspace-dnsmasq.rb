@@ -186,6 +186,17 @@ class DigitalspaceDnsmasq < Formula
           inreplace etc / "digitalspace-dnsmasq.conf" do |s|
             s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.0.1")
           end
+
+          bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-start"
+          bin_path.delete if bin_path.exist?
+          bin_path.write(start_script_macos)
+          bin_path.chmod 0755
+
+          bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-stop"
+          bin_path.delete if bin_path.exist?
+          bin_path.write(stop_script_macos)
+          bin_path.chmod 0755
+
       rescue StandardError
           nil
       end
@@ -196,6 +207,17 @@ class DigitalspaceDnsmasq < Formula
           inreplace etc / "digitalspace-dnsmasq.conf" do |s|
             s.sub!(/^.*?listen-address=.*$/, "listen-address=127.0.1.1")
           end
+
+          bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-start"
+          bin_path.delete if bin_path.exist?
+          bin_path.write(start_script_linux)
+          bin_path.chmod 0755
+
+          bin_path = HOMEBREW_PREFIX/"bin/digitalspace-dnsmasq-stop"
+          bin_path.delete if bin_path.exist?
+          bin_path.write(stop_script_linux)
+          bin_path.chmod 0755
+
       rescue StandardError
           nil
       end
