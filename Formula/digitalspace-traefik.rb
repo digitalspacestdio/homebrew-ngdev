@@ -46,6 +46,9 @@ class DigitalspaceTraefik < Formula
       
       [serversTransport]
         insecureSkipVerify = true
+      [serversTransport.forwardingTimeouts]
+        dialTimeout = "30s"
+        responseHeaderTimeout = "900s"
       
       [providers.file]
         directory = "#{etc}/digitalspace-traefik/conf.d/"
