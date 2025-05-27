@@ -187,6 +187,10 @@ services:
       - "--entrypoints.default.address=:80"
       - "--entrypoints.default.forwardedheaders.trustedips=0.0.0.0/0"
       - "--entryPoints.default.forwardedHeaders.insecure"
+      - "--entryPoints.default.transport.lifecycle.graceTimeOut=900s"
+      - "--entryPoints.default.transport.lifecycle.requestAcceptGraceTimeout=900s"
+      - "--serversTransport.forwardingTimeouts.dialTimeout=30s"
+      - "--serversTransport.forwardingTimeouts.responseHeaderTimeout=900s"
     restart: always
     logging:
       driver: "json-file"
