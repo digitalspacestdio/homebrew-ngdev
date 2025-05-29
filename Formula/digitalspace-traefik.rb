@@ -56,9 +56,6 @@ class DigitalspaceTraefik < Formula
 
       #[providers.docker]
       #   exposedByDefault = false
-      #[[tls.certificates]]
-      #certFile = "#{etc}/openssl/localCA/certs/docker.local.crt"
-      #keyFile = "#{etc}/openssl/localCA/private/docker.local.key"
       EOS
   rescue StandardError
       nil
@@ -79,10 +76,6 @@ class DigitalspaceTraefik < Formula
     mkdir -p "$CONFIG_DIR"
 
     cat <<EOF > "$CONFIG_FILE"
-    [[tls.certificates]]
-      certFile = "#{etc}/openssl/localCA/certs/docker.local.crt"
-      keyFile = "#{etc}/openssl/localCA/private/docker.local.key"
-
     [http.routers]
     [http.routers.docker_reverse_proxy]
     rule = "HostRegexp(\\`{subdomain:[a-z0-9-_]+}.docker.local\\`, \\`{subsubdomain:[a-z0-9-_]+}.{subdomain:[a-z0-9-_]+}.docker.local\\`)"
@@ -179,6 +172,10 @@ class DigitalspaceTraefik < Formula
     [[tls.certificates]]
       certFile = "#{etc}/openssl/localCA/certs/loc.com.crt"
       keyFile = "#{etc}/openssl/localCA/private/loc.com.key"
+
+    [[tls.certificates]]
+      certFile = "#{etc}/openssl/localCA/certs/docker.local.crt"
+      keyFile = "#{etc}/openssl/localCA/private/docker.local.key"
 
     [http.routers]
       [http.routers.dev_com]
