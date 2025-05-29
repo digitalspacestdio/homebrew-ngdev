@@ -56,6 +56,9 @@ class DigitalspaceTraefik < Formula
 
       #[providers.docker]
       #   exposedByDefault = false
+      #[[tls.certificates]]
+      #certFile = "#{etc}/openssl/localCA/certs/docker.local.crt"
+      #keyFile = "#{etc}/openssl/localCA/private/docker.local.key"
       EOS
   rescue StandardError
       nil
