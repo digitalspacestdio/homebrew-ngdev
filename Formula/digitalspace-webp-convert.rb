@@ -21,7 +21,8 @@ class DigitalspaceWebpConvert < Formula
     FIND_ARGS=()
     FIND_MAXDEPTH=1
     CWEBP_ARGS=()
-    
+    QUALITY=75
+    COMPRESSION_METHOD=4
     while [[ $# -gt 0 ]]
     do
         key="$1"
@@ -38,6 +39,16 @@ class DigitalspaceWebpConvert < Formula
             --recursive)
             FIND_MAXDEPTH=0
             shift # past argument
+            ;;
+            -m)
+            COMPRESSION_METHOD=$2
+            shift # past argument
+            shift # past value
+            ;;
+            -m)
+            QUALITY=$2
+            shift # past argument
+            shift # past value
             ;;
             *)    # unknown option
             CWEBP_ARGS+=("$1")
@@ -59,7 +70,7 @@ class DigitalspaceWebpConvert < Formula
     -o -name '*.pgm' \\
     -o -name '*.ppm' \\
     -o -name '*.pnm' \\
-    | rush --verbose 'cwebp -m 6 -q 51 -af -progress ${CWEBP_ARGS[*]} "{}" -o "{.}.webp"'
+    | rush --verbose 'cwebp -m $COMPRESSION_METHOD -q $QUALITY -af -progress ${CWEBP_ARGS[*]} "{}" -o "{.}.webp"'
     EOS
   rescue StandardError
       nil
