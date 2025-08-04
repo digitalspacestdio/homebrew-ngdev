@@ -2,7 +2,7 @@ class DigitalspaceWebpConvert < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.10"
-  revision 114
+  revision 115
 
   depends_on 'webp'
   depends_on 'rush-parallel'
@@ -63,7 +63,7 @@ class DigitalspaceWebpConvert < Formula
     -o -name '*.pgm' \\
     -o -name '*.ppm' \\
     -o -name '*.pnm' \\
-    | rush --verbose 'cwebp -m ${COMPRESSION_METHOD} -q ${QUALITY} -af -progress ${CWEBP_ARGS[*]} "{}" -o "{.}.webp"'
+    | rush --verbose 'cwebp -m '${COMPRESSION_METHOD}' -q '${QUALITY}' -af -progress '${CWEBP_ARGS[*]}' "{}" -o "{.}.webp"'
     EOS
   rescue StandardError
       nil
