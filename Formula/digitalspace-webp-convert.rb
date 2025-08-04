@@ -2,7 +2,7 @@ class DigitalspaceWebpConvert < Formula
   url "file:///dev/null"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   version "0.1.10"
-  revision 112
+  revision 113
 
   depends_on 'webp'
   depends_on 'rush-parallel'
@@ -38,7 +38,7 @@ class DigitalspaceWebpConvert < Formula
             shift # past argument
             shift # past value
             ;;
-            -m)
+            -q)
             QUALITY=$2
             shift # past argument
             shift # past value
