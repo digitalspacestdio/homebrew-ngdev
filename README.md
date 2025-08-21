@@ -178,19 +178,20 @@ services:
     image: traefik:v2.11
     container_name: traefik_docker_local
     command:
-      - "--ping=true"
-      - "--log.level=ERROR"
-      - "--api=true"
-      - "--api.dashboard=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.default.address=:80"
-      - "--entrypoints.default.forwardedheaders.trustedips=0.0.0.0/0"
-      - "--entryPoints.default.forwardedHeaders.insecure"
-      - "--entryPoints.default.transport.lifecycle.graceTimeOut=900s"
-      - "--entryPoints.default.transport.lifecycle.requestAcceptGraceTimeout=900s"
-      - "--serversTransport.forwardingTimeouts.dialTimeout=30s"
-      - "--serversTransport.forwardingTimeouts.responseHeaderTimeout=900s"
+        "--ping=true",
+        "--log.level=DEBUG",
+        "--api=true",
+        "--api.dashboard=true",
+        "--experimental.plugins.rewrite-body.modulename=github.com/packruler/rewrite-body",
+        "--experimental.plugins.rewrite-body.version=v1.2.0",
+        "--experimental.plugins.cookiePathRewrite.modulename=github.com/vnghia/traefik-plugin-rewrite-cookie-path",
+        "--experimental.plugins.cookiePathRewrite.version=v0.0.1",
+        "--providers.docker=true",
+        "--providers.docker.exposedbydefault=false",
+        "--providers.docker.constraints=Label(`project.name`, `escort`)",
+        "--entrypoints.default.address=:80",
+        "--entrypoints.default.forwardedheaders.trustedips=0.0.0.0/0",
+        "--entryPoints.default.forwardedHeaders.insecure"
     restart: always
     logging:
       driver: "json-file"
