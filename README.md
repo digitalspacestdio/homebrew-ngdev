@@ -188,7 +188,6 @@ services:
         - "--experimental.plugins.cookiePathRewrite.version=v0.0.1"
         - "--providers.docker=true"
         - "--providers.docker.exposedbydefault=false"
-        - "--providers.docker.constraints=Label(`project.name`, `escort`)"
         - "--entrypoints.default.address=:80"
         - "--entrypoints.default.forwardedheaders.trustedips=0.0.0.0/0"
         - "--entryPoints.default.forwardedHeaders.insecure"
