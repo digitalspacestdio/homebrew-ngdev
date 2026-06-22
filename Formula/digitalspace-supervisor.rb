@@ -3,18 +3,16 @@ class DigitalspaceSupervisor < Formula
 
   desc "Super Process Control System for DigitalSpace Services"
   homepage "http://supervisord.org/"
-  url "https://github.com/Supervisor/supervisor/archive/refs/tags/4.2.5.tar.gz"
-  sha256 "d612a48684cf41ea7ce8cdc559eaa4bf9cbaa4687c5aac3f355c6d2df4e4f170"
+  url "https://files.pythonhosted.org/packages/a9/b5/37e7a3706de436a8a2d75334711dad1afb4ddffab09f25e31d89e467542f/supervisor-4.3.0.tar.gz"
+  sha256 "4a2bf149adf42997e1bb44b70c43b613275ec9852c3edacca86a9166b27e945e"
   license "BSD-3-Clause-Modification"
-  head "https://github.com/Supervisor/supervisor.git", branch: "master"
+  head "https://github.com/Supervisor/supervisor.git", branch: "main"
 
-  revision 111
+  revision 112
 
   bottle do
-    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/111/digitalspace-supervisor"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "b12a08c77c86dbcf0aa65943ff1917674c51d31de1bed9c6f13a49a4947a50c6"
-    sha256 cellar: :any_skip_relocation, ventura:       "dc5322022dc515efbb1b6aca8e8ebe948ba4f5926f85bb0569409ea9a6a84d5b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "89c919c63c77d0eeeab31bfda27837e50f43f932f5980a8f9e9693d6b6288f1f"
+    root_url "https://pub-7d898cd296ae4a92a616d2e2c17cdb9e.r2.dev/ngdev/112/digitalspace-supervisor"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "09f74a0837a0934476a5ab3ae60fd3f750d95fb101d03ecd9d289c454b68bfa1"
   end
 
   depends_on "python@3.11"
@@ -228,7 +226,7 @@ class DigitalspaceSupervisor < Formula
     begin
       pid = fork { exec bin/"digitalspace-supervisord", "--nodaemon", "-c", "sd.ini" }
       sleep 1
-      output = shell_output("#{bin}/supervisorctl -c sd.ini version")
+      output = shell_output("#{bin}/digitalspace-supervisorctl -c sd.ini version")
       assert_match version.to_s, output
     ensure
       Process.kill "TERM", pid
