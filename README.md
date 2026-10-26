@@ -32,10 +32,16 @@ BREW_BIN=$(find /opt/homebrew/bin /usr/local/bin /home/linuxbrew/.linuxbrew/bin 
 
 ### 3. Add Homebrew Taps
 ```bash
+brew tap digitalspacestdio/common
+brew trust digitalspacestdio/common
+```
+```bash
 brew tap digitalspacestdio/ngdev
+brew trust digitalspacestdio/ngdev
 ```
 ```bash
 brew tap digitalspacestdio/php
+brew trust digitalspacestdio/php
 ```
 
 ### 4. Install Base Packages
