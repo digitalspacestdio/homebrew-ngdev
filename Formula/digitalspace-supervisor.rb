@@ -25,6 +25,14 @@ class DigitalspaceSupervisor < Formula
     etc / "digitalspace-supervisor.d"
   end
 
+  def legacy_plist_paths
+    ["homebrew.mxcl.#{name}"].reject { |n| n == plist_name }.map { |n| "/Library/LaunchDaemons/#{n}.plist" }
+  end
+
+  def legacy_service_names
+    ["homebrew.#{name}"].reject { |n| n == service_name }
+  end
+
   def service_script
     <<~EOS
       #!/bin/bash
@@ -45,13 +53,18 @@ class DigitalspaceSupervisor < Formula
       #!/bin/bash
       set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
-        sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.mxcl.digitalspace-supervisor.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
-        sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
-        exit 0
+        exec sudo "$0" "$@"
       fi
-      
-      cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.mxcl.digitalspace-supervisor.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
-      launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist
+
+      for LEGACY_PLIST in #{legacy_plist_paths.join(" ")}; do
+        if [[ -f $LEGACY_PLIST ]]; then
+          launchctl unload -w $LEGACY_PLIST > /dev/null 2>&1 || true
+          rm -f $LEGACY_PLIST
+        fi
+      done
+
+      cp #{opt_prefix}/#{plist_name}.plist /Library/LaunchDaemons/#{plist_name}.plist
+      launchctl load -w /Library/LaunchDaemons/#{plist_name}.plist
 
       EOS
   rescue StandardError
@@ -63,15 +76,19 @@ class DigitalspaceSupervisor < Formula
       #!/bin/bash
       set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
-        sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.digitalspace-supervisor.service /etc/systemd/system/homebrew.digitalspace-supervisor.service
-        sudo systemctl daemon-reload
-        sudo systemctl enable --now homebrew.digitalspace-supervisor.service
-        exit 0
+        exec sudo "$0" "$@"
       fi
-      
-      cp #{HOMEBREW_PREFIX}/opt/digitalspace-supervisor/homebrew.digitalspace-supervisor.service /etc/systemd/system/homebrew.digitalspace-supervisor.service
+
+      for LEGACY_SERVICE in #{legacy_service_names.join(" ")}; do
+        if [[ -f /etc/systemd/system/$LEGACY_SERVICE.service ]]; then
+          systemctl disable --now $LEGACY_SERVICE.service || true
+          rm -f /etc/systemd/system/$LEGACY_SERVICE.service
+        fi
+      done
+
+      cp #{opt_prefix}/#{service_name}.service /etc/systemd/system/#{service_name}.service
       systemctl daemon-reload
-      systemctl enable --now homebrew.digitalspace-supervisor.service
+      systemctl enable --now #{service_name}.service
 
       EOS
   rescue StandardError
@@ -83,15 +100,13 @@ class DigitalspaceSupervisor < Formula
       #!/bin/bash
       set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
-        if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist ]]; then
-          sudo launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist > /dev/null 2>&1
+        exec sudo "$0" "$@"
+      fi
+      for PLIST in /Library/LaunchDaemons/#{plist_name}.plist #{legacy_plist_paths.join(" ")}; do
+        if [[ -f $PLIST ]]; then
+          launchctl unload -w $PLIST > /dev/null 2>&1 || true
         fi
-        sudo chown -R #{ENV['USER']} #{prefix}
-        exit 0
-      fi
-      if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist ]]; then
-        launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-supervisor.plist > /dev/null 2>&1
-      fi
+      done
       chown -R #{ENV['USER']} #{prefix}
       EOS
   rescue StandardError
@@ -103,17 +118,14 @@ class DigitalspaceSupervisor < Formula
       #!/bin/bash
       set -e
       if [[ $(id -u ${USER}) != 0 ]]; then
-        if [[ -f /etc/systemd/system/homebrew.digitalspace-supervisor.service ]]; then
-          sudo systemctl disable --now homebrew.digitalspace-supervisor.service
-          sudo rm /etc/systemd/system/homebrew.digitalspace-supervisor.service
+        exec sudo "$0" "$@"
+      fi
+      for SERVICE in #{service_name} #{legacy_service_names.join(" ")}; do
+        if [[ -f /etc/systemd/system/$SERVICE.service ]]; then
+          systemctl disable --now $SERVICE.service || true
+          rm -f /etc/systemd/system/$SERVICE.service
         fi
-        sudo chown -R #{ENV['USER']} #{prefix}
-        exit 0
-      fi
-      if [[ -f /etc/systemd/system/homebrew.digitalspace-supervisor.service ]]; then
-        systemctl disable --now homebrew.digitalspace-supervisor.service
-        rm /etc/systemd/system/homebrew.digitalspace-supervisor.service
-      fi
+      done
       chown -R #{ENV['USER']} #{prefix}
       EOS
   rescue StandardError

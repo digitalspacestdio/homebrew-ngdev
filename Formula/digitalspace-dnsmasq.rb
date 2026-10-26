@@ -101,6 +101,14 @@ class DigitalspaceDnsmasq < Formula
       nil
   end
 
+  def legacy_plist_paths
+    ["homebrew.mxcl.#{name}"].reject { |n| n == plist_name }.map { |n| "/Library/LaunchDaemons/#{n}.plist" }
+  end
+
+  def legacy_service_names
+    ["homebrew.#{name}"].reject { |n| n == service_name }
+  end
+
   def start_script_macos
     <<~EOS
       #!/bin/bash
@@ -112,9 +120,15 @@ class DigitalspaceDnsmasq < Formula
         echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/loc.com
         echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/dev.local
         echo "nameserver 127.0.1.1" | sudo tee /etc/resolver/docker.local
-        sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+        for LEGACY_PLIST in #{legacy_plist_paths.join(" ")}; do
+          if [[ -f $LEGACY_PLIST ]]; then
+            sudo launchctl unload -w $LEGACY_PLIST > /dev/null 2>&1 || true
+            sudo rm -f $LEGACY_PLIST
+          fi
+        done
+        sudo cp #{opt_prefix}/#{plist_name}.plist /Library/LaunchDaemons/#{plist_name}.plist
         sudo #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-start
-        sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+        sudo launchctl load -w /Library/LaunchDaemons/#{plist_name}.plist
         exit 0
       fi
       mkdir -p /etc/resolver
@@ -122,10 +136,16 @@ class DigitalspaceDnsmasq < Formula
       echo "nameserver 127.0.1.1" | tee /etc/resolver/loc.com
       echo "nameserver 127.0.1.1" | tee /etc/resolver/dev.local
       echo "nameserver 127.0.1.1" | tee /etc/resolver/docker.local
-      cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.mxcl.digitalspace-dnsmasq.plist /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+      for LEGACY_PLIST in #{legacy_plist_paths.join(" ")}; do
+        if [[ -f $LEGACY_PLIST ]]; then
+          launchctl unload -w $LEGACY_PLIST > /dev/null 2>&1 || true
+          rm -f $LEGACY_PLIST
+        fi
+      done
+      cp #{opt_prefix}/#{plist_name}.plist /Library/LaunchDaemons/#{plist_name}.plist
 
       #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-start
-      launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist
+      launchctl load -w /Library/LaunchDaemons/#{plist_name}.plist
       
       EOS
   rescue StandardError
@@ -138,8 +158,8 @@ class DigitalspaceDnsmasq < Formula
       set -e
       set -x
       if [[ $(id -u ${USER}) != 0 ]]; then
-        if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist ]]; then
-          sudo launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist > /dev/null 2>&1
+        if [[ -f /Library/LaunchDaemons/#{plist_name}.plist ]]; then
+          sudo launchctl unload -w /Library/LaunchDaemons/#{plist_name}.plist > /dev/null 2>&1
         fi
         sudo rm -f /etc/resolver/dev.com
         sudo rm -f /etc/resolver/loc.com
@@ -149,8 +169,8 @@ class DigitalspaceDnsmasq < Formula
         sudo #{HOMEBREW_PREFIX}/bin/digitalspace-dnsmasq-lo0-stop
         exit 0
       fi
-      if [[ -f /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist ]]; then
-        launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.digitalspace-dnsmasq.plist > /dev/null 2>&1
+      if [[ -f /Library/LaunchDaemons/#{plist_name}.plist ]]; then
+        launchctl unload -w /Library/LaunchDaemons/#{plist_name}.plist > /dev/null 2>&1
       fi
       rm -f /etc/resolver/dev.com
       rm -f /etc/resolver/loc.com
@@ -171,9 +191,15 @@ class DigitalspaceDnsmasq < Formula
         
         if [[ $(id -u ${USER}) != 0 ]]; then
           
-          sudo cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
+          for LEGACY_SERVICE in #{legacy_service_names.join(" ")}; do
+            if [[ -f /etc/systemd/system/$LEGACY_SERVICE.service ]]; then
+              sudo systemctl disable --now $LEGACY_SERVICE.service || true
+              sudo rm -f /etc/systemd/system/$LEGACY_SERVICE.service
+            fi
+          done
+          sudo cp #{opt_prefix}/#{service_name}.service /etc/systemd/system/#{service_name}.service
           sudo systemctl daemon-reload
-          sudo systemctl enable --now homebrew.digitalspace-dnsmasq.service
+          sudo systemctl enable --now #{service_name}.service
 
           if [[ -f /etc/systemd/resolved.conf ]] && [[ ! -f /etc/systemd/resolved.conf.backup ]]; then
             sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
@@ -188,9 +214,15 @@ class DigitalspaceDnsmasq < Formula
           exit 0
         fi
         
-        cp #{HOMEBREW_PREFIX}/opt/digitalspace-dnsmasq/homebrew.digitalspace-dnsmasq.service /etc/systemd/system/homebrew.digitalspace-dnsmasq.service
+        for LEGACY_SERVICE in #{legacy_service_names.join(" ")}; do
+          if [[ -f /etc/systemd/system/$LEGACY_SERVICE.service ]]; then
+            systemctl disable --now $LEGACY_SERVICE.service || true
+            rm -f /etc/systemd/system/$LEGACY_SERVICE.service
+          fi
+        done
+        cp #{opt_prefix}/#{service_name}.service /etc/systemd/system/#{service_name}.service
         systemctl daemon-reload
-        systemctl enable --now homebrew.digitalspace-dnsmasq.service
+        systemctl enable --now #{service_name}.service
         
         if [[ -f /etc/systemd/resolved.conf ]] && [[ ! -f /etc/systemd/resolved.conf.backup ]]; then
           cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.backup
@@ -212,7 +244,7 @@ class DigitalspaceDnsmasq < Formula
         #!/bin/bash
         set -e
         set -x
-        sudo systemctl disable --now homebrew.digitalspace-dnsmasq.service
+        sudo systemctl disable --now #{service_name}.service
         if [[ -f /etc/systemd/resolved.conf.backup ]]; then
           sudo cp /etc/systemd/resolved.conf.backup /etc/systemd/resolved.conf
         fi
