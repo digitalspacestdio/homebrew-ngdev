@@ -198,6 +198,12 @@ class DigitalspaceNginx < Formula
     etc / "digitalspace-nginx" / "dev_document_root.conf"
   end
 
+  # post_install runs in a sandbox with a temporary HOME, so take the real one from passwd
+  def user_home
+    require "etc"
+    Etc.getpwuid(Process.uid).dir
+  end
+
   def nginx_dev_config_path
     etc / "digitalspace-nginx" / "dev.conf"
   end
@@ -713,15 +719,15 @@ end
       system "sed -i '' '\\|^worker_rlimit_nofile.*|d' #{etc}/digitalspace-nginx/nginx.conf"
       system "sed -i '' 's|^worker_processes.*|worker_processes auto;\\nworker_rlimit_nofile 16384;|g' #{etc}/digitalspace-nginx/nginx.conf"
 
-      system "sed -i '' 's|/var/www|'$HOME'/www|g' #{etc}/digitalspace-nginx/dev.conf"
+      system "sed -i '' 's|/var/www|#{user_home}/www|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i '' 's|set $php_version.*;|set $php_version \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i '' 's|return \"\\d+.\\d+\"|return \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
     else
       system "sed -i '\\|^worker_rlimit_nofile.*|d' #{etc}/digitalspace-nginx/nginx.conf"
       system "sed -i 's|^worker_processes.*|worker_processes auto;\\nworker_rlimit_nofile 16384;|g' #{etc}/digitalspace-nginx/nginx.conf"
 
-      system "sed -i 's|/var/www|'$HOME'/www|g' #{etc}/digitalspace-nginx/dev.conf"
-      system "sed -i 's|/home/linuxbrew/www|'$HOME'/www|g' #{etc}/digitalspace-nginx/dev.conf"
+      system "sed -i 's|/var/www|#{user_home}/www|g' #{etc}/digitalspace-nginx/dev.conf"
+      system "sed -i 's|/home/linuxbrew/www|#{user_home}/www|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i 's|set $php_version.*;|set $php_version \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
       system "sed -i 's|return \"\\d+.\\d+\"|return \"#{default_php_version.strip}\";|g' #{etc}/digitalspace-nginx/dev.conf"
     end
@@ -756,9 +762,8 @@ end
   end
 
   def caveats
-    home = `echo $HOME`
     s = <<~EOS
-      Docroot is: #{home.strip}/www
+      Docroot is: #{user_home}/www
 
       The default port has been set in #{etc}/digitalspace-nginx/nginx.conf to #{nginx_listen_port} so that
       nginx can run without sudo.
