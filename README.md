@@ -80,7 +80,7 @@ brew install digitalspace-postgresql15
 
 MySQL 8.0
 ```bash
-brew install digitalspace-mysql80
+brew install digitalspace-mysql84
 ```
 
 MySQL 5.7
