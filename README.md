@@ -1,5 +1,5 @@
 # Homebrew based Development Environment
-`NGINX`/`PHP`/`MySQL`/`PgSQL`/`Redis`/`Mailhog`
+`NGINX`/`PHP`/`MySQL`/`PgSQL`/`Redis`/`Mailpit`
 
 Tested on **macOS** (`Intel` / `Apple Silicon`), **Linux** (`x86_64` / `aarch64`) / **Windows 10/11** (`x86_64`) over *WSL*  
 Supported CMS and Frameworks: **Symfony**, **Laravel**, **Yii v1/v2**, **Magento v1/v2**, **OroCommerce/OroCRM/OroPlatform**, **AkeneoPIM**, **Wordpress**, and more
@@ -67,7 +67,7 @@ brew install php81-common php74-common php56-common
 ```bash
 brew install composer@2
 ```
-### 7. Install Databases (optional)
+### 7. Install Databases and Mailpit (optional)
 RedisDB
 ```bash
 brew install digitalspace-redis
@@ -86,6 +86,11 @@ brew install digitalspace-mysql84
 MySQL 5.7
 ```bash
 brew install digitalspace-mysql57
+```
+
+Mailpit (catches outgoing mail on `127.0.0.1:1025`, web UI at http://127.0.0.1:8025)
+```bash
+brew install digitalspace-mailpit
 ```
 
 ### 8. Install Self-signed Root Certificate

@@ -7,8 +7,6 @@ class DigitalspaceMailpit < Formula
   depends_on "mailpit"
   depends_on "msmtp"
 
-  conflicts_with "digitalspace-mailhog", because: "both listen on ports 1025 and 8025"
-
   def mailpit_msmtprc_config
     <<~EOS
     account default
